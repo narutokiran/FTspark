@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/FTspark.iml" filepath="$PROJECT_DIR$/FTspark.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WordCountWorkFlow.iml" filepath="$PROJECT_DIR$/WordCountWorkFlow.iml" />
     </modules>
   </component>
 </project>
