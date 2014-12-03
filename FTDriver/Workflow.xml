@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflows>
+    <workflow>
+        <workflow_name>HierarchicalWordCount</workflow_name>
+        <workflow_options> arguments </workflow_options>
+        <class_name> WordCountWorkFlow </class_name>
+        <master>yarn-client</master>
+        <job_jar> target/artifacts/WordCountWorkFlow.jar </job_jar>
+        <job_src> /home/WordCountWorkFlow </job_src>
+        <hierarchy>
+            <rdd>
+                <name> lines1 </name>
+            </rdd>
+            <rdd>
+                <name> words1 </name>
+                <predecessors> lines1 </predecessors>
+            </rdd>
+            <rdd>
+                <name>ones1</name>
+                <predecessors>words1</predecessors>
+            </rdd>
+            <rdd>
+                <name>counts1</name>
+                <predecessors>ones1</predecessors>
+            </rdd>
+        </hierarchy>
+        <name_sc>  sparkConf </name_sc>
+    </workflow>
+</workflows>
