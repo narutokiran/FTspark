@@ -1,6 +1,8 @@
 /**
  * Created by aparna on 26/11/14.
  */
+
+import FTSparkDriver.FTDriver;
 import scala.Tuple2;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
@@ -13,6 +15,8 @@ import org.apache.spark.api.java.function.PairFunction;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
+import FTSparkDriver.*;
+import org.apache.spark.scheduler.JobLogger;
 
 public final class WordCountWorkFlow {
     private static final Pattern SPACE = Pattern.compile(" ");
@@ -22,10 +26,12 @@ public final class WordCountWorkFlow {
 
         SparkConf sparkConf = new SparkConf().setAppName("JavaWordCount").setMaster("yarn-client");
         JavaSparkContext ctx = new JavaSparkContext(sparkConf);
+        FTDriver ftDriver = new FTDriver(ctx,"/home/aparna/Workflow.xml");
+        JobLogger logger= new JobLogger("aparna","tmp");
+        ctx.sc().addSparkListener(logger);
         JavaRDD<String> lines1 = ctx.textFile("input/input1.txt", 1);
-        JavaRDD<String> lines2 = ctx.textFile("input/input2.txt", 1);
-        JavaRDD<String> lines3 = ctx.textFile("input/input3.txt", 1);
-        JavaRDD<String> lines4 = ctx.textFile("input/input4.txt", 1);
+       // System.out.println(lines1.toDebugString());
+
         /* Part of Job1 */
 
         System.out.println("---------------------Starting Node 1-----------------------");
@@ -50,15 +56,16 @@ public final class WordCountWorkFlow {
             }
         });
 
-        List<Tuple2<String, Integer>> output1 = counts1.collect();
-        for (Tuple2<?, ?> tuple1 : output1) {
+       // List<Tuple2<String, Integer>> output1 = counts1.collect();
+       /* for (Tuple2<?, ?> tuple1 : output1) {
             System.out.println(tuple1._1() + ": " + tuple1._2());
-        }
+        }*/
 
         System.out.println("---------------------Ending Node 1-----------------------");
 
           /* Part of Job2 */
         System.out.println("---------------------Starting Node 2-----------------------");
+        JavaRDD<String> lines2 = ctx.textFile("input/input2.txt", 1);
         JavaRDD<String> words2 = lines2.flatMap(new FlatMapFunction<String, String>() {
             @Override
             public Iterable<String> call(String s) {
@@ -80,16 +87,17 @@ public final class WordCountWorkFlow {
             }
         });
 
-        List<Tuple2<String, Integer>> output2 = counts2.collect();
-        for (Tuple2<?, ?> tuple2 : output2) {
+       // List<Tuple2<String, Integer>> output2 = counts2.collect();
+        /*for (Tuple2<?, ?> tuple2 : output2) {
             System.out.println(tuple2._1() + ": " + tuple2._2());
-        }
+        }*/
 
         System.out.println("---------------------Ending Node 2-----------------------");
 
                 /*Node 3*/
 
         System.out.println("---------------------Starting Node 3-----------------------");
+        JavaRDD<String> lines3 = ctx.textFile("input/input3.txt", 1);
         JavaRDD<String> words3 = lines3.flatMap(new FlatMapFunction<String, String>() {
             @Override
             public Iterable<String> call(String s) {
@@ -111,14 +119,16 @@ public final class WordCountWorkFlow {
             }
         });
 
-        List<Tuple2<String, Integer>> output3 = counts3.collect();
+        /*List<Tuple2<String, Integer>> output3 = counts3.collect();
         for (Tuple2<?, ?> tuple3 : output3) {
             System.out.println(tuple3._1() + ": " + tuple3._2());
-        }
+        }*/
         System.out.println("---------------------Ending Node 3-----------------------");
                /*Node 4 */
 
         System.out.println("---------------------Starting Node 4-----------------------");
+        JavaRDD<String> lines4 = ctx.textFile("input/input4.txt", 1);
+
         JavaRDD<String> words4 = lines4.flatMap(new FlatMapFunction<String, String>() {
             @Override
             public Iterable<String> call(String s) {
@@ -140,10 +150,10 @@ public final class WordCountWorkFlow {
             }
         });
 
-        List<Tuple2<String, Integer>> output4 = counts4.collect();
+       /* List<Tuple2<String, Integer>> output4 = counts4.collect();
         for (Tuple2<?, ?> tuple4 : output3) {
             System.out.println(tuple4._1() + ": " + tuple4._2());
-        }
+        }*/
 
         System.out.println("---------------------Ending Node 4-----------------------");
 
@@ -159,10 +169,10 @@ public final class WordCountWorkFlow {
             }
         });
 
-        List<Tuple2<String, Integer>> output5 = count5.collect();
+      /*  List<Tuple2<String, Integer>> output5 = count5.collect();
         for (Tuple2<?, ?> tuple5 : output5) {
             System.out.println(tuple5._1()+": "+tuple5._2());
-        }
+        }*/
 
         System.out.println("---------------------Ending Node 5-----------------------");
 
@@ -178,10 +188,10 @@ public final class WordCountWorkFlow {
             }
         });
 
-        List<Tuple2<String, Integer>> output6 = count6.collect();
+       /* List<Tuple2<String, Integer>> output6 = count6.collect();
         for (Tuple2<?, ?> tuple6 : output6) {
             System.out.println(tuple6._1()+": "+tuple6._2());
-        }
+        }*/
 
         System.out.println("---------------------Ending Node 6-----------------------");
 
@@ -197,14 +207,15 @@ public final class WordCountWorkFlow {
             }
         });
 
-        List<Tuple2<String, Integer>> output7 = count7.collect();
+      /*  List<Tuple2<String, Integer>> output7 = count7.collect();
         for (Tuple2<?, ?> tuple7 : output7) {
             System.out.println(tuple7._1()+": "+tuple7._2());
-        }
+        }*/
 
         System.out.println("---------------------Ending Node 7-----------------------");
 
         count7.saveAsTextFile("WordCount/output");
+        System.out.println(count7.toDebugString());
         ctx.stop();
 
     }

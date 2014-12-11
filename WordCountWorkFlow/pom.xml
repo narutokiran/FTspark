@@ -28,5 +28,12 @@
             <artifactId>hadoop-hdfs</artifactId>
             <version>2.5.2</version>
         </dependency>
+            <dependency>
+                <groupId>aparna.masters</groupId>
+                <artifactId>FTDriver</artifactId>
+                <version>1.0</version>
+                <scope>system</scope>
+                <systemPath>/home/aparna/FTspark/FTDriver/target/FTDriver.jar</systemPath>
+            </dependency>
     </dependencies>
 </project>

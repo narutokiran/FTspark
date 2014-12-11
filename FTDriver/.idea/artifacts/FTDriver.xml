@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="FTDriver">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="FTDriver.jar">
+      <element id="module-output" name="FTDriver" />
+    </root>
+  </artifact>
+</component>

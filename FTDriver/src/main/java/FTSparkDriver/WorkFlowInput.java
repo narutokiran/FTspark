@@ -3,6 +3,7 @@
  *
  * Description: This class is used to store the contents of the input workflow necessary to submit the job , run it and persist it accordingly.
  */
+package FTSparkDriver;
 
 import java.io.File;
 import org.w3c.dom.Document;
@@ -128,6 +129,7 @@ class WorkFlowInput {
     /* For Debugging purposes */
     void printVariables()
     {
+        System.out.println("Filename is "+filename);
     System.out.println("WorkFlowName "+getWorkFlowName());
     System.out.println("ClassName "+getClassName());
     System.out.println("Master "+getMaster());
@@ -143,7 +145,7 @@ class WorkFlowInput {
         try {
             DocumentBuilderFactory odbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder odb =  odbf.newDocumentBuilder();
-            Document odoc = odb.parse (new File("Workflow.xml"));
+            Document odoc = odb.parse (new File(filename));
             odoc.getDocumentElement().normalize ();
             System.out.println ("Root element of the doc is " + odoc.getDocumentElement().getNodeName());
             NodeList LOW = odoc.getElementsByTagName("workflow");
