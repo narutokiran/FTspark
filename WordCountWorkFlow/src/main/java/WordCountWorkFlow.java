@@ -14,6 +14,7 @@ import org.apache.spark.api.java.function.FlatMapFunction;
 import org.apache.spark.api.java.function.Function2;
 import org.apache.spark.api.java.function.PairFunction;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
@@ -21,12 +22,12 @@ import java.util.regex.Pattern;
 
 
 
-public class WordCountWorkFlow implements persistRDDs {
+class WordCount implements persistRDDs, Serializable {
     private static final Pattern SPACE = Pattern.compile(" ");
-    public static JavaPairRDD<String, Integer> count7,ones1, counts1,ones2,counts2,ones3,counts3,ones4,counts4,unions1, count5, unions2, count6;
-    public static JavaRDD<String> words1,lines2,words2,lines3,words3,lines4,words4,lines1;
-   public static  JavaPairRDD<String, Integer> unions3;
-   static Map<String,JavaRDD<String>> m1= new HashMap<String, JavaRDD<String>>();
+    private JavaPairRDD<String, Integer> count7,ones1, counts1,ones2,counts2,ones3,counts3,ones4,counts4,unions1, count5, unions2, count6;
+    private JavaRDD<String> words1,lines2,words2,lines3,words3,lines4,words4,lines1;
+    private JavaPairRDD<String, Integer> unions3;
+    private Map<String,JavaRDD<String>> m1= new HashMap<String, JavaRDD<String>>();
 
     @Override
     public void persist(String nameofRdd)
@@ -35,13 +36,20 @@ public class WordCountWorkFlow implements persistRDDs {
         System.out.println(m1.get(nameofRdd));
         m1.get(nameofRdd).persist(st.DISK_ONLY());
     }
-    public static void main(String[] args) throws Exception {
+    @Override
+    public void cache(String nameofRdd)
+    {
+        m1.get(nameofRdd).cache();
+    }
 
+    public void workflow_start()
+    {
 
+        FTDriver ftDriver = new FTDriver(this,"/home/aparna/spark-1.1.1/logs/SparkOut.log");
         SparkConf sparkConf = new SparkConf().setAppName("JavaWordCount").setMaster("yarn-client");
         System.out.println("---------*******------"+sparkConf.toDebugString());
         JavaSparkContext ctx = new JavaSparkContext(sparkConf);
-     //   FTDriver ftDriver = new FTDriver(ctx,"/home/aparna/Workflow.xml");
+
 
      //   JobLogger logger= new JobLogger("aparna","tmp");
       //  ctx.sc().addSparkListener(logger);
@@ -204,13 +212,23 @@ public class WordCountWorkFlow implements persistRDDs {
 
 
         System.out.println("---------------------Ending Node 7-----------------------");
-        FTDriver ftDriver =new FTDriver(new WordCountWorkFlow());
+   //     FTDriver ftDriver =new FTDriver(this);
+
         count7.saveAsTextFile("WordCount/output");
 
         System.out.println(count7.toDebugString());
 
         ctx.stop();
+        ftDriver.close();
 
+    }
+}
+public class WordCountWorkFlow
+{
+    public static void main(String args[])
+    {
+        WordCount wc=new WordCount();
+        wc.workflow_start();
     }
 }
 /*class Driver extends WordCountWorkFlow

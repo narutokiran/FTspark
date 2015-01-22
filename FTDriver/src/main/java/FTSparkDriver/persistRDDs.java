@@ -6,4 +6,6 @@ package FTSparkDriver;
 public interface persistRDDs {
 
   public void persist(String nameofRdd);
+  public void cache(String nameofRdd);
+
 }
