@@ -45,7 +45,7 @@ class WordCount implements persistRDDs, Serializable {
     public void workflow_start()
     {
 
-        FTDriver ftDriver = new FTDriver(this,"/home/aparna/spark-1.1.1/logs/SparkOut.log");
+        FTDriver ftDriver = new FTDriver(this,"/home/aparna/spark-1.1.1/logs/SparkOut.log","WordCountWorkFlow.java");
         SparkConf sparkConf = new SparkConf().setAppName("JavaWordCount").setMaster("yarn-client");
         System.out.println("---------*******------"+sparkConf.toDebugString());
         JavaSparkContext ctx = new JavaSparkContext(sparkConf);
