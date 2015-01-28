@@ -29,6 +29,7 @@ class WordCount implements persistRDDs, Serializable {
     private JavaPairRDD<String, Integer> unions3;
     private Map<String,JavaRDD<String>> m1= new HashMap<String, JavaRDD<String>>();
 
+
     @Override
     public void persist(String nameofRdd)
     {
@@ -58,6 +59,7 @@ class WordCount implements persistRDDs, Serializable {
         /* Part of Job1 */
 
                 lines1 = ctx.textFile("input/input1.txt", 1);
+        lines1.count();
         m1.put("lines1",lines1);
         System.out.println("---------------------Starting Node 1-----------------------");
 

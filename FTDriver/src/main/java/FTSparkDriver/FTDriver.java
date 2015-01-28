@@ -1,11 +1,8 @@
 package FTSparkDriver;
 import java.io.*;
+import java.util.Map;
+import java.util.HashMap;
 
-import org.apache.spark.api.java.JavaSparkContext;
-import japa.parser.JavaParser;
-import japa.parser.ast.CompilationUnit;
-import japa.parser.ast.visitor.VoidVisitorAdapter;
-import japa.parser.ast.body.MethodDeclaration;
 /**
  * Created by aparna on 04/12/14.
  */
@@ -32,6 +29,7 @@ public class FTDriver {
     /* The name of the file */
     String FileName;
 
+    private Map<Integer,String> rddNameNumber = new HashMap<Integer,String> ();
     /*Constructor */
     public FTDriver(persistRDDs WorkFlow, String logFile, String sourceFile)
     {
@@ -41,6 +39,16 @@ public class FTDriver {
         no_lines=0;
         processSourceFile(sourceFile, WorkFlow);
 
+    }
+
+    public void putRddNameNumber(int line_no, String name)
+    {
+        rddNameNumber.put(Integer.valueOf(line_no),name);
+    }
+
+    public String getRddNameNumber(int line_no)
+    {
+        return (String) rddNameNumber.get(Integer.valueOf(line_no));
     }
 
     public FTDriver()
@@ -85,14 +93,14 @@ public class FTDriver {
         {
             e.printStackTrace();
         }
-        print();
+     //   print();
     }
 
 
     /* used to initialize the tailer */
     private void InitializeTailer(String LogFile)
     {
-        tr=new Thread(new TailerThread(LogFile));
+        tr=new Thread(new TailerThread(LogFile, this));
         tr.start();
     }
 
@@ -117,14 +125,16 @@ public class FTDriver {
 class TailerThread extends FTDriver implements Runnable
 {
     String LogFile;
-    TailerThread(String LogFile)
+    FTDriver ftDriver;
+    TailerThread(String LogFile, FTDriver ftDriver)
     {
         this.LogFile=LogFile;
+        this.ftDriver=ftDriver;
     }
     public void run()
     {
         System.out.println("*******Initializing the Tailer*******");
-        tailer=new TailerCall(LogFile);
+        tailer=new TailerCall(LogFile, ftDriver);
         tailer.create();
     }
 }
