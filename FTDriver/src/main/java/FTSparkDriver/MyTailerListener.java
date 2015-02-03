@@ -28,17 +28,11 @@ public class MyTailerListener extends TailerListenerAdapter{
         }
         else if(Line.matches(".*Registering RDD.*"))
         {
-         /*   Thread t=new Thread(new processRegisteringRDD(ftDriver,Line));
-            t.start();*/
-
+            Thread t=new Thread(new processRegisteringRDD(ftDriver,Line));
+            t.start();
         }
-        else if(Line.matches(".*Successfully stopped SparkContext"))
-
-
-
-
-
-
+        else if(Line.matches(".*Successfully stopped SparkContext.*"))
+        {
         //th.interrupt();
         }
         else
@@ -49,20 +43,4 @@ public class MyTailerListener extends TailerListenerAdapter{
     }
 }
 
-class processRegisteringRDD implements Runnable
-{
-    FTDriver ftDriver;
-    String line;
-    rddData rdd;
-    public processRegisteringRDD(FTDriver ftDriver, String line)
-    {
-        this.ftDriver=ftDriver;
-        this.line=line;
-    }
-    public void run()
-    {
-        System.out.println(line);
-        rdd=new rddData(this);
-        rdd.processLine(line);
-    }
-}
+

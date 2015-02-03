@@ -59,7 +59,7 @@ class WordCount implements persistRDDs, Serializable {
         /* Part of Job1 */
 
                 lines1 = ctx.textFile("input/input1.txt", 1);
-        lines1.count();
+        //lines1.count();
         m1.put("lines1",lines1);
         System.out.println("---------------------Starting Node 1-----------------------");
 
@@ -203,7 +203,7 @@ class WordCount implements persistRDDs, Serializable {
         System.out.println("---------------------Starting Node 7----------------------");
 
       unions3 = ctx.union(count5, count6);
-
+     //   unions3.cache();
         //  System.out.println("The union of first two RDDs");
         count7 = unions3.reduceByKey(new Function2<Integer, Integer, Integer>() {
             @Override
@@ -215,7 +215,7 @@ class WordCount implements persistRDDs, Serializable {
 
         System.out.println("---------------------Ending Node 7-----------------------");
    //     FTDriver ftDriver =new FTDriver(this);
-
+     //   count7.cache();
         count7.saveAsTextFile("WordCount/output");
 
         System.out.println(count7.toDebugString());

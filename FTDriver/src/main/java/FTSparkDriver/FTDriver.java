@@ -1,5 +1,6 @@
 package FTSparkDriver;
 import java.io.*;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -30,6 +31,8 @@ public class FTDriver {
     String FileName;
 
     private Map<Integer,String> rddNameNumber = new HashMap<Integer,String> ();
+
+    private Map<Integer, rddData> rddDataNumber = new HashMap<Integer, rddData>();
     /*Constructor */
     public FTDriver(persistRDDs WorkFlow, String logFile, String sourceFile)
     {
@@ -51,6 +54,14 @@ public class FTDriver {
         return (String) rddNameNumber.get(Integer.valueOf(line_no));
     }
 
+    public void putRddDataNumber(int line_no, rddData rdds)
+    {
+        rddDataNumber.put(new Integer(line_no), rdds);
+    }
+    public rddData getRddDataNumber(int line_no)
+    {
+        return (rddData) rddDataNumber.get(new Integer(line_no));
+    }
     public FTDriver()
     {
         System.out.println("Initializing Fault Tolerant Driver");
@@ -95,8 +106,6 @@ public class FTDriver {
         }
      //   print();
     }
-
-
     /* used to initialize the tailer */
     private void InitializeTailer(String LogFile)
     {
@@ -104,19 +113,30 @@ public class FTDriver {
         tr.start();
     }
 
-    /* helper function - used to check if the content of the file is stored correctly */
+    /* helper function - used to check if the content of the file is stored correctly
     void print()
     {
         int i;
         for(i=0;i<no_lines;i++)
             System.out.println(i+" "+Filelines[i]);
-    }
+    } */
 
     /* Stopping the tailer thread */
     public void close()
     {
         System.out.println("****Calling Stop*****");
+        printMap();
         tailer.stop();
+    }
+
+    public void printMap()
+    {
+        Iterator<Map.Entry<Integer, String>> entries =  rddNameNumber.entrySet().iterator();
+        while(entries.hasNext())
+        {
+            Map.Entry<Integer, String> entry=entries.next();
+            System.out.println("Hashmap entry "+entry.getKey()+" "+entry.getValue());
+        }
     }
 
 }
