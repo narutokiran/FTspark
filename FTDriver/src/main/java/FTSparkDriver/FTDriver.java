@@ -1,9 +1,13 @@
 package FTSparkDriver;
+import org.apache.spark.api.java.JavaPairRDD;
+import org.apache.spark.api.java.JavaRDD;
+
 import java.io.*;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.HashMap;
 
+import java.lang.reflect.*;
 /**
  * Created by aparna on 04/12/14.
  */
@@ -33,6 +37,10 @@ public class FTDriver {
     private Map<Integer,String> rddNameNumber = new HashMap<Integer,String> ();
 
     private Map<Integer, rddData> rddDataNumber = new HashMap<Integer, rddData>();
+
+    private Map<String,JavaRDD> m1= new HashMap<String, JavaRDD>();
+    private Map<String,JavaPairRDD> m2=new HashMap<String, JavaPairRDD>();
+
     /*Constructor */
     public FTDriver(persistRDDs WorkFlow, String logFile, String sourceFile)
     {
@@ -41,6 +49,8 @@ public class FTDriver {
         this.WorkFlow=WorkFlow;
         no_lines=0;
         processSourceFile(sourceFile, WorkFlow);
+       // processRdds();
+     //   System.out.println("FileName "+FileName);
 
     }
 
@@ -88,7 +98,7 @@ public class FTDriver {
         {
             e.printStackTrace();
         }
-        System.out.println("Number of lines is"+no_lines);
+       // System.out.println("Number of lines is"+no_lines);
         Filelines=new String[no_lines+2];
         is = WorkFlow.getClass().getClassLoader().getResourceAsStream(sourceFile);
         try{
@@ -104,7 +114,18 @@ public class FTDriver {
         {
             e.printStackTrace();
         }
-     //   print();
+        finally
+        {
+            try{
+                is.close();
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+
+        }
+        //print();
     }
     /* used to initialize the tailer */
     private void InitializeTailer(String LogFile)
@@ -113,13 +134,13 @@ public class FTDriver {
         tr.start();
     }
 
-    /* helper function - used to check if the content of the file is stored correctly
+   /* helper function - used to check if the content of the file is stored correctly*/
     void print()
     {
         int i;
         for(i=0;i<no_lines;i++)
             System.out.println(i+" "+Filelines[i]);
-    } */
+    }
 
     /* Stopping the tailer thread */
     public void close()
@@ -137,6 +158,74 @@ public class FTDriver {
             Map.Entry<Integer, String> entry=entries.next();
             System.out.println("Hashmap entry "+entry.getKey()+" "+entry.getValue());
         }
+        Iterator<Map.Entry<Integer,rddData>> entriesRdd = rddDataNumber.entrySet().iterator();
+        while(entriesRdd.hasNext())
+        {
+            Map.Entry<Integer,rddData> entryRdd = entriesRdd.next();
+            System.out.println("Hashmap RDD entry "+entryRdd.getKey()+" "+entryRdd.getValue().getName());
+        }
+      try {
+            Iterator<Map.Entry<String, JavaRDD>> entries2 = m1.entrySet().iterator();
+            while (entries2.hasNext()) {
+                Map.Entry<String, JavaRDD> entry = entries2.next();
+                System.out.println("Hashmap entry " + entry.getKey() + " " + entry.getValue().toString());
+            }
+
+
+            Iterator<Map.Entry<String, JavaPairRDD>> entries1 = m2.entrySet().iterator();
+            while (entries1.hasNext()) {
+                Map.Entry<String, JavaPairRDD> entry = entries1.next();
+                System.out.println("Hashmap entry " + entry.getKey() + " " + entry.getValue().toString());
+            }
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    void cache_call(String name)
+    {
+      //  WorkFlow.cache(name);
+    }
+
+    public void processRdds()
+    {
+        Class cls=WorkFlow.getClass();
+        System.out.println("Class "+cls.toString());
+        Field[] fields=cls.getDeclaredFields();
+        for(int i=0;i<fields.length;i++)
+        {
+            System.out.println(fields[i].getType());
+            fields[i].setAccessible(true);
+            if(fields[i].getType()==JavaRDD.class) {
+                try {
+                    System.out.println("Inside");
+                    JavaRDD temp = (JavaRDD) fields[i].get(WorkFlow);
+
+                    m1.put(fields[i].toString(), temp);
+                //     temp.toString();
+                }
+                catch(Exception E)
+                {
+                    System.out.println("Trying to access fields in class "+FileName);
+                    E.printStackTrace();
+                }
+            }
+            else if(fields[i].getType().toString().equals("class org.apache.spark.api.java.JavaPairRDD"))
+            {
+                try {
+                    JavaPairRDD temp = (JavaPairRDD) fields[i].get(WorkFlow);
+                    m2.put(fields[i].toString(), temp);
+                }
+                catch(Exception E)
+                {
+                    System.out.println("Trying to access fields in class "+FileName);
+                    E.printStackTrace();
+                }
+            }
+        }
+ //   m1.get("words3").cache();
+
     }
 
 }

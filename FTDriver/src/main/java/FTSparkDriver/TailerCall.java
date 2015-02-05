@@ -11,7 +11,7 @@ public class TailerCall {
     FTDriver ftDriver;
     public TailerCall(String LogFile, FTDriver ftDriver)
     {
-     this.LogFile=LogFile;
+        this.LogFile=LogFile;
         this.ftDriver=ftDriver;
     }
     void create()

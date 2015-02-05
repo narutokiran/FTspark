@@ -8,7 +8,7 @@ import java.util.Queue;
  */
 public class MyTailerListener extends TailerListenerAdapter{
 
-    FTDriver ftDriver;
+     FTDriver ftDriver;
 
     public MyTailerListener(FTDriver ftDriver)
     {
@@ -24,20 +24,25 @@ public class MyTailerListener extends TailerListenerAdapter{
 
         if(Line.matches(".*Starting job:.*"))
         {
-            System.out.println("No lines "+ftDriver.no_lines);
+   //         System.out.println("No lines "+ftDriver.no_lines);
+            //System.out.println("Starting job "+Line);
+           // ftDriver.processRdds();
+            Thread t=new Thread(new ConstructingMap(ftDriver));
+            t.start();
         }
         else if(Line.matches(".*Registering RDD.*"))
         {
-            Thread t=new Thread(new processRegisteringRDD(ftDriver,Line));
+            Thread t=new Thread(new processRegisteringRDD(Line, ftDriver));
             t.start();
         }
         else if(Line.matches(".*Successfully stopped SparkContext.*"))
         {
         //th.interrupt();
         }
-        else
+        else if(Line.matches(".*finished in.*"))
         {
-
+            Thread t=new Thread(new processFinishedStage(Line));
+            t.start();
         }
 
     }

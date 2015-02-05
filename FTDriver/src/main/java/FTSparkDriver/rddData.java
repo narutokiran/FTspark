@@ -25,13 +25,14 @@ public class rddData {
         String t[]=temp[9].split(":");
         String t1=t[1].substring(0, t[1].length()-1);
         line_no=Integer.parseInt(t1);
-        FindName();
         print();
+        FindName();
+
     }
     void FindName()
     {
+
         String FileLine=rddthread.ftDriver.Filelines[line_no-1];
-        System.out.println(FileLine);
         if(FileLine.matches(".*=.*"))
         {
         FileLine=FileLine.replaceAll(" ","");
@@ -44,7 +45,6 @@ public class rddData {
             String temp[]=FileLine.split("[.]");
             name=temp[0];
         }
-        System.out.println(FileLine);
     }
     int getLineNo()
     {

@@ -28,7 +28,7 @@ class WordCount implements persistRDDs, Serializable {
     private JavaRDD<String> words1,lines2,words2,lines3,words3,lines4,words4,lines1;
     private JavaPairRDD<String, Integer> unions3;
     private Map<String,JavaRDD<String>> m1= new HashMap<String, JavaRDD<String>>();
-
+    private Map<String,JavaPairRDD<String,Integer>> m2=new HashMap<String, JavaPairRDD<String,Integer>>();
 
     @Override
     public void persist(String nameofRdd)
@@ -52,15 +52,12 @@ class WordCount implements persistRDDs, Serializable {
         JavaSparkContext ctx = new JavaSparkContext(sparkConf);
 
 
-     //   JobLogger logger= new JobLogger("aparna","tmp");
-      //  ctx.sc().addSparkListener(logger);
-      //  Driver dr=new Driver();
-
         /* Part of Job1 */
 
-                lines1 = ctx.textFile("input/input1.txt", 1);
+        lines1 = ctx.textFile("input/input1.txt", 1);
         //lines1.count();
-        m1.put("lines1",lines1);
+        //m1.put("lines1",lines1);
+
         System.out.println("---------------------Starting Node 1-----------------------");
 
         words1 = lines1.flatMap(new FlatMapFunction<String, String>() {
@@ -69,6 +66,7 @@ class WordCount implements persistRDDs, Serializable {
                 return Arrays.asList(SPACE.split(s));
             }
         });
+        //m1.put("words1", words1);
 
         ones1 = words1.mapToPair(new PairFunction<String, String, Integer>() {
             @Override
@@ -76,6 +74,7 @@ class WordCount implements persistRDDs, Serializable {
                 return new Tuple2<String, Integer>(s, 1);
             }
         });
+        //m2.put("ones1",ones1);
 
         counts1 = ones1.reduceByKey(new Function2<Integer, Integer, Integer>() {
             @Override
@@ -83,6 +82,7 @@ class WordCount implements persistRDDs, Serializable {
                 return i1 + i2;
             }
         });
+        //m2.put("counts1",counts1);
 
 
         System.out.println("---------------------Ending Node 1-----------------------");
@@ -90,6 +90,8 @@ class WordCount implements persistRDDs, Serializable {
           /* Part of Job2 */
         System.out.println("---------------------Starting Node 2-----------------------");
         lines2 = ctx.textFile("input/input2.txt", 1);
+        //m1.put("lines2",lines2);
+
         words2 = lines2.flatMap(new FlatMapFunction<String, String>() {
             @Override
             public Iterable<String> call(String s) {
@@ -197,13 +199,14 @@ class WordCount implements persistRDDs, Serializable {
             }
         });
 
+        System.out.println("****** "+count6.toString()+" *******");
 
         System.out.println("---------------------Ending Node 6-----------------------");
 
         System.out.println("---------------------Starting Node 7----------------------");
 
       unions3 = ctx.union(count5, count6);
-     //   unions3.cache();
+    //    unions3.cache();
         //  System.out.println("The union of first two RDDs");
         count7 = unions3.reduceByKey(new Function2<Integer, Integer, Integer>() {
             @Override
@@ -215,7 +218,7 @@ class WordCount implements persistRDDs, Serializable {
 
         System.out.println("---------------------Ending Node 7-----------------------");
    //     FTDriver ftDriver =new FTDriver(this);
-     //   count7.cache();
+      //  count7.cache();
         count7.saveAsTextFile("WordCount/output");
 
         System.out.println(count7.toDebugString());
