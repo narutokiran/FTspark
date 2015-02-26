@@ -45,10 +45,11 @@ public class FTDriver {
     public FTDriver(persistRDDs WorkFlow, String logFile, String sourceFile)
     {
         System.out.println("Initializing Fault Tolerant Driver");
-        InitializeTailer(logFile);
+      //  InitializeTailer(logFile);
         this.WorkFlow=WorkFlow;
-        no_lines=0;
-        processSourceFile(sourceFile, WorkFlow);
+        //no_lines=0;
+        //processSourceFile(sourceFile, WorkFlow);
+        WorkFlow.persist("lines1");
        // processRdds();
      //   System.out.println("FileName "+FileName);
 
@@ -164,7 +165,7 @@ public class FTDriver {
             Map.Entry<Integer,rddData> entryRdd = entriesRdd.next();
             System.out.println("Hashmap RDD entry "+entryRdd.getKey()+" "+entryRdd.getValue().getName());
         }
-      try {
+    /*  try {
             Iterator<Map.Entry<String, JavaRDD>> entries2 = m1.entrySet().iterator();
             while (entries2.hasNext()) {
                 Map.Entry<String, JavaRDD> entry = entries2.next();
@@ -180,12 +181,12 @@ public class FTDriver {
         }catch(Exception e)
         {
             e.printStackTrace();
-        }
+        }*/
     }
 
     void cache_call(String name)
     {
-      //  WorkFlow.cache(name);
+        WorkFlow.persist(name);
     }
 
     public void processRdds()

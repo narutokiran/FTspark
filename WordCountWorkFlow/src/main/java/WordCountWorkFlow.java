@@ -16,6 +16,7 @@ import org.apache.spark.api.java.function.PairFunction;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.regex.Pattern;
@@ -31,28 +32,62 @@ class WordCount implements persistRDDs, Serializable {
     private Map<String,JavaPairRDD<String,Integer>> m2=new HashMap<String, JavaPairRDD<String,Integer>>();
 
     @Override
-    public void persist(String nameofRdd)
-    {
-         StorageLevel st=new StorageLevel();
-        if(m1.containsKey(nameofRdd))
-        m1.get(nameofRdd).persist(st.DISK_ONLY());
-        if(m2.containsKey(nameofRdd))
-        m2.get(nameofRdd).persist(st.DISK_ONLY());
+    public void persist(String nameofRdd) {
+        StorageLevel st = new StorageLevel();
+        if (m1.containsKey(nameofRdd)) {
+            System.out.println("Found 1 " + nameofRdd);
+            JavaRDD<String> temp= (JavaRDD<String>) m1.get(nameofRdd);
+            temp.persist(st.DISK_ONLY());
+            return;
+        }
+        if (m2.containsKey(nameofRdd)) {
+            System.out.println("Found 2 " + nameofRdd);
+            m2.get(nameofRdd).persist(st.DISK_ONLY());
+            return;
+        }
+        System.out.println("Did not find " + nameofRdd);
     }
     @Override
     public void cache(String nameofRdd)
     {
 
-        if(m1.containsKey(nameofRdd))
+        if(m1.containsKey(nameofRdd)) {
+            System.out.println("Found 1 "+nameofRdd);
             m1.get(nameofRdd).cache();
-        if(m2.containsKey(nameofRdd))
+            return;
+        }
+        if(m2.containsKey(nameofRdd)) {
+            System.out.println("Found 2 "+nameofRdd);
             m2.get(nameofRdd).cache();
+            return;
+        }
+        System.out.println("Did not find "+nameofRdd);
     }
-
+    public void call_cache()
+    {
+        Iterator<Map.Entry<String, JavaRDD<String>>> entries =  m1.entrySet().iterator();
+        while(entries.hasNext())
+        {
+            Map.Entry<String, JavaRDD<String>> entry=entries.next();
+           entry.getValue().cache();
+        }
+        Iterator<Map.Entry<String, JavaPairRDD<String,Integer>>> entries1 =  m2.entrySet().iterator();
+        while(entries1.hasNext())
+        {
+            Map.Entry<String, JavaPairRDD<String,Integer>> entrie=entries1.next();
+            entrie.getValue().cache();
+        }
+    }
+    private void check_persist(String name)
+    {
+        System.out.println("In check persist");
+        StorageLevel st = new StorageLevel();
+        m2.get(name).persist(st.DISK_ONLY());
+    }
     public void workflow_start()
     {
 
-        FTDriver ftDriver = new FTDriver(this,"/home/aparna/spark-1.1.1/logs/SparkOut.log","WordCountWorkFlow.java");
+
         SparkConf sparkConf = new SparkConf().setAppName("JavaWordCount").setMaster("yarn-client");
         System.out.println("---------*******------"+sparkConf.toDebugString());
         JavaSparkContext ctx = new JavaSparkContext(sparkConf);
@@ -63,6 +98,7 @@ class WordCount implements persistRDDs, Serializable {
         lines1 = ctx.textFile("input/input1.txt", 1);
         //lines1.count();
         m1.put("lines1",lines1);
+     //   FTDriver ftDriver = new FTDriver(this,"/home/aparna/spark-1.1.1/logs/SparkOut.log","WordCountWorkFlow.java");
 
         System.out.println("---------------------Starting Node 1-----------------------");
 
@@ -228,6 +264,7 @@ class WordCount implements persistRDDs, Serializable {
 
       unions3 = ctx.union(count5, count6);
         m2.put("unions3",unions3);
+
     //    unions3.cache();
         //  System.out.println("The union of first two RDDs");
         count7 = unions3.reduceByKey(new Function2<Integer, Integer, Integer>() {
@@ -239,14 +276,18 @@ class WordCount implements persistRDDs, Serializable {
         m2.put("count7",count7);
 
         System.out.println("---------------------Ending Node 7-----------------------");
-   //     FTDriver ftDriver =new FTDriver(this);
-      //  count7.cache();
-        count7.saveAsTextFile("WordCount/output");
 
+        StorageLevel st = new StorageLevel();
+       // lines1.persist(st.DISK_ONLY());
         System.out.println(count7.toDebugString());
+        count7.saveAsTextFile("WordCount/output");
+        check_persist("count7");
+        System.out.println("here.......");
+
+        unions1.count();
 
         ctx.stop();
-        ftDriver.close();
+      //  ftDriver.close();
 
     }
 }

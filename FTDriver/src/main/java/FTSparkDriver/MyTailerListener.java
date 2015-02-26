@@ -24,11 +24,9 @@ public class MyTailerListener extends TailerListenerAdapter{
 
         if(Line.matches(".*Starting job:.*"))
         {
-   //         System.out.println("No lines "+ftDriver.no_lines);
-            //System.out.println("Starting job "+Line);
-           // ftDriver.processRdds();
-            Thread t=new Thread(new ConstructingMap(ftDriver));
-            t.start();
+   //
+         //   Thread t=new Thread(new ConstructingMap(ftDriver));
+           // t.start();
         }
         else if(Line.matches(".*Registering RDD.*"))
         {
@@ -39,9 +37,13 @@ public class MyTailerListener extends TailerListenerAdapter{
         {
         //th.interrupt();
         }
+        else if(Line.matches(".*Job Finished.*"))
+        {
+
+        }
         else if(Line.matches(".*finished in.*"))
         {
-            Thread t=new Thread(new processFinishedStage(Line));
+            Thread t=new Thread(new processFinishedStage(Line,ftDriver));
             t.start();
         }
 
