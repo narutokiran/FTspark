@@ -49,7 +49,6 @@ public class FTDriver {
         this.WorkFlow=WorkFlow;
         //no_lines=0;
         //processSourceFile(sourceFile, WorkFlow);
-        WorkFlow.persist("lines1");
        // processRdds();
      //   System.out.println("FileName "+FileName);
 
@@ -186,7 +185,7 @@ public class FTDriver {
 
     void cache_call(String name)
     {
-        WorkFlow.persist(name);
+
     }
 
     public void processRdds()

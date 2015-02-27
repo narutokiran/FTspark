@@ -1,0 +1,26 @@
+(4) ShuffledRDD[25] at reduceByKey at WordCountWorkFlow.java:244
+ +-(4) UnionRDD[24] at union at WordCountWorkFlow.java:241
+    |  ShuffledRDD[21] at reduceByKey at WordCountWorkFlow.java:211
+    +-(2) UnionRDD[20] at union at WordCountWorkFlow.java:207
+       |  ShuffledRDD[4] at reduceByKey at WordCountWorkFlow.java:98
+       +-(1) MappedRDD[3] at mapToPair at WordCountWorkFlow.java:90
+          |  FlatMappedRDD[2] at flatMap at WordCountWorkFlow.java:82
+          |  input/input1.txt MappedRDD[1] at textFile at WordCountWorkFlow.java:76
+          |  input/input1.txt HadoopRDD[0] at textFile at WordCountWorkFlow.java:76
+       |  ShuffledRDD[9] at reduceByKey at WordCountWorkFlow.java:130
+       +-(1) MappedRDD[8] at mapToPair at WordCountWorkFlow.java:122
+          |  FlatMappedRDD[7] at flatMap at WordCountWorkFlow.java:114
+          |  input/input2.txt MappedRDD[6] at textFile at WordCountWorkFlow.java:111
+          |  input/input2.txt HadoopRDD[5] at textFile at WordCountWorkFlow.java:111
+    |  ShuffledRDD[23] at reduceByKey at WordCountWorkFlow.java:228
+    +-(2) UnionRDD[22] at union at WordCountWorkFlow.java:224
+       |  ShuffledRDD[14] at reduceByKey at WordCountWorkFlow.java:163
+       +-(1) MappedRDD[13] at mapToPair at WordCountWorkFlow.java:155
+          |  FlatMappedRDD[12] at flatMap at WordCountWorkFlow.java:147
+          |  input/input3.txt MappedRDD[11] at textFile at WordCountWorkFlow.java:144
+          |  input/input3.txt HadoopRDD[10] at textFile at WordCountWorkFlow.java:144
+       |  ShuffledRDD[19] at reduceByKey at WordCountWorkFlow.java:194
+       +-(1) MappedRDD[18] at mapToPair at WordCountWorkFlow.java:186
+          |  FlatMappedRDD[17] at flatMap at WordCountWorkFlow.java:178
+          |  input/input4.txt MappedRDD[16] at textFile at WordCountWorkFlow.java:175
+          |  input/input4.txt HadoopRDD[15] at textFile at WordCountWorkFlow.java:175

@@ -32,22 +32,6 @@ class WordCount implements persistRDDs, Serializable {
     private Map<String,JavaPairRDD<String,Integer>> m2=new HashMap<String, JavaPairRDD<String,Integer>>();
 
     @Override
-    public void persist(String nameofRdd) {
-        StorageLevel st = new StorageLevel();
-        if (m1.containsKey(nameofRdd)) {
-            System.out.println("Found 1 " + nameofRdd);
-            JavaRDD<String> temp= (JavaRDD<String>) m1.get(nameofRdd);
-            temp.persist(st.DISK_ONLY());
-            return;
-        }
-        if (m2.containsKey(nameofRdd)) {
-            System.out.println("Found 2 " + nameofRdd);
-            m2.get(nameofRdd).persist(st.DISK_ONLY());
-            return;
-        }
-        System.out.println("Did not find " + nameofRdd);
-    }
-    @Override
     public void cache(String nameofRdd)
     {
 
@@ -63,7 +47,7 @@ class WordCount implements persistRDDs, Serializable {
         }
         System.out.println("Did not find "+nameofRdd);
     }
-    public void call_cache()
+   /* public void call_cache()
     {
         Iterator<Map.Entry<String, JavaRDD<String>>> entries =  m1.entrySet().iterator();
         while(entries.hasNext())
@@ -77,28 +61,21 @@ class WordCount implements persistRDDs, Serializable {
             Map.Entry<String, JavaPairRDD<String,Integer>> entrie=entries1.next();
             entrie.getValue().cache();
         }
-    }
-    private void check_persist(String name)
-    {
-        System.out.println("In check persist");
-        StorageLevel st = new StorageLevel();
-        m2.get(name).persist(st.DISK_ONLY());
-    }
+    }*/
     public void workflow_start()
     {
 
 
         SparkConf sparkConf = new SparkConf().setAppName("JavaWordCount").setMaster("yarn-client");
-        System.out.println("---------*******------"+sparkConf.toDebugString());
         JavaSparkContext ctx = new JavaSparkContext(sparkConf);
 
+        //   FTDriver ftDriver = new FTDriver(this,"/home/aparna/spark-1.1.1/logs/SparkOut.log","WordCountWorkFlow.java");
 
         /* Part of Job1 */
 
         lines1 = ctx.textFile("input/input1.txt", 1);
-        //lines1.count();
         m1.put("lines1",lines1);
-     //   FTDriver ftDriver = new FTDriver(this,"/home/aparna/spark-1.1.1/logs/SparkOut.log","WordCountWorkFlow.java");
+
 
         System.out.println("---------------------Starting Node 1-----------------------");
 
@@ -256,7 +233,6 @@ class WordCount implements persistRDDs, Serializable {
         });
         m2.put("count6", count6);
 
-        System.out.println("****** "+count6.toString()+" *******");
 
         System.out.println("---------------------Ending Node 6-----------------------");
 
@@ -265,8 +241,6 @@ class WordCount implements persistRDDs, Serializable {
       unions3 = ctx.union(count5, count6);
         m2.put("unions3",unions3);
 
-    //    unions3.cache();
-        //  System.out.println("The union of first two RDDs");
         count7 = unions3.reduceByKey(new Function2<Integer, Integer, Integer>() {
             @Override
             public Integer call(Integer integer, Integer integer2)  {
@@ -278,16 +252,10 @@ class WordCount implements persistRDDs, Serializable {
         System.out.println("---------------------Ending Node 7-----------------------");
 
         StorageLevel st = new StorageLevel();
-       // lines1.persist(st.DISK_ONLY());
         System.out.println(count7.toDebugString());
         count7.saveAsTextFile("WordCount/output");
-        check_persist("count7");
-        System.out.println("here.......");
-
-        unions1.count();
 
         ctx.stop();
-      //  ftDriver.close();
 
     }
 }
@@ -299,14 +267,4 @@ public class WordCountWorkFlow
         wc.workflow_start();
     }
 }
-/*class Driver extends WordCountWorkFlow
-{
-    public void call()
-    {    /*  StorageLevel st=new StorageLevel();
-        lines1.persist(st.DISK_ONLY_2());
-        System.out.println("Calling persist");
-        System.out.println(lines1.toDebugString());
-        System.out.println(unions3.toDebugString());
-        System.out.println(count7.toDebugString());
-    }
-}*/
+
