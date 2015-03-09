@@ -15,20 +15,33 @@ public class Node {
         int no_spaces;
 
 
-        Node(int line_no, String name, int criticality, int spaces)
+        Node(int line_no, String name, int spaces)
         {
+            System.out.println("Constructing Node with "+line_no+" "+name+" "+spaces);
             this.line_no=line_no;
             this.name=name;
-            this.criticality=criticality;
             this.children=new ArrayList<Node>();
             this.no_spaces=spaces;
         }
-        public void addChild(Node child) {
+
+        public void addChild(Node child)
+        {
             child.setParent(this);
             children.add(child);
-            }
+        }
 
-        public void setParent(Node parent) {
+        public void setParent(Node parent)
+        {
             this.parent = parent;
+        }
+
+        public List<Node> getChildren()
+        {
+            return this.children;
+        }
+
+        public int getNo_spaces()
+        {
+            return no_spaces;
         }
 }
