@@ -13,7 +13,7 @@ public class Node {
         List<Node> children;
         Node parent;
         int no_spaces;
-
+        double critic_percentage;
 
         Node(int line_no, String name, int spaces)
         {
@@ -44,4 +44,16 @@ public class Node {
         {
             return no_spaces;
         }
+    public String getName()
+    {
+        return name;
+    }
+    public int getCriticality()
+    {
+        return criticality;
+    }
+    public double getCritic_percentage()
+    {
+        return critic_percentage;
+    }
 }
