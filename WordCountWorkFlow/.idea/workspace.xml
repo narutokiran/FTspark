@@ -7,10 +7,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4fd41245-78fa-472b-829f-98082710d231" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CriticalityTree/out/production/CriticalityTree/CTree.class" afterPath="$PROJECT_DIR$/../CriticalityTree/out/production/CriticalityTree/CTree.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CriticalityTree/out/production/CriticalityTree/CriticalityTree.class" afterPath="$PROJECT_DIR$/../CriticalityTree/out/production/CriticalityTree/CriticalityTree.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../FTDriver/target/classes/FTSparkDriver/FTDriver.class" afterPath="$PROJECT_DIR$/../FTDriver/target/classes/FTSparkDriver/FTDriver.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../FTDriver/target/FTDriver.jar" afterPath="$PROJECT_DIR$/../FTDriver/target/FTDriver.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../FTDriver/target/classes/FTSparkDriver/MyTailerListener.class" afterPath="$PROJECT_DIR$/../FTDriver/target/classes/FTSparkDriver/MyTailerListener.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../FTDriver/target/classes/FTSparkDriver/TailerCall.class" afterPath="$PROJECT_DIR$/../FTDriver/target/classes/FTSparkDriver/TailerCall.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CriticalityTree/out/production/CriticalityTree/Node.class" afterPath="$PROJECT_DIR$/../CriticalityTree/out/production/CriticalityTree/Node.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../FTDriver/target/classes/FTSparkDriver/TailerThread.class" afterPath="$PROJECT_DIR$/../FTDriver/target/classes/FTSparkDriver/TailerThread.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/WordCount$1.class" afterPath="$PROJECT_DIR$/target/classes/WordCount$1.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/WordCount$10.class" afterPath="$PROJECT_DIR$/target/classes/WordCount$10.class" />
@@ -30,10 +31,11 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/WordCount.class" afterPath="$PROJECT_DIR$/target/classes/WordCount.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/WordCountWorkFlow.class" afterPath="$PROJECT_DIR$/target/classes/WordCountWorkFlow.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/artifacts/WordCountWorkFlow.jar" afterPath="$PROJECT_DIR$/target/artifacts/WordCountWorkFlow.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../FTDriver/target/classes/FTSparkDriver/persistRDDs.class" afterPath="$PROJECT_DIR$/../FTDriver/target/classes/FTSparkDriver/persistRDDs.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CriticalityTree/src/CriticalityTree.java" afterPath="$PROJECT_DIR$/../CriticalityTree/src/CriticalityTree.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../FTDriver/src/main/java/FTSparkDriver/FTDriver.java" afterPath="$PROJECT_DIR$/../FTDriver/src/main/java/FTSparkDriver/FTDriver.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CriticalityTree/src/Node.java" afterPath="$PROJECT_DIR$/../CriticalityTree/src/Node.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/WordCountWorkFlow.java" afterPath="$PROJECT_DIR$/src/main/java/WordCountWorkFlow.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../FTDriver/src/main/java/FTSparkDriver/persistRDDs.java" afterPath="$PROJECT_DIR$/../FTDriver/src/main/java/FTSparkDriver/persistRDDs.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CriticalityTree/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../CriticalityTree/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../FTDriver/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../FTDriver/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -64,8 +66,8 @@
       <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="660">
-              <caret line="34" column="29" selection-start-line="34" selection-start-column="29" selection-end-line="34" selection-end-column="29" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="660">
+              <caret line="18" column="36" selection-start-line="18" selection-start-column="36" selection-end-line="18" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -74,11 +76,13 @@
       <file leaf-file-name="WordCountWorkFlow.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/WordCountWorkFlow.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.9649942" vertical-offset="1978" max-vertical-offset="3015">
-              <caret line="262" column="1" selection-start-line="262" selection-start-column="1" selection-end-line="262" selection-end-column="1" />
+            <state vertical-scroll-proportion="0.3873979" vertical-offset="1003" max-vertical-offset="2880">
+              <caret line="114" column="16" selection-start-line="114" selection-start-column="16" selection-end-line="114" selection-end-column="16" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="imports" expanded="true" />
+                <element signature="e#7825#8028#0" expanded="true" />
+                <element signature="e#8027#8028#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -144,8 +148,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -206,6 +208,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -455,22 +459,6 @@
       <envs />
       <method />
     </configuration>
-    <configuration default="true" type="ScalaTestRunConfiguration" factoryName="ScalaTest">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <extension name="scalaCoverage" />
-      <module name="" />
-      <setting name="path" value="" />
-      <setting name="package" value="" />
-      <setting name="vmparams" value="" />
-      <setting name="params" value="" />
-      <setting name="workingDirectory" value="$PROJECT_DIR$" />
-      <setting name="searchForTest" value="Across module dependencies" />
-      <setting name="testName" value="" />
-      <setting name="testKind" value="Class" />
-      <setting name="showProgressMessages" value="true" />
-      <envs />
-      <method />
-    </configuration>
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="" />
       <option name="ACTIVITY_CLASS" value="" />
@@ -489,6 +477,22 @@
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
       <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="ScalaTestRunConfiguration" factoryName="ScalaTest">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <extension name="scalaCoverage" />
+      <module name="" />
+      <setting name="path" value="" />
+      <setting name="package" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workingDirectory" value="$PROJECT_DIR$" />
+      <setting name="searchForTest" value="Across module dependencies" />
+      <setting name="testName" value="" />
+      <setting name="testKind" value="Class" />
+      <setting name="showProgressMessages" value="true" />
+      <envs />
       <method />
     </configuration>
     <configuration default="false" name="WordCount" type="MavenRunConfiguration" factoryName="Maven">
@@ -603,6 +607,8 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
+            <element signature="e#7825#8028#0" expanded="true" />
+            <element signature="e#8027#8028#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -622,6 +628,8 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
+            <element signature="e#7825#8028#0" expanded="true" />
+            <element signature="e#8027#8028#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -641,6 +649,8 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
+            <element signature="e#7825#8028#0" expanded="true" />
+            <element signature="e#8027#8028#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -660,6 +670,8 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
+            <element signature="e#7825#8028#0" expanded="true" />
+            <element signature="e#8027#8028#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -679,6 +691,8 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
+            <element signature="e#7825#8028#0" expanded="true" />
+            <element signature="e#8027#8028#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -698,6 +712,8 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
+            <element signature="e#7825#8028#0" expanded="true" />
+            <element signature="e#8027#8028#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -717,6 +733,8 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
+            <element signature="e#7825#8028#0" expanded="true" />
+            <element signature="e#8027#8028#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -736,6 +754,8 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
+            <element signature="e#7825#8028#0" expanded="true" />
+            <element signature="e#8027#8028#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -755,6 +775,8 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
+            <element signature="e#7825#8028#0" expanded="true" />
+            <element signature="e#8027#8028#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -774,6 +796,8 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
+            <element signature="e#7825#8028#0" expanded="true" />
+            <element signature="e#8027#8028#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -793,6 +817,8 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
+            <element signature="e#7825#8028#0" expanded="true" />
+            <element signature="e#8027#8028#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -812,6 +838,8 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
+            <element signature="e#7825#8028#0" expanded="true" />
+            <element signature="e#8027#8028#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -831,6 +859,8 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
+            <element signature="e#7825#8028#0" expanded="true" />
+            <element signature="e#8027#8028#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -850,6 +880,8 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
+            <element signature="e#7825#8028#0" expanded="true" />
+            <element signature="e#8027#8028#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -869,6 +901,8 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
+            <element signature="e#7825#8028#0" expanded="true" />
+            <element signature="e#8027#8028#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -888,6 +922,8 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
+            <element signature="e#7825#8028#0" expanded="true" />
+            <element signature="e#8027#8028#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -907,6 +943,8 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
+            <element signature="e#7825#8028#0" expanded="true" />
+            <element signature="e#8027#8028#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -926,6 +964,8 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
+            <element signature="e#7825#8028#0" expanded="true" />
+            <element signature="e#8027#8028#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -945,6 +985,8 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
+            <element signature="e#7825#8028#0" expanded="true" />
+            <element signature="e#8027#8028#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -964,6 +1006,8 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
+            <element signature="e#7825#8028#0" expanded="true" />
+            <element signature="e#8027#8028#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -983,6 +1027,8 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
+            <element signature="e#7825#8028#0" expanded="true" />
+            <element signature="e#8027#8028#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1002,6 +1048,8 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
+            <element signature="e#7825#8028#0" expanded="true" />
+            <element signature="e#8027#8028#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1021,6 +1069,8 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
+            <element signature="e#7825#8028#0" expanded="true" />
+            <element signature="e#8027#8028#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1040,6 +1090,8 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
+            <element signature="e#7825#8028#0" expanded="true" />
+            <element signature="e#8027#8028#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1062,19 +1114,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="660">
-          <caret line="34" column="29" selection-start-line="34" selection-start-column="29" selection-end-line="34" selection-end-column="29" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="94" max-vertical-offset="660">
+          <caret line="18" column="36" selection-start-line="18" selection-start-column="36" selection-end-line="18" selection-end-column="36" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/WordCountWorkFlow.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9649942" vertical-offset="1978" max-vertical-offset="3015">
-          <caret line="262" column="1" selection-start-line="262" selection-start-column="1" selection-end-line="262" selection-end-column="1" />
+        <state vertical-scroll-proportion="0.3873979" vertical-offset="1003" max-vertical-offset="2880">
+          <caret line="114" column="16" selection-start-line="114" selection-start-column="16" selection-end-line="114" selection-end-column="16" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
+            <element signature="e#7825#8028#0" expanded="true" />
+            <element signature="e#8027#8028#0" expanded="true" />
           </folding>
         </state>
       </provider>

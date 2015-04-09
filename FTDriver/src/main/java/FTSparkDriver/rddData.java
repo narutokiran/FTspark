@@ -18,7 +18,7 @@ public class rddData {
 
     void processLine(String line)
     {
-        this.line=line;
+       /* this.line=line;
         String temp[] = line.split(" ");
         rdd_no=Integer.parseInt(temp[6]);
         operation=temp[7].substring(1);
@@ -26,13 +26,48 @@ public class rddData {
         String t1=t[1].substring(0, t[1].length()-1);
         line_no=Integer.parseInt(t1);
         print();
-        FindName();
+        FindName();*/
+try {
+    this.line = line; // Now the line considered is the criticality line
+    String t = line;
+    t = t.replaceAll("( )+", " ");
+    t = t.trim();
+    //System.out.println(t);
+    String temp[] = t.split(" ");
+
+    String t1[] = temp[temp.length - 1].split(":");
+    int l = Integer.parseInt(t1[1]);
+    this.line_no = l;
+
+    if (temp.length==6) {
+        String t2[] = temp[1].split("\\[");
+        String rddno = t2[1].substring(0, t2[1].length() - 1);
+        this.rdd_no = Integer.parseInt(rddno);
+
+    }
+    else
+    { // for input/input1.txt
+        String t2[] = temp[2].split("\\[");
+        String rddno = t2[1].substring(0, t2[1].length() - 1);
+        this.rdd_no = Integer.parseInt(rddno);
+    }
+    this.operation = temp[temp.length - 3];
+    print();
+    FindName();
+
+}
+catch(Exception e)
+{
+    e.printStackTrace();
+    System.out.println("Exception at line "+line);
+}
 
     }
     void FindName()
     {
 
         String FileLine=rddthread.ftDriver.Filelines[line_no-1];
+        //System.out.println("Number "+rdd_no+" FileLine "+FileLine);
         if(FileLine.matches(".*=.*"))
         {
         FileLine=FileLine.replaceAll(" ","");
@@ -56,10 +91,15 @@ public class rddData {
     }
     int getRdd_no() { return rdd_no; };
 
+    String getOperation()
+    {
+        return operation;
+    }
     void print()
     {
-        System.out.println("name "+name);
+
         System.out.println("line "+line);
+        System.out.println("name "+name);
         System.out.println("operation "+operation);
         System.out.println("line no "+line_no);
         System.out.println("rdd no "+rdd_no);

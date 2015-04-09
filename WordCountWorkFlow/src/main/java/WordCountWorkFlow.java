@@ -47,21 +47,6 @@ class WordCount implements persistRDDs, Serializable {
         }
         System.out.println("Did not find "+nameofRdd);
     }
-   /* public void call_cache()
-    {
-        Iterator<Map.Entry<String, JavaRDD<String>>> entries =  m1.entrySet().iterator();
-        while(entries.hasNext())
-        {
-            Map.Entry<String, JavaRDD<String>> entry=entries.next();
-           entry.getValue().cache();
-        }
-        Iterator<Map.Entry<String, JavaPairRDD<String,Integer>>> entries1 =  m2.entrySet().iterator();
-        while(entries1.hasNext())
-        {
-            Map.Entry<String, JavaPairRDD<String,Integer>> entrie=entries1.next();
-            entrie.getValue().cache();
-        }
-    }*/
     public void workflow_start()
     {
 
@@ -69,7 +54,7 @@ class WordCount implements persistRDDs, Serializable {
         SparkConf sparkConf = new SparkConf().setAppName("JavaWordCount").setMaster("yarn-client");
         JavaSparkContext ctx = new JavaSparkContext(sparkConf);
 
-        //   FTDriver ftDriver = new FTDriver(this,"/home/aparna/spark-1.1.1/logs/SparkOut.log","WordCountWorkFlow.java");
+          FTDriver ftDriver = new FTDriver(this,"/home/aparna/spark-1.1.1/logs/SparkOut.log","WordCountWorkFlow.java");
 
         /* Part of Job1 */
 
@@ -253,6 +238,7 @@ class WordCount implements persistRDDs, Serializable {
 
         StorageLevel st = new StorageLevel();
         System.out.println(count7.toDebugString());
+        ftDriver.constructTree(count7.toDebugString());
         count7.saveAsTextFile("WordCount/output");
 
         ctx.stop();

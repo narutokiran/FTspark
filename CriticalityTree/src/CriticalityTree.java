@@ -25,6 +25,7 @@ class CTree
     Node root=null;
     HashMap<Integer, List<lines>> dependencies = new HashMap<Integer, List<lines>>();
 
+    /* Populate HashMap for creating tree */
     void populateHashMap()
     {
         hm.put(Integer.valueOf(244),"count7");
@@ -52,6 +53,7 @@ class CTree
 
     }
 
+
     void parseLines(String FileName)
     {
         int i=0;
@@ -75,6 +77,7 @@ class CTree
         }
     }
 
+    /* Used to getParent of previous Node */
     Node getParent(Node root, String name)
     {
         Node found=null;
@@ -90,6 +93,7 @@ class CTree
         return found;
     }
 
+    /* check if the node is already present */
     boolean check(Node root, String name)
     {
        boolean found=false;
@@ -104,6 +108,8 @@ class CTree
         }
         return found;
     }
+
+
     void processLines()
     {
         int i;
@@ -116,18 +122,19 @@ class CTree
                 /* replacing all extra spaces to get the string */
                 String t=temp_line.line;
                 t=t.replaceAll("( )+"," ");
+                t=t.trim();
                 System.out.println(t);
 
                 String temp[]=t.split(" ");
 
-                /* COunting the number of characters in the line */
+                /* Counting the number of characters in the line */
                 int count_spaces=0;
 
                 while(!Character.isLetter(temp_line.line.charAt(count_spaces)))
                 {
                     count_spaces++;
                 }
-
+                //System.out.println("count Spaces "+count_spaces);
                 int length=temp.length;
 
                 String t1[] = temp[length-1].split(":");
@@ -141,25 +148,42 @@ class CTree
                 temp_line.name=name;
 
                 Node n=new Node(l,name, count_spaces);
-            if(root==null) {
-                root = n;
-                continue;
-            }
+                for(int j=0; j< length ; j++)
+                {
+                    System.out.println(j+" "+temp[j]);
+                }
+
+                // Finding stages
+                if(temp[0].contains("("))
+                {
+                    System.out.println("FOUND STAGE!!!!!!");
+                }
+
+
+            /* setting the root node of the tree */
+                 if(root==null) {
+                      root = n;
+                    continue;
+                }
+
+              /* checking if the name is already presnt -> This is useful in the case where we have input 1 */
                 if(check(root,name))
                 {
                     System.out.println("Found "+name+" Hence Skipping insertion");
                     continue;
                 }
 
-                /* if operation is Union, add it to the list*/
+
                 System.out.println("***************Name********************** "+temp_line.name);
                 System.out.println("Operation "+temp_line.operation);
                 /* Inserting into the tree */
              /* iF No Root , Make it root and continue to next line */
 
             // System.out.println(root.name);
-            lines parent=null;
-            int flag=1; // Used to check if parent name is the previous line
+                lines parent=null;
+                int flag=1; // Used to check if parent name is the previous line
+
+             /* if operation is Union, add it to the list*/
                 if(temp_line.operation.equals("union"))
                 {
                     List<lines> ListLines = new ArrayList<lines>();
@@ -195,7 +219,6 @@ class CTree
                 /* this is general case */
                 if(flag==1)
                 parent = Lines.get(i-1);
-                System.out.println("Parent "+parent.name);
 
                 Node parentNode=null;
                 if(parent.name!=null)
@@ -227,13 +250,14 @@ class CTree
     }
     void calculateCriticality()
     {
-        calculateCriticalityNumber(root);
+        calculateCriticalityNumber(root,0);
         int number=totalNodes(root);
         System.out.println("The total number of nodes is "+number);
         calculateCriticalityPercentage(root, number);
     }
     void calculateCriticalityPercentage(Node root, int number)
     {
+        root.setCritic_percentage((double) root.criticality/ (double) number*100);
         if(root.getChildren().size()==0)
         {
             return;
@@ -243,10 +267,10 @@ class CTree
             calculateCriticalityPercentage(n, number);
 
         }
-        root.critic_percentage= (double) root.criticality/ (double) number;
+
        return;
     }
-    void calculateCriticalityNumber(Node root)
+   /* void calculateCriticalityNumber(Node root)
     {
         if(root.getChildren().size()==0)
         {
@@ -260,6 +284,21 @@ class CTree
             sum+=n.criticality;
         }
         root.criticality=sum+root.getChildren().size();
+    }*/
+    void calculateCriticalityNumber(Node root, int critic)
+    {
+        root.criticality=critic;
+
+        if(root.getChildren().size()==0)
+        {
+            return;
+        }
+
+        for(Node n: root.getChildren())
+        {
+            calculateCriticalityNumber(n, critic+1);
+        }
+        return;
     }
     int totalNodes(Node root)
     {

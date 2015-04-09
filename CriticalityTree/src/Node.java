@@ -56,4 +56,13 @@ public class Node {
     {
         return critic_percentage;
     }
+
+    public void setCriticality(int critic)
+    {
+        criticality=critic;
+    }
+    public void setCritic_percentage(double critic)
+    {
+        critic_percentage=critic;
+    }
 }
