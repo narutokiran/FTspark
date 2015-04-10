@@ -20,7 +20,6 @@ public class TailerCall {
         TailerListener listener=new MyTailerListener(ftDriver);
         tailer=new Tailer(new File(LogFile),listener,100);
         tailer.run();
-
     }
     void stop()
     {

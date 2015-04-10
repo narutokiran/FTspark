@@ -9,6 +9,10 @@ public class rddData {
     private String operation;
     private int line_no;
     private int rdd_no;
+    private double time_to_compute;
+    private double time_to_check_point;
+    private double time_to_restore;
+    private double memory_occupied;
     processRegisteringRDD rddthread;
 
     public rddData(processRegisteringRDD rddthread)
@@ -52,7 +56,7 @@ try {
         this.rdd_no = Integer.parseInt(rddno);
     }
     this.operation = temp[temp.length - 3];
-    print();
+    //print();
     FindName();
 
 }
@@ -81,6 +85,9 @@ catch(Exception e)
             name=temp[0];
         }
     }
+
+
+
     int getLineNo()
     {
         return line_no;
@@ -95,6 +102,40 @@ catch(Exception e)
     {
         return operation;
     }
+
+    double getTime_to_compute()
+    {
+        return time_to_compute;
+    }
+
+    double getTime_to_restore()
+    {
+        return time_to_restore;
+    }
+    double getTime_to_check_point()
+    {
+        return time_to_check_point;
+    }
+    double getMemory_occupied()
+    {
+        return memory_occupied;
+    }
+    void setTime_to_compute(double time)
+    {
+     time_to_compute=time;
+    }
+    void setTime_to_check_point(double time)
+    {
+        time_to_check_point=time;
+    }
+    void setTime_to_restore(double time)
+    {
+        time_to_restore=time;
+    }
+    void setMemory_occupied(double memory)
+    {
+        memory_occupied=memory;
+    }
     void print()
     {
 
@@ -103,6 +144,8 @@ catch(Exception e)
         System.out.println("operation "+operation);
         System.out.println("line no "+line_no);
         System.out.println("rdd no "+rdd_no);
+        System.out.println("Memory Ocuupied "+memory_occupied);
+        System.out.println("Time to compute "+time_to_compute);
         System.out.println();
     }
 }

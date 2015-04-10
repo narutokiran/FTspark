@@ -6,6 +6,7 @@ package FTSparkDriver;
 public class processFinishedStage implements Runnable{
     String Line;
     FTDriver ftDriver;
+    double time_to_complete;
     public processFinishedStage(String line, FTDriver ftDriver)
     {
         this.ftDriver=ftDriver;
@@ -13,9 +14,12 @@ public class processFinishedStage implements Runnable{
     }
     public void run()
     {
-        int line_no=processLine();
-        call_cache(line_no);
-        return;
+        int line_no= processLine();
+        String name=ftDriver.getRddNameNumber(line_no);
+        if(name!=null) {
+            rddData rdd = ftDriver.getStagesRDD(name);
+            rdd.setTime_to_compute(time_to_complete);
+        }
     }
     int processLine()
     {
@@ -25,12 +29,9 @@ public class processFinishedStage implements Runnable{
         String temp1[]=t.split(":");
         temp1[1]=temp1[1].substring(0,temp1[1].length()-1);
         int line_no=Integer.parseInt(temp1[1]);
+
+        time_to_complete=Double.parseDouble(temp[temp.length-2]);
         return line_no;
     }
-    void call_cache(int lineNo)
-    {
-        String name=ftDriver.getRddNameNumber(lineNo);
-        System.out.println("Calling Cache on Rdd "+name+" in the line "+lineNo);
-        ftDriver.cache_call(name);
-    }
+
 }

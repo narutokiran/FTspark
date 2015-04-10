@@ -44,22 +44,27 @@ public class FTDriver {
 
     /* The name of the file */
     String FileName;
-
+    CTree ctree;
 
 
     private Map<Integer,String> rddNameNumber = new HashMap<Integer,String> ();
 
     private Map<Integer, rddData> rddDataNumber = new HashMap<Integer, rddData>();
+    private Map<Integer, rddData> rddDataRDDNumber = new HashMap<Integer, rddData>(); // This maps RDD object with RDD NUmber. Only for stages. FOr calcualting the amount of memory necessary
+
+    private Map<String , Node> TreeHash = new HashMap<String, Node>();
+    private Map<String, rddData> StagesRDD = new HashMap<String, rddData>();
 
     private Map<String,JavaRDD> m1= new HashMap<String, JavaRDD>();
     private Map<String,JavaPairRDD> m2=new HashMap<String, JavaPairRDD>();
+
      List<String> Stages=new ArrayList<String> ();
 
     /*Constructor */
     public FTDriver(persistRDDs WorkFlow, String logFile, String sourceFile)
     {
         System.out.println("Initializing Fault Tolerant Driver");
-      //  InitializeTailer(logFile);
+       InitializeTailer(logFile);
         this.WorkFlow=WorkFlow;
         no_lines=0;
         processSourceFile(sourceFile, WorkFlow);
@@ -69,7 +74,15 @@ public class FTDriver {
     }
 
 
+    public void putTreeHash(String name, Node TreeNode)
+    {
+        TreeHash.put(name,TreeNode);
+    }
 
+    public Node getTreeHash(String name)
+    {
+        return (Node) TreeHash.get(name);
+    }
     public void putRddNameNumber(int line_no, String name)
     {
         rddNameNumber.put(Integer.valueOf(line_no),name);
@@ -87,6 +100,24 @@ public class FTDriver {
     public rddData getRddDataNumber(int line_no)
     {
         return (rddData) rddDataNumber.get(new Integer(line_no));
+    }
+
+    public rddData getRddDataRDDNumber(int rdd_no)
+    {
+        return (rddData) rddDataRDDNumber.get(rdd_no);
+    }
+
+    public void putrddDataRDDNumber(int rdd_no, rddData rdds ) {
+        rddDataRDDNumber.put(rdd_no, rdds);
+    }
+
+    public void putStagesRDD(String name, rddData rdds)
+    {
+        StagesRDD.put(name,rdds);
+    }
+    public rddData getStagesRDD(String name)
+    {
+        return (rddData) StagesRDD.get(name);
     }
     public FTDriver()
     {
@@ -199,6 +230,95 @@ public class FTDriver {
         }*/
     }
 
+    public void printStagesInfo()
+    {
+        Iterator<Map.Entry<String, rddData>> entries =  StagesRDD.entrySet().iterator();
+        double gain;
+        double last_checkpoint_restore=0;
+        double time_to_recompute_checkpoint=0;
+        while(entries.hasNext())
+        {
+            gain=0;
+            try {
+                Map.Entry<String, rddData> entry = entries.next();
+                System.out.println("Hashmap entry " + entry.getKey());
+                rddData rdd = (rddData) entry.getValue();
+                //   rdd.print();
+                double time_to_compute = rdd.getTime_to_compute();
+                double memory_occupied = rdd.getMemory_occupied();
+                double time_to_checkpoint = memory_occupied * 0.15625;
+                double time_to_restore = memory_occupied * 0.09099;
+                if(last_checkpoint_restore==0)
+                {
+                    last_checkpoint_restore=time_to_restore;
+                }
+                System.out.println(time_to_checkpoint+" "+time_to_restore+" "+time_to_compute+" "+memory_occupied);
+                Node node = getTreeHash(rdd.getName());
+                double critic_percent = node.getCritic_percentage();
+                if (time_to_checkpoint != 0) {
+                    gain = (last_checkpoint_restore + time_to_recompute_checkpoint - time_to_checkpoint) / time_to_checkpoint;
+                } else
+                    continue;
+
+
+                System.out.println(gain);
+                gain = gain * 100;
+
+                if (gain < -100 || critic_percent == 0) {
+                    System.out.println("Gain is less than -100%. DO NOT PERSIST");
+                    time_to_recompute_checkpoint+=time_to_compute;
+                } else if (gain > 100) {
+                    System.out.println("Gain is more than 100%. CHECKPOINT!!!!");
+                    last_checkpoint_restore=time_to_restore;
+                    time_to_recompute_checkpoint=0;
+                } else {
+                    System.out.println("FILL IN WITH ALGORITHM ON MONDAY :) :) :) :) ");
+                }
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+  /*  void runAlgorithm()
+    {
+
+        Iterator<Map.Entry<String, rddData>> entries =  StagesRDD.entrySet().iterator();
+        while(entries.hasNext())
+        {
+            Map.Entry<String, rddData> entry=entries.next();
+            System.out.println("Hashmap entry "+entry.getKey());
+            rddData rdd=(rddData) entry.getValue();
+            //rdd.print();
+            double time_to_compute=rdd.getTime_to_compute();
+            double memory_occupied=rdd.getMemory_occupied();
+            double time_to_checkpoint= memory_occupied * 0.15625;
+            double time_to_restore= memory_occupied * 0.09099;
+            Node node = getTreeHash(rdd.getName());
+            double critic_percent = node.getCritic_percentage();
+
+            double gain = (time_to_restore + time_to_compute - time_to_checkpoint) / time_to_checkpoint;
+
+            gain = gain * 100;
+
+            if(gain < -100 || critic_percent==0)
+            {
+                System.out.println("Gain is less than -100%. DO NOT PERSIST");
+            }
+            else if (gain > 100)
+            {
+                System.out.println("Gain is more than 100%. CHECKPOINT!!!!");
+            }
+            else
+            {
+                System.out.println("FILL IN WITH ALGORITHM ON MONDAY :) :) :) :) ");
+            }
+
+        }
+
+    }*/
+
     void cache_call(String name)
     {
 
@@ -248,7 +368,7 @@ public class FTDriver {
     //This function will be called from the main function for every string which is a job...?
     public void constructTree(String DebugString)
     {
-        CTree ctree = new CTree(this);
+       ctree = new CTree(this);
 
        ctree.parseLines(DebugString);
         ctree.processLines();
@@ -264,7 +384,10 @@ public class FTDriver {
         }
         System.out.println("**********STAGES!!!!********");
         for(String name: Stages)
-            System.out.println(name);
+        {
+            System.out.println("Processing Stage "+name);
+            WorkFlow.cache(name);
+        }
 
     }
 
@@ -402,12 +525,18 @@ class CTree
             if(temp[0].contains("("))
             {
                 ftDriver.Stages.add(name);
+
+                // Push the corresponding details into the map;
+
+                ftDriver.putStagesRDD(name, rdd);
+                ftDriver.putrddDataRDDNumber(rdd.getRdd_no(),rdd);
             }
 
 
             /* setting the root node of the tree */
             if(root==null) {
                 root = n;
+                ftDriver.putTreeHash(name,n);
                 continue;
             }
 
@@ -475,7 +604,7 @@ class CTree
                 parentNode.addChild(n);
                 n.setParent(parentNode);
             }
-
+            ftDriver.putTreeHash(name,n);
         }
 
 

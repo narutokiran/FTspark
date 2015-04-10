@@ -9,6 +9,7 @@ import java.util.Queue;
 public class MyTailerListener extends TailerListenerAdapter{
 
      FTDriver ftDriver;
+    int flag;
 
     public MyTailerListener(FTDriver ftDriver)
     {
@@ -28,13 +29,26 @@ public class MyTailerListener extends TailerListenerAdapter{
          //   Thread t=new Thread(new ConstructingMap(ftDriver));
            // t.start();
         }
-        else if(Line.matches(".*Registering RDD.*"))
+        else if(Line.matches(".*Added rdd.*"))
         {
-            Thread t=new Thread(new processRegisteringRDD(Line, ftDriver));
+           // System.out.println("ADDING RDDDD "+Line);
+            Thread t=new Thread(new processAddedRDD(Line,ftDriver));
             t.start();
         }
-        else if(Line.matches(".*Successfully stopped SparkContext.*"))
+        else if(Line.matches(".*Registering RDD.*"))
         {
+         //   Thread t=new Thread(new processRegisteringRDD(Line, ftDriver));
+           // t.start();
+        }
+        else if(Line.matches(".*Remoting shut down.*"))
+        {
+            if(flag!=1) {
+                 ftDriver.printStagesInfo();
+                //  ftDriver.runAlgorithm();
+            }
+
+            flag=1;
+            System.out.println("SHUT DOWN!!!!!!!!!!!!!!!!!");
         //th.interrupt();
         }
         else if(Line.matches(".*Job Finished.*"))
@@ -45,6 +59,7 @@ public class MyTailerListener extends TailerListenerAdapter{
         {
             Thread t=new Thread(new processFinishedStage(Line,ftDriver));
             t.start();
+
         }
 
     }
