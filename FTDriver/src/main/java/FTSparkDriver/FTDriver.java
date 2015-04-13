@@ -238,6 +238,13 @@ public class FTDriver {
         double time_to_recompute_checkpoint=0;
         while(entries.hasNext())
         {
+            Map.Entry<String, rddData> entry = entries.next();
+            System.out.println("Hashmap entry " + entry.getKey());
+            rddData rdd = (rddData) entry.getValue();
+             rdd.print();
+        }
+     /*   while(entries.hasNext())
+        {
             gain=0;
             try {
                 Map.Entry<String, rddData> entry = entries.next();
@@ -279,51 +286,83 @@ public class FTDriver {
             {
                 e.printStackTrace();
             }
-        }
+        }*/
     }
-  /*  void runAlgorithm()
-    {
-
-        Iterator<Map.Entry<String, rddData>> entries =  StagesRDD.entrySet().iterator();
-        while(entries.hasNext())
-        {
-            Map.Entry<String, rddData> entry=entries.next();
-            System.out.println("Hashmap entry "+entry.getKey());
-            rddData rdd=(rddData) entry.getValue();
-            //rdd.print();
-            double time_to_compute=rdd.getTime_to_compute();
-            double memory_occupied=rdd.getMemory_occupied();
-            double time_to_checkpoint= memory_occupied * 0.15625;
-            double time_to_restore= memory_occupied * 0.09099;
-            Node node = getTreeHash(rdd.getName());
-            double critic_percent = node.getCritic_percentage();
-
-            double gain = (time_to_restore + time_to_compute - time_to_checkpoint) / time_to_checkpoint;
-
-            gain = gain * 100;
-
-            if(gain < -100 || critic_percent==0)
-            {
-                System.out.println("Gain is less than -100%. DO NOT PERSIST");
-            }
-            else if (gain > 100)
-            {
-                System.out.println("Gain is more than 100%. CHECKPOINT!!!!");
-            }
-            else
-            {
-                System.out.println("FILL IN WITH ALGORITHM ON MONDAY :) :) :) :) ");
-            }
-
-        }
-
-    }*/
 
     void cache_call(String name)
     {
 
     }
+    public void runAlgorithm()
+    {
+        computeAlgorithm(ctree.root);
+    }
+    Times computeAlgorithm(Node root)
+    {
+        Times t=new Times();
+        Times t1=new Times(); // for returning
+        double time_to_recompute=0;
+        double time_to_restore=0;
+        double time_to_checkpoint=0;
+        double gain=0;
 
+        for(Node n: root.getChildren())
+        {
+            t=computeAlgorithm(n);
+            time_to_recompute += t.time_to_recompute;
+            time_to_restore += t.time_to_restore;
+        }
+        if(root.getIsStage())
+        {
+            String name=root.getName();
+
+            System.out.println(name);
+
+            rddData rdd= getStagesRDD(name);
+
+            time_to_recompute+=rdd.getTime_to_compute();
+            double critic_percent=root.getCritic_percentage();
+
+           time_to_checkpoint = rdd.getMemory_occupied() * 0.15625;
+
+            System.out.println("time to recompute "+time_to_recompute);
+            System.out.println("time to checkpoint "+time_to_checkpoint);
+            System.out.println("time to recompute "+time_to_restore);
+
+            if (time_to_checkpoint != 0) {
+                gain = (time_to_restore + time_to_recompute - time_to_checkpoint) / time_to_checkpoint;
+            }
+
+
+            System.out.println(gain);
+            gain = gain * 100;
+
+            if (gain < -100 || critic_percent == 0) {
+
+                System.out.println("Gain is less than -100%. DO NOT PERSIST");
+                t1.time_to_recompute=time_to_recompute;
+                t1.time_to_restore=time_to_restore;
+            }
+            else if (gain > 100) {
+                System.out.println("Gain is more than 100%. CHECKPOINT!!!!");
+                t1.time_to_recompute = rdd.getTime_to_compute();
+                t1.time_to_restore= rdd.getMemory_occupied() * 0.09099;
+
+            } else {
+                System.out.println("FILL IN WITH ALGORITHM ON MONDAY :) :) :) :) ");
+                t1.time_to_recompute = rdd.getTime_to_compute();
+                t1.time_to_restore= rdd.getMemory_occupied() *    0.09099;
+            }
+
+
+        }
+        else
+        {
+            return t1;
+        }
+        return t1;
+
+    }
     public void processRdds()
     {
         Class cls=WorkFlow.getClass();
@@ -390,6 +429,8 @@ public class FTDriver {
         }
 
     }
+
+
 
 }
 class CTree
@@ -474,11 +515,14 @@ class CTree
     }
 
 
+
+
     void processLines()
     {
         int i;
         for(i=0;i<no_lines;i++)
         {
+            boolean isStage=false;
             /* counting Space */
             lines temp_line;
             temp_line=Lines.get(i);
@@ -514,23 +558,24 @@ class CTree
             //temp_line.l_no=l;
 
             //temp_line.name=name;
-
-            Node n=new Node(l,name, count_spaces);
-            for(int j=0; j< length ; j++)
-            {
-                System.out.println(j+" "+temp[j]);
-            }
-
-            // Finding stages
             if(temp[0].contains("("))
             {
                 ftDriver.Stages.add(name);
-
+                isStage=true;
                 // Push the corresponding details into the map;
 
                 ftDriver.putStagesRDD(name, rdd);
                 ftDriver.putrddDataRDDNumber(rdd.getRdd_no(),rdd);
             }
+
+            Node n=new Node(l,name, count_spaces, isStage);
+           /* for(int j=0; j< length ; j++)
+            {
+                System.out.println(j+" "+temp[j]);
+            }*/
+
+            // Finding stages
+
 
 
             /* setting the root node of the tree */
@@ -707,5 +752,17 @@ class TailerThread extends FTDriver implements Runnable
         System.out.println("*******Initializing the Tailer*******");
         tailer=new TailerCall(LogFile, ftDriver);
         tailer.create();
+    }
+}
+
+class Times
+{
+    double time_to_restore;
+    double time_to_recompute;
+
+    Times()
+    {
+        time_to_recompute=0;
+        time_to_restore=0;
     }
 }

@@ -43,8 +43,8 @@ public class MyTailerListener extends TailerListenerAdapter{
         else if(Line.matches(".*Remoting shut down.*"))
         {
             if(flag!=1) {
-                 ftDriver.printStagesInfo();
-                //  ftDriver.runAlgorithm();
+                // ftDriver.printStagesInfo();
+                  ftDriver.runAlgorithm();
             }
 
             flag=1;

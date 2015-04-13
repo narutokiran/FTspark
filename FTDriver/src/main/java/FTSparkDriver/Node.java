@@ -16,14 +16,16 @@ public class Node {
     private Node parent;
     private int no_spaces;
     private double critic_percentage;
+    private boolean isStage;
 
-    Node(int line_no, String name, int spaces)
+    Node(int line_no, String name, int spaces, boolean isStage)
     {
         System.out.println("Constructing Node with "+line_no+" "+name+" "+spaces);
         this.line_no=line_no;
         this.name=name;
         this.children=new ArrayList<Node>();
         this.no_spaces=spaces;
+        this.isStage=isStage;
     }
 
     public void addChild(Node child)
@@ -38,9 +40,16 @@ public class Node {
     }
     public List<Node> getChildren()
     {
+
         return this.children;
     }
 
+    public void setIsStage(boolean isStage){
+        this.isStage=isStage;
+    }
+    public boolean getIsStage() {
+        return isStage;
+    }
     public int getNo_spaces()
     {
         return no_spaces;
@@ -65,5 +74,8 @@ public class Node {
     public void setCritic_percentage(double critic)
     {
         critic_percentage=critic;
+    }
+    public int getLine_no() {
+        return line_no;
     }
 }
