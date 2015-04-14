@@ -25,9 +25,27 @@ public class MyTailerListener extends TailerListenerAdapter{
 
         if(Line.matches(".*Starting job:.*"))
         {
-   //
-         //   Thread t=new Thread(new ConstructingMap(ftDriver));
-           // t.start();
+            String temp[]=Line.split(" ");
+            String t[]=temp[temp.length-1].split(":");
+            int l = Integer.parseInt(t[1]);
+            String FileLine=ftDriver.Filelines[l-1];
+
+            String name="";
+
+            if(FileLine.matches(".*=.*"))
+            {
+                FileLine=FileLine.replaceAll(" ","");
+                String temp1[]=FileLine.split("=");
+                name=temp1[0];
+            }
+            else
+            {
+                FileLine=FileLine.replaceAll(" ","");
+                String temp1[]=FileLine.split("[.]");
+                name=temp1[0];
+            }
+            System.out.println("Job is "+name);
+            ftDriver.putRddNameNumber(l, name);
         }
         else if(Line.matches(".*Added rdd.*"))
         {
@@ -43,7 +61,7 @@ public class MyTailerListener extends TailerListenerAdapter{
         else if(Line.matches(".*Remoting shut down.*"))
         {
             if(flag!=1) {
-                // ftDriver.printStagesInfo();
+                 ftDriver.printStagesInfo();
                   ftDriver.runAlgorithm();
             }
 

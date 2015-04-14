@@ -243,50 +243,6 @@ public class FTDriver {
             rddData rdd = (rddData) entry.getValue();
              rdd.print();
         }
-     /*   while(entries.hasNext())
-        {
-            gain=0;
-            try {
-                Map.Entry<String, rddData> entry = entries.next();
-                System.out.println("Hashmap entry " + entry.getKey());
-                rddData rdd = (rddData) entry.getValue();
-                //   rdd.print();
-                double time_to_compute = rdd.getTime_to_compute();
-                double memory_occupied = rdd.getMemory_occupied();
-                double time_to_checkpoint = memory_occupied * 0.15625;
-                double time_to_restore = memory_occupied * 0.09099;
-                if(last_checkpoint_restore==0)
-                {
-                    last_checkpoint_restore=time_to_restore;
-                }
-                System.out.println(time_to_checkpoint+" "+time_to_restore+" "+time_to_compute+" "+memory_occupied);
-                Node node = getTreeHash(rdd.getName());
-                double critic_percent = node.getCritic_percentage();
-                if (time_to_checkpoint != 0) {
-                    gain = (last_checkpoint_restore + time_to_recompute_checkpoint - time_to_checkpoint) / time_to_checkpoint;
-                } else
-                    continue;
-
-
-                System.out.println(gain);
-                gain = gain * 100;
-
-                if (gain < -100 || critic_percent == 0) {
-                    System.out.println("Gain is less than -100%. DO NOT PERSIST");
-                    time_to_recompute_checkpoint+=time_to_compute;
-                } else if (gain > 100) {
-                    System.out.println("Gain is more than 100%. CHECKPOINT!!!!");
-                    last_checkpoint_restore=time_to_restore;
-                    time_to_recompute_checkpoint=0;
-                } else {
-                    System.out.println("FILL IN WITH ALGORITHM ON MONDAY :) :) :) :) ");
-                }
-            }
-            catch(Exception e)
-            {
-                e.printStackTrace();
-            }
-        }*/
     }
 
     void cache_call(String name)
@@ -327,7 +283,7 @@ public class FTDriver {
 
             System.out.println("time to recompute "+time_to_recompute);
             System.out.println("time to checkpoint "+time_to_checkpoint);
-            System.out.println("time to recompute "+time_to_restore);
+            System.out.println("time to restore "+time_to_restore);
 
             if (time_to_checkpoint != 0) {
                 gain = (time_to_restore + time_to_recompute - time_to_checkpoint) / time_to_checkpoint;
@@ -345,20 +301,27 @@ public class FTDriver {
             }
             else if (gain > 100) {
                 System.out.println("Gain is more than 100%. CHECKPOINT!!!!");
-                t1.time_to_recompute = rdd.getTime_to_compute();
-                t1.time_to_restore= rdd.getMemory_occupied() * 0.09099;
+                t1.time_to_recompute = 0;
+                t1.time_to_restore= rdd.getMemory_occupied() * 0.1;
+
+                System.out.println("******After checkpointing***********");
+                System.out.println("Memory Occupied "+rdd.getMemory_occupied());
+                System.out.println("time to recompute "+time_to_recompute);
+                System.out.println("time to checkpoint "+time_to_checkpoint);
+                System.out.println("time to restore "+t1.time_to_restore);
+
 
             } else {
                 System.out.println("FILL IN WITH ALGORITHM ON MONDAY :) :) :) :) ");
                 t1.time_to_recompute = rdd.getTime_to_compute();
-                t1.time_to_restore= rdd.getMemory_occupied() *    0.09099;
+                t1.time_to_restore= rdd.getMemory_occupied() *    0.1;
             }
 
 
         }
         else
         {
-            return t1;
+          t1=t;
         }
         return t1;
 
