@@ -65,39 +65,67 @@ public class NACRSWorkflow {
         }
         */
 
-        JavaPairRDD<String, String[]> convertedRDD = keyedRDD.mapToPair(new PairFunction<Tuple2<String, String[]>, String, String[]>(){
-            @Override
-            public Tuple2<String, String[]> call(Tuple2<String, String[]> t2) {
-                String[] temp = (String[]) t2._2();
-                try {
-                    System.out.println(t2._1());
+        JavaPairRDD<String, String[]> convertedRDD=null;
+
+        for(int i=1 ; i< 28 ;i++)
+        {
+
+            if(i==1)
+            {
+                convertedRDD = keyedRDD.mapToPair(new PairFunction<Tuple2<String, String[]>, String, String[]>(){
+                    @Override
+                    public Tuple2<String, String[]> call(Tuple2<String, String[]> t2) {
+                        String[] temp = (String[]) t2._2();
+
+                        int last_count = Counting.get("count1");
+                        int number=0;
+                        if (!Mapping.containsKey(temp[1])) {
+                            Mapping.put(temp[1], last_count + 1);
+                            Counting.put("count1", last_count + 1);
+                            number = last_count + 1;
+                        }
+                        else
+                            number = Mapping.get(temp[1]);
+
+                        temp[1] = Integer.toString(number);
+                        return new Tuple2<String, String[]>(t2._1(), temp);
+
+                    }
 
 
-                    int number = Integer.parseInt(temp[4]);
-                    number++;
-                    temp[4] = Integer.toString(number);
-                }
-                catch(Exception e)
-                {
-                    e.printStackTrace();
-                }
-
-              //  System.out.println("Working with "+temp[1]);
-              /*  int number = Mapping.get(temp[1]);
-                int last_count = Counting.get("count1");
-                if (number == 0) {
-                    Mapping.put(temp[1], last_count + 1);
-                    Counting.put("count1", last_count + 1);
-                    number = last_count + 1;
-                }
-                temp[1] = Integer.toString(number);*/
-                return new Tuple2<String, String[]>(t2._1(), temp);
-
+                });
             }
+            else if(i==2 || i==3 || i==5 || i==10 || i==13 || i==17 || i==18 || i==19 || i==22 || i==23 || i==25 || i==26 || i==27)
+            {
+                convertedRDD = keyedRDD.mapToPair(new PairFunction<Tuple2<String, String[]>, String, String[]>(){
+                    @Override
+                    public Tuple2<String, String[]> call(Tuple2<String, String[]> t2) {
+                        String[] temp = (String[]) t2._2();
+
+                        int last_count = Counting.get("count1");
+                        int number=0;
+                        if (!Mapping.containsKey(temp[1])) {
+                            Mapping.put(temp[1], last_count + 1);
+                            Counting.put("count1", last_count + 1);
+                            number = last_count + 1;
+                        }
+                        else
+                            number = Mapping.get(temp[1]);
+
+                        temp[1] = Integer.toString(number);
+                        return new Tuple2<String, String[]>(t2._1(), temp);
+
+                    }
 
 
-        });
+                });
+            }
+            else
+                continue;
 
+
+        }
+        System.out.println(convertedRDD.toDebugString());
         List<Tuple2<String, String[]>> output1 = convertedRDD.collect();
         for (Tuple2<?, ?> tuple1 : output1) {
             System.out.println(tuple1._1() + ": ");
