@@ -13,7 +13,7 @@ import org.apache.spark.api.java.function.Function;
 import java.util.Map;
 import java.util.HashMap;
 
-
+/* consider removing the first column in data */
 
 public class NACRSWorkflow {
 
@@ -30,9 +30,40 @@ public class NACRSWorkflow {
         SparkConf sparkConf = new SparkConf().setAppName("NACRSAnalysis").setMaster("yarn-client");
         JavaSparkContext ctx = new JavaSparkContext(sparkConf);
 
-        JavaRDD<String> csvFile = ctx.textFile("/user/aparna/input/FilteredNACRS.csv");
+        JavaRDD<String> csvFile = ctx.textFile("/user/aparna/input/ParsedFullNACRS.csv");
 
-        JavaPairRDD<String, String[]> keyedRDD = csvFile.mapToPair(new ParseLine());
+        JavaPairRDD<String, String[]> NULLRDD = csvFile.mapToPair(new ParseLine());
+
+        JavaPairRDD<String, String[]> RemovedNULL = NULLRDD.filter( new Function<Tuple2<String, String[]>,Boolean>(){
+
+            public Boolean call (Tuple2<String, String[]> t2)
+            {
+                String[] temp = (String[]) t2._2();
+                for(int i=0; i< temp.length; i++)
+                {
+                    if(temp[i].equals("NULL"))
+                        return false;
+                }
+                return true;
+            }
+        });
+
+        List<Tuple2<String, String[]>> output1 = RemovedNULL.collect();
+        for (Tuple2<?, ?> tuple1 : output1) {
+            System.out.println(tuple1._1() + ": ");
+
+            String[] t = (String[]) tuple1._2();
+
+            for (int i = 0; i < t.length; i++)
+                System.out.print(t[i] + " ");
+
+
+            System.out.println();
+
+        }
+
+
+       /* JavaPairRDD<String, String[]> keyedRDD = csvFile.mapToPair(new ParseLine());
 
         // broadcast?
         final Map<String, Integer> Mapping = new HashMap<String, Integer>();
@@ -55,7 +86,7 @@ public class NACRSWorkflow {
                 System.out.print(t[i]+" ");
             System.out.println();
         }
-        */
+
 
         JavaPairRDD<String, String[]> convertedRDD=null;
 
@@ -135,6 +166,6 @@ public class NACRSWorkflow {
 
             System.out.println();
 
-        }
+        }*/
     }
 }
