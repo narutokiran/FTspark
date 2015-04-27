@@ -25,7 +25,51 @@ public class NACRSWorkflow {
             return new Tuple2(key, elements);
         }
     }
+    public static boolean checkInteger(String integer)
+    {
+        int i;
 
+        boolean seenDigit=false;
+
+        for(i=0;i<integer.length();i++)
+        {
+
+            char c = integer.charAt(i);
+
+            if(c>='0' && c<='9')
+            {
+                seenDigit=true;
+                continue;
+            }
+            return false;
+        }
+        return seenDigit;
+    }
+
+    public static boolean checkDouble(String DoubleString)
+    {
+        int i;
+
+        boolean seenDigit= false;
+        boolean seenDot = false;
+        for(i=0; i<DoubleString.length();i++)
+        {
+            char c = DoubleString.charAt(i);
+
+            if(c >= '0' && c<='9')
+            {
+                seenDigit=true;
+                continue;
+            }
+            else if(c=='.' && !seenDot)
+            {
+                seenDot=true;
+                continue;
+            }
+            return false;
+        }
+        return seenDigit;
+    }
     public static void main(String args[]) {
         SparkConf sparkConf = new SparkConf().setAppName("NACRSAnalysis").setMaster("yarn-client");
         JavaSparkContext ctx = new JavaSparkContext(sparkConf);
@@ -48,12 +92,60 @@ public class NACRSWorkflow {
             }
         });
 
-        List<Tuple2<String, String[]>> output1 = RemovedNULL.collect();
+        /* Filtering the dataset to contain only records of length 27 */
+
+        JavaPairRDD<String, String[]> FilteredRDD = RemovedNULL.filter(new Function<Tuple2<String, String[]>, Boolean>(){
+
+            public Boolean call(Tuple2<String, String[]> t2)
+            {
+                String[] temp = (String[]) t2._2();
+                if(temp.length==27)
+                    return true;
+                else return false;
+            }
+
+        });
+
+        /* Cleaning the dataset
+         */
+
+
+        JavaPairRDD<String, String[]> CleanedRDD = FilteredRDD.filter(new Function<Tuple2<String, String[]>, Boolean>(){
+           public Boolean call(Tuple2<String, String[]> t2)
+           {
+               String[] temp = (String[]) t2._2();
+               for(int i=0; i < temp.length ;i++)
+               {
+
+                   if(i==4 || i==6 || i==7 || i==8 || i==9 || i==11 || i==12 || i==14 || i==21 || i==24)
+                   {
+                        boolean result = checkInteger(temp[i]);
+                       if(!result) {
+                         //  System.out.println(" The key is "+t2._1()+" and the value is "+temp[i]);
+                           return false;
+                       }
+                   }
+                   else if(i==20)
+                   {
+                       boolean result = checkDouble(temp[i]);
+                       if(!result){
+                           return false;
+                       }
+                   }
+
+               }
+               return true;
+           }
+        });
+
+
+        List<Tuple2<String, String[]>> output1 = CleanedRDD.collect();
         for (Tuple2<?, ?> tuple1 : output1) {
             System.out.println(tuple1._1() + ": ");
 
             String[] t = (String[]) tuple1._2();
 
+            System.out.println(t.length);
             for (int i = 0; i < t.length; i++)
                 System.out.print(t[i] + " ");
 
