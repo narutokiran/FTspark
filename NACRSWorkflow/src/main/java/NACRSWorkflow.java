@@ -1,3 +1,4 @@
+import org.apache.hadoop.mapreduce.Cluster;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -12,6 +13,11 @@ import java.util.List;
 import org.apache.spark.api.java.function.Function;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.ArrayList;
+import org.apache.spark.mllib.linalg.Vector;
+import org.apache.spark.mllib.linalg.Vectors;
+import org.apache.spark.mllib.clustering.KMeans;
+import org.apache.spark.mllib.clustering.KMeansModel;
 
 /* consider removing the first column in data */
 
@@ -138,25 +144,6 @@ public class NACRSWorkflow {
            }
         });
 
-
-        List<Tuple2<String, String[]>> output1 = CleanedRDD.collect();
-        for (Tuple2<?, ?> tuple1 : output1) {
-            System.out.println(tuple1._1() + ": ");
-
-            String[] t = (String[]) tuple1._2();
-
-            System.out.println(t.length);
-            for (int i = 0; i < t.length; i++)
-                System.out.print(t[i] + " ");
-
-
-            System.out.println();
-
-        }
-
-
-       /* JavaPairRDD<String, String[]> keyedRDD = csvFile.mapToPair(new ParseLine());
-
         // broadcast?
         final Map<String, Integer> Mapping = new HashMap<String, Integer>();
         // Acumulator????
@@ -165,6 +152,166 @@ public class NACRSWorkflow {
         final Map<String, Integer> Counting = new HashMap<String, Integer>();
 
         Counting.put("count1", 1);
+        JavaPairRDD<String, String[]> convertedRDD=null;
+
+        for(int i=1 ; i< 28 ;i++)
+        {
+            Mapping.clear();
+            Counting.clear();
+            Counting.put("count1", 1);
+            if(i==1)
+            {
+                convertedRDD = CleanedRDD.mapToPair(new PairFunction<Tuple2<String, String[]>, String, String[]>(){
+                    @Override
+                    public Tuple2<String, String[]> call(Tuple2<String, String[]> t2) {
+                        String[] temp = (String[]) t2._2();
+
+                        int last_count = Counting.get("count1");
+                        int number=0;
+                        if (!Mapping.containsKey(temp[1])) {
+                            Mapping.put(temp[1], last_count + 1);
+                            Counting.put("count1", last_count + 1);
+                            number = last_count + 1;
+                        }
+                        else
+                            number = Mapping.get(temp[1]);
+
+                        temp[1] = Integer.toString(number);
+                        return new Tuple2<String, String[]>(t2._1(), temp);
+
+                    }
+
+
+                });
+            }
+            else if(i==2 || i==3 || i==5 || i==10 || i==13 || i==15 || i==16 || i==17 || i==18 || i==19 || i==22 || i==23 || i==25 || i==26)
+            {
+                final int index=i;
+                convertedRDD = convertedRDD.mapToPair(new PairFunction<Tuple2<String, String[]>, String, String[]>(){
+                    @Override
+                    public Tuple2<String, String[]> call(Tuple2<String, String[]> t2) {
+                        String[] temp = (String[]) t2._2();
+
+                        int last_count = Counting.get("count1");
+                        int number=0;
+                        if (!Mapping.containsKey(temp[index])) {
+                            Mapping.put(temp[index], last_count + 1);
+                            Counting.put("count1", last_count + 1);
+                            number = last_count + 1;
+                        }
+                        else
+                            number = Mapping.get(temp[index]);
+
+                        temp[index] = Integer.toString(number);
+                        return new Tuple2<String, String[]>(t2._1(), temp);
+
+                    }
+
+
+                });
+            }
+            else
+                continue;
+
+
+        }
+
+
+        JavaPairRDD<String, String[]> Demographics = convertedRDD.mapToPair(new PairFunction<Tuple2<String, String[]>, String, String[]>() {
+            public Tuple2<String, String[]> call(Tuple2<String, String[]> t2) {
+                String[] temp = (String[]) t2._2();
+                List<String> al = new ArrayList<String>();
+                for (int i = 0; i < temp.length; i++) {
+                    if ( i == 2 || i == 3 || i == 12 || i == 13)
+                        al.add(temp[i]);
+                }
+                int length = al.size();
+                String array[] = new String[length];
+                int i = 0;
+                for (String s : al) {
+                    array[i] = s;
+                    i++;
+                }
+                return new Tuple2<String, String[]>(t2._1(), array);
+            }
+
+        });
+
+        JavaPairRDD<String, String[]> Patient_Details = convertedRDD.mapToPair(new PairFunction<Tuple2<String, String[]>, String, String[]>() {
+            public Tuple2<String, String[]> call(Tuple2<String, String[]> t2) {
+                String[] temp = (String[]) t2._2();
+                List<String> al = new ArrayList<String>();
+                for (int i = 0; i < temp.length; i++) {
+                    if (i==0 || i == 2 || i == 3 || i == 12 || i == 13 || i==23)
+                       continue;
+                    al.add(temp[i]);
+                }
+                int length = al.size();
+                String array[] = new String[length];
+                int i = 0;
+                for (String s : al) {
+                    array[i] = s;
+                    i++;
+                }
+                return new Tuple2<String, String[]>(t2._1(), array);
+            }
+
+        }
+        );
+
+        JavaRDD<Vector> parsedData = Patient_Details.map(
+                new Function<Tuple2<String, String[]>,Vector>() {
+                    public Vector call(Tuple2<String, String[]> t2) {
+                        String[] sarray = (String[]) t2._2();
+                        double[] values = new double[sarray.length];
+                        for (int i = 0; i < sarray.length; i++)
+                            values[i] = Double.parseDouble(sarray[i]);
+                        return Vectors.dense(values);
+                    }
+                }
+        );
+
+
+        List<Vector> output1 = parsedData.collect();
+        for (Vector v: output1) {
+
+            double[] values = v.toArray();
+
+            for(int i=0; i< values.length; i++)
+            {
+                System.out.print(values[i]+" ");
+            }
+
+
+            System.out.println();
+
+        }
+
+        List<Tuple2<String, String[]>> output = Patient_Details.collect();
+        for (Tuple2<?, ?> tuple1 : output) {
+            System.out.println(tuple1._1() + ": ");
+
+            String[] t = (String[]) tuple1._2();
+
+            for (int i = 0; i < t.length; i++)
+                System.out.print(t[i] + " ");
+
+
+            System.out.println();
+
+        }
+
+        int numClusters = 2;
+        int numIterations = 20;
+        KMeansModel clusters = KMeans.train(parsedData.rdd(), numClusters, numIterations);
+
+        
+
+
+
+       /* JavaPairRDD<String, String[]> keyedRDD = csvFile.mapToPair(new ParseLine());
+
+
 
         // System.out.println(keyedRDD.toDebugString());
 
