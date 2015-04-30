@@ -271,41 +271,98 @@ public class NACRSWorkflow {
                 }
         );
 
+        JavaPairRDD<String, Vector> parsedDataWithKey = Patient_Details.mapToPair(new PairFunction<Tuple2<String, String[]>, String, Vector>(){
+                    public Tuple2<String, Vector> call(Tuple2<String, String[]> t2) {
+                        String[] sarray = (String[]) t2._2();
+                        double[] values = new double[sarray.length];
+                        for (int i = 0; i < sarray.length; i++)
+                            values[i] = Double.parseDouble(sarray[i]);
 
-        List<Vector> output1 = parsedData.collect();
-        for (Vector v: output1) {
+                        return new Tuple2<String, Vector>(t2._1(), Vectors.dense(values));
+                    }
+        });
 
-            double[] values = v.toArray();
 
-            for(int i=0; i< values.length; i++)
+        int numClusters = 3;
+        int numIterations = 100;
+       final KMeansModel clusters = KMeans.train(parsedData.rdd(), numClusters, numIterations);
+
+
+        JavaPairRDD<String, Integer> clusterKey = parsedDataWithKey.mapToPair(new PairFunction<Tuple2<String, Vector>, String, Integer>(){
+            public Tuple2<String, Integer> call (Tuple2<String, Vector> t2)
             {
-                System.out.print(values[i]+" ");
+                int result = clusters.predict(t2._2());
+                return new Tuple2<String, Integer>(t2._1(), result);
             }
 
+        });
 
-            System.out.println();
+        List<Tuple2<String, Integer>> output2 = clusterKey.collect();
+        for (Tuple2<?, ?> tuple1 : output2) {
+            System.out.println(tuple1._1() + ": "+tuple1._2());
 
-        }
 
-        List<Tuple2<String, String[]>> output = Patient_Details.collect();
-        for (Tuple2<?, ?> tuple1 : output) {
-            System.out.println(tuple1._1() + ": ");
-
-            String[] t = (String[]) tuple1._2();
-
-            for (int i = 0; i < t.length; i++)
-                System.out.print(t[i] + " ");
 
 
             System.out.println();
 
         }
 
-        int numClusters = 2;
-        int numIterations = 20;
-        KMeansModel clusters = KMeans.train(parsedData.rdd(), numClusters, numIterations);
+        JavaPairRDD<String, Tuple2<String[], Integer> > clusterJoinedRDD = CleanedRDD.join(clusterKey);
 
+        JavaPairRDD<String, Tuple2<String[], Integer> > cluster0 = clusterJoinedRDD. filter(new Function<Tuple2<String, Tuple2<String[], Integer>>,Boolean  >(){
+           public Boolean call (Tuple2<String, Tuple2<String[], Integer>> t2)
+           {
+               Tuple2<String[], Integer> tempTup = t2._2();
+               String[] temp =  (String[]) tempTup._1();
+               int clusterNo = tempTup._2();
+
+               if(clusterNo==0)
+               {
+                   return true;
+               }
+               return false;
+
+           }
+        });
+        // convert array to STring + "," + string format!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
         
+        cluster0.saveAsTextFile("NACRS/output/cluster0");
+        JavaPairRDD<String, Tuple2<String[], Integer> > cluster1 = clusterJoinedRDD. filter(new Function<Tuple2<String, Tuple2<String[], Integer>>,Boolean  >(){
+            public Boolean call (Tuple2<String, Tuple2<String[], Integer>> t2)
+            {
+                Tuple2<String[], Integer> tempTup = t2._2();
+                String[] temp =  (String[]) tempTup._1();
+                int clusterNo = tempTup._2();
+
+                if(clusterNo==1)
+                {
+                    return true;
+                }
+                return false;
+
+            }
+        });
+
+        cluster0.saveAsTextFile("NACRS/output/cluster1");
+
+        JavaPairRDD<String, Tuple2<String[], Integer> > cluster2 = clusterJoinedRDD. filter(new Function<Tuple2<String, Tuple2<String[], Integer>>,Boolean  >(){
+            public Boolean call (Tuple2<String, Tuple2<String[], Integer>> t2)
+            {
+                Tuple2<String[], Integer> tempTup = t2._2();
+                String[] temp =  (String[]) tempTup._1();
+                int clusterNo = tempTup._2();
+
+                if(clusterNo==2)
+                {
+                    return true;
+                }
+                return false;
+
+            }
+        });
+
+        cluster0.saveAsTextFile("NACRS/output/cluster2");
 
 
 
