@@ -325,9 +325,28 @@ public class NACRSWorkflow {
 
            }
         });
+
+
+        JavaPairRDD<String, String> FormattedCluster0 = cluster0.mapToPair(new PairFunction<Tuple2<String, Tuple2<String[], Integer>>,String, String >(){
+           public Tuple2<String, String> call(Tuple2<String, Tuple2<String[],Integer>> t2){
+               Tuple2<String[],Integer> tempTup = t2._2();
+               String[] temp = (String[]) tempTup._1();
+               String second="";
+
+               for(int i=0;i<temp.length-1; i++)
+               {
+                   second+=temp[i];
+                   second+=",";
+               }
+                second+=temp[temp.length-1];
+               return new Tuple2<String, String>(t2._1(), second);
+           }
+
+        });
         // convert array to STring + "," + string format!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
         
-        cluster0.saveAsTextFile("NACRS/output/cluster0");
+        FormattedCluster0.saveAsTextFile("NACRS/output/cluster0");
+
         JavaPairRDD<String, Tuple2<String[], Integer> > cluster1 = clusterJoinedRDD. filter(new Function<Tuple2<String, Tuple2<String[], Integer>>,Boolean  >(){
             public Boolean call (Tuple2<String, Tuple2<String[], Integer>> t2)
             {
@@ -343,8 +362,24 @@ public class NACRSWorkflow {
 
             }
         });
+        JavaPairRDD<String, String> FormattedCluster1 = cluster1.mapToPair(new PairFunction<Tuple2<String, Tuple2<String[], Integer>>,String, String >(){
+            public Tuple2<String, String> call(Tuple2<String, Tuple2<String[],Integer>> t2){
+                Tuple2<String[],Integer> tempTup = t2._2();
+                String[] temp = (String[]) tempTup._1();
+                String second="";
 
-        cluster0.saveAsTextFile("NACRS/output/cluster1");
+                for(int i=0;i<temp.length-1; i++)
+                {
+                    second+=temp[i];
+                    second+=",";
+                }
+                second+=temp[temp.length-1];
+                return new Tuple2<String, String>(t2._1(), second);
+            }
+
+        });
+
+        FormattedCluster1.saveAsTextFile("NACRS/output/cluster1");
 
         JavaPairRDD<String, Tuple2<String[], Integer> > cluster2 = clusterJoinedRDD. filter(new Function<Tuple2<String, Tuple2<String[], Integer>>,Boolean  >(){
             public Boolean call (Tuple2<String, Tuple2<String[], Integer>> t2)
@@ -361,10 +396,27 @@ public class NACRSWorkflow {
 
             }
         });
+        JavaPairRDD<String, String> FormattedCluster2 = cluster2.mapToPair(new PairFunction<Tuple2<String, Tuple2<String[], Integer>>,String, String >(){
+            public Tuple2<String, String> call(Tuple2<String, Tuple2<String[],Integer>> t2){
+                Tuple2<String[],Integer> tempTup = t2._2();
+                String[] temp = (String[]) tempTup._1();
+                String second="";
 
-        cluster0.saveAsTextFile("NACRS/output/cluster2");
+                for(int i=0;i<temp.length-1; i++)
+                {
+                    second+=temp[i];
+                    second+=",";
+                }
+                second+=temp[temp.length-1];
+                return new Tuple2<String, String>(t2._1(), second);
+            }
+
+        });
 
 
+        FormattedCluster2.saveAsTextFile("NACRS/output/cluster2");
+
+        ctx.stop();
 
        /* JavaPairRDD<String, String[]> keyedRDD = csvFile.mapToPair(new ParseLine());
 
