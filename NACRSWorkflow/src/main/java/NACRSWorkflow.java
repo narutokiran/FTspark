@@ -7,7 +7,12 @@ import org.apache.spark.api.java.JavaRDD;
 
 import java.io.*;
 import au.com.bytecode.opencsv.CSVReader;
+import org.apache.spark.api.java.function.Function2;
 import org.apache.spark.api.java.function.PairFunction;
+import org.apache.spark.mllib.regression.LabeledPoint;
+import org.apache.spark.mllib.tree.RandomForest;
+import org.apache.spark.mllib.tree.model.RandomForestModel;
+import org.apache.spark.mllib.util.MLUtils;
 import scala.Tuple2;
 import java.util.List;
 import org.apache.spark.api.java.function.Function;
@@ -114,7 +119,7 @@ public class NACRSWorkflow {
 
         /* Cleaning the dataset
          */
-
+      RemovedNULL.collect();
 
         JavaPairRDD<String, String[]> CleanedRDD = FilteredRDD.filter(new Function<Tuple2<String, String[]>, Boolean>(){
            public Boolean call(Tuple2<String, String[]> t2)
@@ -143,7 +148,7 @@ public class NACRSWorkflow {
                return true;
            }
         });
-
+        FilteredRDD.collect();
         // broadcast?
         final Map<String, Integer> Mapping = new HashMap<String, Integer>();
         // Acumulator????
@@ -214,7 +219,9 @@ public class NACRSWorkflow {
                 continue;
 
 
+
         }
+        convertedRDD.collect();
 
 
         JavaPairRDD<String, String[]> Demographics = convertedRDD.mapToPair(new PairFunction<Tuple2<String, String[]>, String, String[]>() {
@@ -258,7 +265,7 @@ public class NACRSWorkflow {
 
         }
         );
-
+        Patient_Details.collect();
         JavaRDD<Vector> parsedData = Patient_Details.map(
                 new Function<Tuple2<String, String[]>,Vector>() {
                     public Vector call(Tuple2<String, String[]> t2) {
@@ -281,6 +288,7 @@ public class NACRSWorkflow {
                         return new Tuple2<String, Vector>(t2._1(), Vectors.dense(values));
                     }
         });
+        parsedDataWithKey.collect();
 
 
         int numClusters = 3;
@@ -297,19 +305,12 @@ public class NACRSWorkflow {
 
         });
 
-        List<Tuple2<String, Integer>> output2 = clusterKey.collect();
-        for (Tuple2<?, ?> tuple1 : output2) {
-            System.out.println(tuple1._1() + ": "+tuple1._2());
 
 
-
-
-            System.out.println();
-
-        }
 
         JavaPairRDD<String, Tuple2<String[], Integer> > clusterJoinedRDD = CleanedRDD.join(clusterKey);
 
+        clusterJoinedRDD.collect();
         JavaPairRDD<String, Tuple2<String[], Integer> > cluster0 = clusterJoinedRDD. filter(new Function<Tuple2<String, Tuple2<String[], Integer>>,Boolean  >(){
            public Boolean call (Tuple2<String, Tuple2<String[], Integer>> t2)
            {
@@ -326,7 +327,7 @@ public class NACRSWorkflow {
            }
         });
 
-
+    cluster0.collect();
         JavaPairRDD<String, String> FormattedCluster0 = cluster0.mapToPair(new PairFunction<Tuple2<String, Tuple2<String[], Integer>>,String, String >(){
            public Tuple2<String, String> call(Tuple2<String, Tuple2<String[],Integer>> t2){
                Tuple2<String[],Integer> tempTup = t2._2();
@@ -344,7 +345,7 @@ public class NACRSWorkflow {
 
         });
         // convert array to STring + "," + string format!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-        
+        System.out.println("Formatted Cluster "+FormattedCluster0.toDebugString());
         FormattedCluster0.saveAsTextFile("NACRS/output/cluster0");
 
         JavaPairRDD<String, Tuple2<String[], Integer> > cluster1 = clusterJoinedRDD. filter(new Function<Tuple2<String, Tuple2<String[], Integer>>,Boolean  >(){
@@ -362,6 +363,9 @@ public class NACRSWorkflow {
 
             }
         });
+
+        cluster1.collect();
+
         JavaPairRDD<String, String> FormattedCluster1 = cluster1.mapToPair(new PairFunction<Tuple2<String, Tuple2<String[], Integer>>,String, String >(){
             public Tuple2<String, String> call(Tuple2<String, Tuple2<String[],Integer>> t2){
                 Tuple2<String[],Integer> tempTup = t2._2();
@@ -378,7 +382,7 @@ public class NACRSWorkflow {
             }
 
         });
-
+        System.out.println("Formatted Cluster "+FormattedCluster1.toDebugString());
         FormattedCluster1.saveAsTextFile("NACRS/output/cluster1");
 
         JavaPairRDD<String, Tuple2<String[], Integer> > cluster2 = clusterJoinedRDD. filter(new Function<Tuple2<String, Tuple2<String[], Integer>>,Boolean  >(){
@@ -396,6 +400,7 @@ public class NACRSWorkflow {
 
             }
         });
+        cluster2.collect();
         JavaPairRDD<String, String> FormattedCluster2 = cluster2.mapToPair(new PairFunction<Tuple2<String, Tuple2<String[], Integer>>,String, String >(){
             public Tuple2<String, String> call(Tuple2<String, Tuple2<String[],Integer>> t2){
                 Tuple2<String[],Integer> tempTup = t2._2();
@@ -414,8 +419,56 @@ public class NACRSWorkflow {
         });
 
 
+        System.out.println("Formatted Cluster "+FormattedCluster2.toDebugString());
         FormattedCluster2.saveAsTextFile("NACRS/output/cluster2");
 
+
+        String datapath = "/user/aparna/input/Converted.data";
+
+        JavaRDD<LabeledPoint> data = MLUtils.loadLibSVMFile(ctx.sc(), datapath).toJavaRDD();
+
+        JavaRDD<LabeledPoint>[] splits = data.randomSplit(new double[]{0.75, 0.25});
+
+        JavaRDD<LabeledPoint> trainingData = splits[0];
+
+        JavaRDD<LabeledPoint> testData = splits[1];
+
+        HashMap<Integer, Integer> categoricalFeaturesInfo = new HashMap<Integer, Integer>();
+        Integer numTrees = 3; // Use more in practice.
+        String featureSubsetStrategy = "auto"; // Let the algorithm choose.
+        String impurity = "variance";
+        Integer maxDepth = 4;
+        Integer maxBins = 32;
+        Integer seed = 12345;
+
+        final RandomForestModel model = RandomForest.trainRegressor(trainingData,
+                categoricalFeaturesInfo, numTrees, featureSubsetStrategy, impurity, maxDepth, maxBins,
+                seed);
+
+        // Evaluate model on test instances and compute test error
+        JavaPairRDD<Double, Double> predictionAndLabel =
+                testData.mapToPair(new PairFunction<LabeledPoint, Double, Double>() {
+                    @Override
+                    public Tuple2<Double, Double> call(LabeledPoint p) {
+                        return new Tuple2<Double, Double>(model.predict(p.features()), p.label());
+                    }
+                });
+        System.out.println("TestData "+testData.toDebugString());
+        Double testMSE =
+                predictionAndLabel.map(new Function<Tuple2<Double, Double>, Double>() {
+                    @Override
+                    public Double call(Tuple2<Double, Double> pl) {
+                        Double diff = pl._1() - pl._2();
+                        return diff * diff;
+                    }
+                }).reduce(new Function2<Double, Double, Double>() {
+                    @Override
+                    public Double call(Double a, Double b) {
+                        return a + b;
+                    }
+                }) / testData.count();
+        System.out.println("Test Mean Squared Error: " + testMSE);
+        System.out.println("Learned regression forest model:\n" + model.toDebugString());
         ctx.stop();
 
        /* JavaPairRDD<String, String[]> keyedRDD = csvFile.mapToPair(new ParseLine());
