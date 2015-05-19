@@ -14,6 +14,7 @@ public class Node {
         Node parent;
         int no_spaces;
         double critic_percentage;
+        int rdd_no;
 
         Node(int line_no, String name, int spaces)
         {
@@ -23,6 +24,15 @@ public class Node {
             this.children=new ArrayList<Node>();
             this.no_spaces=spaces;
         }
+    Node(int line_no, String name, int spaces, int rdd_no)
+    {
+        System.out.println("Constructing Node with "+line_no+" "+name+" "+spaces+" "+rdd_no);
+        this.line_no=line_no;
+        this.name=name;
+        this.children=new ArrayList<Node>();
+        this.no_spaces=spaces;
+        this.rdd_no=rdd_no;
+    }
 
         public void addChild(Node child)
         {
@@ -64,5 +74,11 @@ public class Node {
     public void setCritic_percentage(double critic)
     {
         critic_percentage=critic;
+    }
+    public int getRdd_no() {
+        return rdd_no;
+    }
+    public void setRdd_no(int no) {
+        rdd_no=no;
     }
 }

@@ -19,29 +19,19 @@ class CTreeNACRS
     /* Populate HashMap for creating tree */
     void populateHashMap()
     {
-        hm.put(Integer.valueOf(244),"count7");
-        hm.put(Integer.valueOf(241),"unions3");
-        hm.put(211,"count5");
-        hm.put(228,"count6");
-        hm.put(207,"union1");
-        hm.put(98,"count1");
-        hm.put(90,"ones1");
-        hm.put(82,"words1");
-        hm.put(76,"input1");
-        hm.put(130,"count2");
-        hm.put(122,"ones2");
-        hm.put(114,"words2");
-        hm.put(111,"input2");
-        hm.put(224,"union2");
-        hm.put(163,"count3");
-        hm.put(155,"ones3");
-        hm.put(147,"words3");
-        hm.put(144,"input3");
-        hm.put(194,"count4");
-        hm.put(178,"words4");
-        hm.put(175,"input4");
-        hm.put(186,"ones4");
-
+      hm.put(331, "FormattedCluster0");
+      hm.put(314, "Cluster0");
+      hm.put(311, "ClusterJoinRDD");
+      hm.put(124, "CleanedRDD");
+      hm.put(108, "FilteredRDD");
+      hm.put(92,"RemovedNULL");
+      hm.put(90,"NULLRDD");
+      hm.put(88, "csvFile");
+      hm.put(299, "ClusterKey");
+      hm.put(281, "ParsedDataWithKey");
+      hm.put(247, "PatientDetails");
+      hm.put(195, "ConvertedRDD");
+      hm.put(169, "ConvertedRDD");
     }
 
 
@@ -85,16 +75,16 @@ class CTreeNACRS
     }
 
     /* check if the node is already present */
-    boolean check(Node root, String name)
+    boolean check(Node root, String name , int rdd_no)
     {
         boolean found=false;
 
-        if(root.name.equals(name))
+        if(root.name.equals(name) && root.getRdd_no()==rdd_no)
             return true;
 
         for(Node n: root.getChildren())
         {
-            boolean temp= check(n, name);
+            boolean temp= check(n, name, rdd_no);
             found |= temp;
         }
         return found;
@@ -118,6 +108,7 @@ class CTreeNACRS
 
             String temp[]=t.split(" ");
 
+
                 /* Counting the number of characters in the line */
             int count_spaces=0;
 
@@ -127,18 +118,49 @@ class CTreeNACRS
             }
             //System.out.println("count Spaces "+count_spaces);
             int length=temp.length;
-
-            String t1[] = temp[length-1].split(":");
+            int rdd_no=-1;
+            String r;
+            if(temp[0].equals("|") && temp[1].equals("|"))
+            {
+                if(temp.length==8) {
+                    String rn[] = temp[2].split("\\[");
+                    r = rn[1].substring(0, rn[1].length() - 1);
+                    System.out.println(r);
+                }
+                else
+                {
+                    String rn[] = temp[3].split("\\[");
+                     r = rn[1].substring(0, rn[1].length() - 1);
+                    System.out.println(r);
+                }
+                rdd_no=Integer.parseInt(r);
+            }
+            else
+            {
+                if(temp.length==7) {
+                    String rn[] = temp[1].split("\\[");
+                     r = rn[1].substring(0, rn[1].length() - 1);
+                    System.out.println(r);
+                }
+                else
+                {
+                    String rn[] = temp[2].split("\\[");
+                   r = rn[1].substring(0, rn[1].length() - 1);
+                    System.out.println(r);
+                }
+                rdd_no=Integer.parseInt(r);
+            }
+            String t1[] = temp[length-2].split(":");
             int l=Integer.parseInt(t1[1]);
             String name = hm.get(l);
 
-            temp_line.operation=temp[length-3];
+            temp_line.operation=temp[length-4];
 
             temp_line.l_no=l;
 
             temp_line.name=name;
 
-            Node n=new Node(l,name, count_spaces);
+            Node n=new Node(l,name, count_spaces, rdd_no);
             for(int j=0; j< length ; j++)
             {
                 System.out.println(j+" "+temp[j]);
@@ -158,11 +180,7 @@ class CTreeNACRS
             }
 
               /* checking if the name is already presnt -> This is useful in the case where we have input 1 */
-            if(check(root,name))
-            {
-                System.out.println("Found "+name+" Hence Skipping insertion");
-                continue;
-            }
+
 
 
             System.out.println("***************Name********************** "+temp_line.name);
@@ -210,7 +228,26 @@ class CTreeNACRS
                 /* this is general case */
             if(flag==1)
                 parent = Lines.get(i-1);
+            if(check(root,name, rdd_no))
+            {
 
+
+                Node n1=getParent(root, name);
+                System.out.println("Parent in check is "+n1.parent.getName() );
+                if(n1.parent.getName()== parent.name)
+                {
+                    System.out.println("Found "+name+" Hence Skipping insertion");
+                    continue;
+                }
+                else
+                {
+                    Node parentNode = getParent(root, parent.name);
+                    System.out.println("Parent is "+parentNode.getName());
+                    parentNode.getChildren().add(n);
+                    continue;
+                }
+
+            }
             Node parentNode=null;
             if(parent.name!=null)
                 parentNode=getParent(root, parent.name);
@@ -309,4 +346,25 @@ class CTreeNACRS
 
 }
 public class CriticalityTreeNACRS {
+
+
+    public static void main(String args[])
+    {
+        CTreeNACRS ctree = new CTreeNACRS();
+        ctree.populateHashMap();
+        ctree.parseLines("/home/aparna/FTspark/CriticalityTree/src/inputNACRS");
+        ctree.processLines();
+        ctree.calculateCriticality();
+        System.out.println("******** GetPreOrder **********");
+        ArrayList<Node> preOrder;
+        int i;
+        preOrder=ctree.getPreOrderTraversal();
+
+        for(i=0;i<preOrder.size();i++)
+        {
+            System.out.println(preOrder.get(i).getName() +" "+preOrder.get(i).getRdd_no());
+        }
+        //ctree.print();
+
+    }
 }
