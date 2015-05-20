@@ -15,6 +15,7 @@ class CTreeNACRS
     List<lines> Lines=new ArrayList();
     Node root=null;
     HashMap<Integer, List<lines>> dependencies = new HashMap<Integer, List<lines>>();
+    HashMap<String, Node> GroupDependencies = new HashMap<String, Node>();
 
     /* Populate HashMap for creating tree */
     void populateHashMap()
@@ -86,6 +87,21 @@ class CTreeNACRS
         {
             boolean temp= check(n, name, rdd_no);
             found |= temp;
+        }
+        return found;
+    }
+
+    boolean checkParent(Node root, String name, String parent)
+    {
+        boolean found = false;
+
+        if(root.name.equals(name) && root.parent.getName().equals(parent))
+            return true;
+
+        for(Node n: root.getChildren())
+        {
+            boolean temp = checkParent(n, name, parent);
+                    found|= temp;
         }
         return found;
     }
@@ -225,6 +241,26 @@ class CTreeNACRS
                 }
 
             }
+
+            if(temp_line.operation.equals("join"))
+            {
+                GroupDependencies.clear();
+                GroupDependencies.put("Parent", n);
+
+            }
+            if(temp[0].contains("(") && GroupDependencies.size()==1)
+            {
+                GroupDependencies.put("Child1",n);
+            }
+            else if(temp[0].contains("(") && GroupDependencies.size()==2)
+            {
+                Node parentNode = GroupDependencies.get("Parent");
+
+                System.out.println("Parent is "+parentNode.getName());
+                parentNode.getChildren().add(n);
+                GroupDependencies.clear();
+                continue;
+            }
                 /* this is general case */
             if(flag==1)
                 parent = Lines.get(i-1);
@@ -239,12 +275,19 @@ class CTreeNACRS
                     System.out.println("Found "+name+" Hence Skipping insertion");
                     continue;
                 }
+                else if(checkParent(root, name, parent.name))
+                {
+                    System.out.println("Found "+name+" Hence Skipping insertion case 2");
+                    continue;
+                }
                 else
                 {
-                    Node parentNode = getParent(root, parent.name);
-                    System.out.println("Parent is "+parentNode.getName());
-                    parentNode.getChildren().add(n);
-                    continue;
+
+                        Node parentNode = getParent(root, parent.name);
+                        System.out.println("Parent is " + parentNode.getName());
+                        parentNode.getChildren().add(n1);
+                        continue;
+
                 }
 
             }
