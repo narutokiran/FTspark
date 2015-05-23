@@ -39,23 +39,41 @@ try {
     //System.out.println(t);
     String temp[] = t.split(" ");
 
-    String t1[] = temp[temp.length - 1].split(":");
+    String t1[] = temp[temp.length - 2].split(":");
     int l = Integer.parseInt(t1[1]);
     this.line_no = l;
-
-    if (temp.length==6) {
-        String t2[] = temp[1].split("\\[");
-        String rddno = t2[1].substring(0, t2[1].length() - 1);
-        this.rdd_no = Integer.parseInt(rddno);
-
+    String r;
+    if(temp[0].equals("|") && temp[1].equals("|"))
+    {
+        if(temp.length==8) {
+            String rn[] = temp[2].split("\\[");
+            r = rn[1].substring(0, rn[1].length() - 1);
+        }
+        else
+        {
+            String rn[] = temp[3].split("\\[");
+            r = rn[1].substring(0, rn[1].length() - 1);
+            //System.out.println(r);
+        }
+        rdd_no=Integer.parseInt(r);
     }
     else
-    { // for input/input1.txt
-        String t2[] = temp[2].split("\\[");
-        String rddno = t2[1].substring(0, t2[1].length() - 1);
-        this.rdd_no = Integer.parseInt(rddno);
+    {
+        if(temp.length==7) {
+            String rn[] = temp[1].split("\\[");
+            r = rn[1].substring(0, rn[1].length() - 1);
+          //  System.out.println(r);
+        }
+        else
+        {
+            String rn[] = temp[2].split("\\[");
+            r = rn[1].substring(0, rn[1].length() - 1);
+           // System.out.println(r);
+        }
+        rdd_no=Integer.parseInt(r);
     }
-    this.operation = temp[temp.length - 3];
+
+    this.operation = temp[temp.length - 4];
     //print();
     FindName();
 

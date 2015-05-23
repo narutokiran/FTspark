@@ -4,6 +4,8 @@
     <root id="archive" name="WordCountWorkFlow.jar">
       <element id="module-output" name="WordCountWorkFlow" />
       <element id="file-copy" path="$PROJECT_DIR$/src/main/java/WordCountWorkFlow.java" />
+      <element id="library" level="project" name="FTDriver" />
+      <element id="dir-copy" path="$PROJECT_DIR$/../FTDriver" />
     </root>
   </artifact>
 </component>

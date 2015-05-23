@@ -181,5 +181,6 @@
     <orderEntry type="library" name="Maven: com.github.rwl:jtransforms:2.4.0" level="project" />
     <orderEntry type="library" name="Maven: org.spire-math:spire_2.10:0.7.4" level="project" />
     <orderEntry type="library" name="Maven: org.spire-math:spire-macros_2.10:0.7.4" level="project" />
+    <orderEntry type="library" name="FTDriver" level="project" />
   </component>
 </module>

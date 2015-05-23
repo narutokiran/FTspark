@@ -13,10 +13,11 @@ public class Node {
     private String name;
     private int criticality;
     private List<Node> children;
-    private Node parent;
+   Node parent;
     private int no_spaces;
     private double critic_percentage;
     private boolean isStage;
+    int rdd_no;
 
     Node(int line_no, String name, int spaces, boolean isStage)
     {
@@ -27,6 +28,18 @@ public class Node {
         this.no_spaces=spaces;
         this.isStage=isStage;
     }
+
+    Node(int line_no, String name, int spaces, boolean isStage, int rdd_no)
+    {
+        System.out.println("Constructing Node with "+line_no+" "+name+" "+spaces+" "+rdd_no);
+        this.line_no=line_no;
+        this.name=name;
+        this.children=new ArrayList<Node>();
+        this.no_spaces=spaces;
+        this.rdd_no=rdd_no;
+        this.isStage=isStage;
+    }
+
 
     public void addChild(Node child)
     {
@@ -77,5 +90,11 @@ public class Node {
     }
     public int getLine_no() {
         return line_no;
+    }
+    public int getRdd_no() {
+        return rdd_no;
+    }
+    public void setRdd_no(int no) {
+        rdd_no=no;
     }
 }

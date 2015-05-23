@@ -57,6 +57,7 @@ public class FTDriver {
 
     private Map<String,JavaRDD> m1= new HashMap<String, JavaRDD>();
     private Map<String,JavaPairRDD> m2=new HashMap<String, JavaPairRDD>();
+    HashMap<String, Node> GroupDependencies = new HashMap<String, Node>();
 
      List<String> Stages=new ArrayList<String> ();
 
@@ -64,7 +65,7 @@ public class FTDriver {
     public FTDriver(persistRDDs WorkFlow, String logFile, String sourceFile)
     {
         System.out.println("Initializing Fault Tolerant Driver");
-       InitializeTailer(logFile);
+    //   InitializeTailer(logFile);
         this.WorkFlow=WorkFlow;
         no_lines=0;
         processSourceFile(sourceFile, WorkFlow);
@@ -111,7 +112,7 @@ public class FTDriver {
         rddDataRDDNumber.put(rdd_no, rdds);
     }
 
-    public void putStagesRDD(String name, rddData rdds)
+    public void putStagesRDD(String name,  rddData rdds)
     {
         StagesRDD.put(name,rdds);
     }
@@ -211,6 +212,17 @@ public class FTDriver {
             Map.Entry<Integer,rddData> entryRdd = entriesRdd.next();
             System.out.println("Hashmap RDD entry "+entryRdd.getKey()+" "+entryRdd.getValue().getName());
         }
+        Iterator<Map.Entry<Integer, rddData>> entries1 =  rddDataRDDNumber.entrySet().iterator();
+        while(entries1.hasNext())
+        {
+            Map.Entry<Integer, rddData> entry=entries1.next();
+            rddData rdd = (rddData) entry.getValue();
+            System.out.println("Hashmap entry "+entry.getKey());
+            rdd.print();
+        }
+
+
+
     /*  try {
             Iterator<Map.Entry<String, JavaRDD>> entries2 = m1.entrySet().iterator();
             while (entries2.hasNext()) {
@@ -385,11 +397,12 @@ public class FTDriver {
             System.out.println(preOrder.get(i).getName() +" "+preOrder.get(i).getCriticality()+" "+preOrder.get(i).getCritic_percentage());
         }
         System.out.println("**********STAGES!!!!********");
-        for(String name: Stages)
+        printMap();
+      /*  for(String name: Stages)
         {
             System.out.println("Processing Stage "+name);
             WorkFlow.cache(name);
-        }
+        }*/
 
     }
 
@@ -403,6 +416,7 @@ class CTree
     List<lines> Lines=new ArrayList();
     Node root=null;
     HashMap<Integer, List<lines>> dependencies = new HashMap<Integer, List<lines>>();
+    HashMap<String, Node> GroupDependencies = new HashMap<String, Node>();
 
     CTree(FTDriver ftDriver)
     {
@@ -477,7 +491,35 @@ class CTree
         return found;
     }
 
+    boolean checkParent(Node root, String name, String parent)
+    {
+        boolean found = false;
 
+        if(root.getName().equals(name) && root.parent.getName().equals(parent))
+            return true;
+
+        for(Node n: root.getChildren())
+        {
+            boolean temp = checkParent(n, name, parent);
+            found|= temp;
+        }
+        return found;
+    }
+    /* check if the node is already present */
+    boolean check(Node root, String name , int rdd_no)
+    {
+        boolean found=false;
+
+        if(root.getName().equals(name) && root.getRdd_no()==rdd_no)
+            return true;
+
+        for(Node n: root.getChildren())
+        {
+            boolean temp= check(n, name, rdd_no);
+            found |= temp;
+        }
+        return found;
+    }
 
 
     void processLines()
@@ -508,10 +550,43 @@ class CTree
             //System.out.println("count Spaces "+count_spaces);
             int length=temp.length;
 
-            String t1[] = temp[length-1].split(":");
+            String t1[] = temp[length-2].split(":");
             int l=Integer.parseInt(t1[1]);
 
-            rddData rdd = ftDriver.getRddDataNumber(l);
+            int rdd_no=-1;
+            String r;
+            if(temp[0].equals("|") && temp[1].equals("|"))
+            {
+                if(temp.length==8) {
+                    String rn[] = temp[2].split("\\[");
+                    r = rn[1].substring(0, rn[1].length() - 1);
+                    System.out.println(r);
+                }
+                else
+                {
+                    String rn[] = temp[3].split("\\[");
+                    r = rn[1].substring(0, rn[1].length() - 1);
+                    System.out.println(r);
+                }
+                rdd_no=Integer.parseInt(r);
+            }
+            else
+            {
+                if(temp.length==7) {
+                    String rn[] = temp[1].split("\\[");
+                    r = rn[1].substring(0, rn[1].length() - 1);
+                    System.out.println(r);
+                }
+                else
+                {
+                    String rn[] = temp[2].split("\\[");
+                    r = rn[1].substring(0, rn[1].length() - 1);
+                    System.out.println(r);
+                }
+                rdd_no=Integer.parseInt(r);
+            }
+
+            rddData rdd = ftDriver.getRddDataRDDNumber(rdd_no);
             String name = rdd.getName();
             System.out.println("Line_no "+l+"Name "+name);
             temp_line.operation=rdd.getOperation();
@@ -528,10 +603,10 @@ class CTree
                 // Push the corresponding details into the map;
 
                 ftDriver.putStagesRDD(name, rdd);
-                ftDriver.putrddDataRDDNumber(rdd.getRdd_no(),rdd);
+
             }
 
-            Node n=new Node(l,name, count_spaces, isStage);
+            Node n=new Node(l,name, count_spaces, isStage, rdd_no);
            /* for(int j=0; j< length ; j++)
             {
                 System.out.println(j+" "+temp[j]);
@@ -549,11 +624,7 @@ class CTree
             }
 
               /* checking if the name is already presnt -> This is useful in the case where we have input 1 */
-            if(check(root,name))
-            {
-                System.out.println("Found "+name+" Hence Skipping insertion");
-                continue;
-            }
+
 
 
             System.out.println("***************Name********************** "+temp_line.name);
@@ -598,10 +669,56 @@ class CTree
                 }
 
             }
+
+            if(temp_line.operation.equals("join"))
+            {
+                GroupDependencies.clear();
+                GroupDependencies.put("Parent", n);
+
+            }
+            if(temp[0].contains("(") && GroupDependencies.size()==1)
+            {
+                GroupDependencies.put("Child1",n);
+            }
+            else if(temp[0].contains("(") && GroupDependencies.size()==2)
+            {
+                Node parentNode = GroupDependencies.get("Parent");
+
+                System.out.println("Parent is "+parentNode.getName());
+                parentNode.getChildren().add(n);
+                GroupDependencies.clear();
+                continue;
+            }
                 /* this is general case */
             if(flag==1)
                 parent = Lines.get(i-1);
+            if(check(root,name, rdd_no))
+            {
 
+
+                Node n1=getParent(root, name);
+                System.out.println("Parent in check is "+n1.parent.getName() );
+                if(n1.parent.getName()== parent.name)
+                {
+                    System.out.println("Found "+name+" Hence Skipping insertion");
+                    continue;
+                }
+                else if(checkParent(root, name, parent.name))
+                {
+                    System.out.println("Found "+name+" Hence Skipping insertion case 2");
+                    continue;
+                }
+                else
+                {
+
+                    Node parentNode = getParent(root, parent.name);
+                    System.out.println("Parent is " + parentNode.getName());
+                    parentNode.getChildren().add(n1);
+                    continue;
+
+                }
+
+            }
             Node parentNode=null;
             if(parent.name!=null)
                 parentNode=getParent(root, parent.name);

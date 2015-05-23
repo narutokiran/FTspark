@@ -8,6 +8,7 @@ class processRegisteringRDD implements Runnable
     String line;
     rddData rdd;
     int no;
+    int rdd_no;
     String name;
     FTDriver ftDriver;
     public processRegisteringRDD( String line, FTDriver ftDriver)
@@ -25,10 +26,12 @@ class processRegisteringRDD implements Runnable
         synchronized(rdd) {
             no = rdd.getLineNo();
             name = rdd.getName();
+            rdd_no = rdd.getRdd_no();
         }
         synchronized(ftDriver) {
             ftDriver.putRddNameNumber(no, name);
             ftDriver.putRddDataNumber(no, rdd);
+            ftDriver.putrddDataRDDNumber(rdd_no, rdd);
         }
 
         return;

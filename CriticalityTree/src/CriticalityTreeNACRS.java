@@ -395,7 +395,7 @@ public class CriticalityTreeNACRS {
     {
         CTreeNACRS ctree = new CTreeNACRS();
         ctree.populateHashMap();
-        ctree.parseLines("/home/aparna/FTspark/CriticalityTree/src/inputNACRS");
+        ctree.parseLines("/home/aparna/FTspark/CriticalityTree/src/input7");
         ctree.processLines();
         ctree.calculateCriticality();
         System.out.println("******** GetPreOrder **********");

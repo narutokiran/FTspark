@@ -3,6 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/NACRSWorkflow</output-path>
     <root id="archive" name="NACRSWorkflow.jar">
       <element id="module-output" name="NACRSWorkflow" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/java/NACRSWorkflow.java" />
     </root>
   </artifact>
 </component>

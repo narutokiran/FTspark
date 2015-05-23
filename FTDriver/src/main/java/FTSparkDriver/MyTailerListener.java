@@ -25,7 +25,7 @@ public class MyTailerListener extends TailerListenerAdapter{
 
         if(Line.matches(".*Starting job:.*"))
         {
-            String temp[]=Line.split(" ");
+        /*    String temp[]=Line.split(" ");
             String t[]=temp[temp.length-1].split(":");
             int l = Integer.parseInt(t[1]);
             String FileLine=ftDriver.Filelines[l-1];
@@ -45,7 +45,7 @@ public class MyTailerListener extends TailerListenerAdapter{
                 name=temp1[0];
             }
             System.out.println("Job is "+name);
-            ftDriver.putRddNameNumber(l, name);
+            ftDriver.putRddNameNumber(l, name);*/
         }
         else if(Line.matches(".*Added rdd.*"))
         {
