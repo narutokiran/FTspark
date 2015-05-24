@@ -7,54 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f22aea2d-c2f4-40f0-9186-f4360aa154a7" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/FTSparkDriver/WorkFlowInput.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/FTSparkDriver/ThreadHandler.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/FTSparkDriver/WorkFlowInput.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/NACRSWorkflow$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/NACRSWorkflow$10.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/NACRSWorkflow$11.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/NACRSWorkflow$12.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/NACRSWorkflow$13.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/NACRSWorkflow$14.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/NACRSWorkflow$15.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/NACRSWorkflow$16.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/NACRSWorkflow$17.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/NACRSWorkflow$18.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/NACRSWorkflow$19.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/NACRSWorkflow$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/NACRSWorkflow$3.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/NACRSWorkflow$4.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/NACRSWorkflow$5.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/NACRSWorkflow$6.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/NACRSWorkflow$7.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/NACRSWorkflow$8.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/NACRSWorkflow$9.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/NACRSWorkflow$ParseLine.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/FTSparkDriver/CTree.class" afterPath="$PROJECT_DIR$/target/classes/FTSparkDriver/CTree.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/FTSparkDriver/FTDriver.class" afterPath="$PROJECT_DIR$/target/classes/FTSparkDriver/FTDriver.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/FTDriver.jar" afterPath="$PROJECT_DIR$/target/FTDriver.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/FTSparkDriver/MyTailerListener.class" afterPath="$PROJECT_DIR$/target/classes/FTSparkDriver/MyTailerListener.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/NACRSWorkflow.class" afterPath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/NACRSWorkflow.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../NACRSWorkflow/out/artifacts/NACRSWorkflow/NACRSWorkflow.jar" afterPath="$PROJECT_DIR$/../NACRSWorkflow/out/artifacts/NACRSWorkflow/NACRSWorkflow.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/FTSparkDriver/Node.class" afterPath="$PROJECT_DIR$/target/classes/FTSparkDriver/Node.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/FTSparkDriver/TailerThread.class" afterPath="$PROJECT_DIR$/target/classes/FTSparkDriver/TailerThread.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/FTSparkDriver/Times.class" afterPath="$PROJECT_DIR$/target/classes/FTSparkDriver/Times.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/FTSparkDriver/processRegisteringRDD.class" afterPath="$PROJECT_DIR$/target/classes/FTSparkDriver/processRegisteringRDD.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/FTSparkDriver/rddData.class" afterPath="$PROJECT_DIR$/target/classes/FTSparkDriver/rddData.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CriticalityTree/src/CriticalityTreeNACRS.java" afterPath="$PROJECT_DIR$/../CriticalityTree/src/CriticalityTreeNACRS.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/FTSparkDriver/FTDriver.java" afterPath="$PROJECT_DIR$/src/main/java/FTSparkDriver/FTDriver.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/FTSparkDriver/MyTailerListener.java" afterPath="$PROJECT_DIR$/src/main/java/FTSparkDriver/MyTailerListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../NACRSWorkflow/NACRSWorkflow.iml" afterPath="$PROJECT_DIR$/../NACRSWorkflow/NACRSWorkflow.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../NACRSWorkflow/src/main/java/NACRSWorkflow.java" afterPath="$PROJECT_DIR$/../NACRSWorkflow/src/main/java/NACRSWorkflow.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/FTSparkDriver/Node.java" afterPath="$PROJECT_DIR$/src/main/java/FTSparkDriver/Node.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../WordCountWorkFlow/.idea/artifacts/WordCountWorkFlow.xml" afterPath="$PROJECT_DIR$/../WordCountWorkFlow/.idea/artifacts/WordCountWorkFlow.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../NACRSWorkflow/pom.xml" afterPath="$PROJECT_DIR$/../NACRSWorkflow/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/FTSparkDriver/processRegisteringRDD.java" afterPath="$PROJECT_DIR$/src/main/java/FTSparkDriver/processRegisteringRDD.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/FTSparkDriver/rddData.java" afterPath="$PROJECT_DIR$/src/main/java/FTSparkDriver/rddData.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CriticalityTree/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../CriticalityTree/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../NACRSWorkflow/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../NACRSWorkflow/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../WordCountWorkFlow/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../WordCountWorkFlow/.idea/workspace.xml" />
     </list>
     <ignored path="FTDriver.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -93,20 +46,10 @@
       <file leaf-file-name="FTDriver.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/FTDriver.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.615245" vertical-offset="8376" max-vertical-offset="12240">
-              <caret line="619" column="24" selection-start-line="619" selection-start-column="24" selection-end-line="619" selection-end-column="24" />
+            <state vertical-scroll-proportion="-6.1597095" vertical-offset="11689" max-vertical-offset="12240">
+              <caret line="591" column="51" selection-start-line="591" selection-start-column="51" selection-end-line="591" selection-end-column="51" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#992#1008#0" expanded="true" />
-                <element signature="e#1075#1093#0" expanded="true" />
-                <element signature="e#1161#1179#0" expanded="true" />
-                <element signature="e#1416#1433#0" expanded="true" />
-                <element signature="e#1638#1652#0" expanded="true" />
-                <element signature="e#1695#1703#0" expanded="true" />
-                <element signature="e#12699#12721#0" expanded="true" />
-                <element signature="e#12782#12796#0" expanded="true" />
-                <element signature="e#19291#19298#0" expanded="true" />
-                <element signature="e#22470#22476#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -115,7 +58,7 @@
       <file leaf-file-name="rddData.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/rddData.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="438" max-vertical-offset="2625">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1080" max-vertical-offset="2085">
               <caret line="75" column="41" selection-start-line="75" selection-start-column="41" selection-end-line="75" selection-end-column="41" />
               <folding />
             </state>
@@ -151,9 +94,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="495">
               <caret line="24" column="5" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -163,9 +104,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="390" max-vertical-offset="1335">
               <caret line="47" column="49" selection-start-line="47" selection-start-column="49" selection-end-line="47" selection-end-column="49" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -249,7 +188,7 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -296,7 +235,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -527,6 +466,22 @@
       <envs />
       <method />
     </configuration>
+    <configuration default="true" type="ScalaTestRunConfiguration" factoryName="ScalaTest">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <extension name="scalaCoverage" />
+      <module name="" />
+      <setting name="path" value="" />
+      <setting name="package" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workingDirectory" value="$PROJECT_DIR$" />
+      <setting name="searchForTest" value="Across module dependencies" />
+      <setting name="testName" value="" />
+      <setting name="testKind" value="Class" />
+      <setting name="showProgressMessages" value="true" />
+      <envs />
+      <method />
+    </configuration>
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="" />
       <option name="ACTIVITY_CLASS" value="" />
@@ -545,22 +500,6 @@
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
       <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
-      <method />
-    </configuration>
-    <configuration default="true" type="ScalaTestRunConfiguration" factoryName="ScalaTest">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <extension name="scalaCoverage" />
-      <module name="" />
-      <setting name="path" value="" />
-      <setting name="package" value="" />
-      <setting name="vmparams" value="" />
-      <setting name="params" value="" />
-      <setting name="workingDirectory" value="$PROJECT_DIR$" />
-      <setting name="searchForTest" value="Across module dependencies" />
-      <setting name="testName" value="" />
-      <setting name="testKind" value="Class" />
-      <setting name="showProgressMessages" value="true" />
-      <envs />
       <method />
     </configuration>
     <list size="2">
@@ -589,7 +528,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="64" y="-4" width="1857" height="981" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -598,23 +537,23 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32868758" sideWeight="0.5002758" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32868758" sideWeight="0.4997242" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20242691" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32918552" sideWeight="0.49973047" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Maven-2 Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32868758" sideWeight="0.4997242" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -645,6 +584,58 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/rddData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1080" max-vertical-offset="2085">
+          <caret line="75" column="41" selection-start-line="75" selection-start-column="41" selection-end-line="75" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/processRegisteringRDD.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="78" max-vertical-offset="660">
+          <caret line="33" column="54" selection-start-line="33" selection-start-column="54" selection-end-line="33" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/Node.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="301" max-vertical-offset="1155">
+          <caret line="31" column="46" selection-start-line="31" selection-start-column="46" selection-end-line="31" selection-end-column="46" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1734#1735#0" expanded="true" />
+            <element signature="e#1774#1775#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/TailerCall.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="495">
+          <caret line="24" column="5" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/MyTailerListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="390" max-vertical-offset="1335">
+          <caret line="47" column="49" selection-start-line="47" selection-start-column="49" selection-end-line="47" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/processFinishedStage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="645">
+          <caret line="16" column="35" selection-start-line="16" selection-start-column="35" selection-end-line="16" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="285" max-vertical-offset="420">
@@ -659,16 +650,6 @@
           <caret line="10" column="34" selection-start-line="10" selection-start-column="34" selection-end-line="10" selection-end-column="34" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#992#1008#0" expanded="true" />
-            <element signature="e#1075#1093#0" expanded="true" />
-            <element signature="e#1161#1179#0" expanded="true" />
-            <element signature="e#1416#1433#0" expanded="true" />
-            <element signature="e#1638#1652#0" expanded="true" />
-            <element signature="e#1695#1703#0" expanded="true" />
-            <element signature="e#12699#12721#0" expanded="true" />
-            <element signature="e#12782#12796#0" expanded="true" />
-            <element signature="e#19291#19298#0" expanded="true" />
-            <element signature="e#22470#22476#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -694,16 +675,6 @@
           <caret line="10" column="34" selection-start-line="10" selection-start-column="34" selection-end-line="10" selection-end-column="34" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#992#1008#0" expanded="true" />
-            <element signature="e#1075#1093#0" expanded="true" />
-            <element signature="e#1161#1179#0" expanded="true" />
-            <element signature="e#1416#1433#0" expanded="true" />
-            <element signature="e#1638#1652#0" expanded="true" />
-            <element signature="e#1695#1703#0" expanded="true" />
-            <element signature="e#12699#12721#0" expanded="true" />
-            <element signature="e#12782#12796#0" expanded="true" />
-            <element signature="e#19291#19298#0" expanded="true" />
-            <element signature="e#22470#22476#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -736,16 +707,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#992#1008#0" expanded="true" />
-            <element signature="e#1075#1093#0" expanded="true" />
-            <element signature="e#1161#1179#0" expanded="true" />
-            <element signature="e#1416#1433#0" expanded="true" />
-            <element signature="e#1638#1652#0" expanded="true" />
-            <element signature="e#1695#1703#0" expanded="true" />
-            <element signature="e#12699#12721#0" expanded="true" />
-            <element signature="e#12782#12796#0" expanded="true" />
-            <element signature="e#19291#19298#0" expanded="true" />
-            <element signature="e#22470#22476#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -778,16 +739,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#992#1008#0" expanded="true" />
-            <element signature="e#1075#1093#0" expanded="true" />
-            <element signature="e#1161#1179#0" expanded="true" />
-            <element signature="e#1416#1433#0" expanded="true" />
-            <element signature="e#1638#1652#0" expanded="true" />
-            <element signature="e#1695#1703#0" expanded="true" />
-            <element signature="e#12699#12721#0" expanded="true" />
-            <element signature="e#12782#12796#0" expanded="true" />
-            <element signature="e#19291#19298#0" expanded="true" />
-            <element signature="e#22470#22476#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -820,16 +771,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#992#1008#0" expanded="true" />
-            <element signature="e#1075#1093#0" expanded="true" />
-            <element signature="e#1161#1179#0" expanded="true" />
-            <element signature="e#1416#1433#0" expanded="true" />
-            <element signature="e#1638#1652#0" expanded="true" />
-            <element signature="e#1695#1703#0" expanded="true" />
-            <element signature="e#12699#12721#0" expanded="true" />
-            <element signature="e#12782#12796#0" expanded="true" />
-            <element signature="e#19291#19298#0" expanded="true" />
-            <element signature="e#22470#22476#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -862,16 +803,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#992#1008#0" expanded="true" />
-            <element signature="e#1075#1093#0" expanded="true" />
-            <element signature="e#1161#1179#0" expanded="true" />
-            <element signature="e#1416#1433#0" expanded="true" />
-            <element signature="e#1638#1652#0" expanded="true" />
-            <element signature="e#1695#1703#0" expanded="true" />
-            <element signature="e#12699#12721#0" expanded="true" />
-            <element signature="e#12782#12796#0" expanded="true" />
-            <element signature="e#19291#19298#0" expanded="true" />
-            <element signature="e#22470#22476#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -904,16 +835,6 @@
           <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#992#1008#0" expanded="true" />
-            <element signature="e#1075#1093#0" expanded="true" />
-            <element signature="e#1161#1179#0" expanded="true" />
-            <element signature="e#1416#1433#0" expanded="true" />
-            <element signature="e#1638#1652#0" expanded="true" />
-            <element signature="e#1695#1703#0" expanded="true" />
-            <element signature="e#12699#12721#0" expanded="true" />
-            <element signature="e#12782#12796#0" expanded="true" />
-            <element signature="e#19291#19298#0" expanded="true" />
-            <element signature="e#22470#22476#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1010,9 +931,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="495">
           <caret line="24" column="5" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1064,28 +983,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="390" max-vertical-offset="1335">
           <caret line="47" column="49" selection-start-line="47" selection-start-column="49" selection-end-line="47" selection-end-column="49" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/FTDriver.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.615245" vertical-offset="8376" max-vertical-offset="12240">
-          <caret line="619" column="24" selection-start-line="619" selection-start-column="24" selection-end-line="619" selection-end-column="24" />
+        <state vertical-scroll-proportion="-6.1597095" vertical-offset="11689" max-vertical-offset="12240">
+          <caret line="591" column="51" selection-start-line="591" selection-start-column="51" selection-end-line="591" selection-end-column="51" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#992#1008#0" expanded="true" />
-            <element signature="e#1075#1093#0" expanded="true" />
-            <element signature="e#1161#1179#0" expanded="true" />
-            <element signature="e#1416#1433#0" expanded="true" />
-            <element signature="e#1638#1652#0" expanded="true" />
-            <element signature="e#1695#1703#0" expanded="true" />
-            <element signature="e#12699#12721#0" expanded="true" />
-            <element signature="e#12782#12796#0" expanded="true" />
-            <element signature="e#19291#19298#0" expanded="true" />
-            <element signature="e#22470#22476#0" expanded="true" />
           </folding>
         </state>
       </provider>

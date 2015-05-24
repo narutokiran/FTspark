@@ -28,11 +28,11 @@ import org.apache.spark.mllib.clustering.KMeans;
 import org.apache.spark.mllib.clustering.KMeansModel;
 
 
-import FTSparkDriver.FTDriver;
-import FTSparkDriver.persistRDDs;
+//import FTSparkDriver.FTDriver;
+//import FTSparkDriver.persistRDDs;
 
 /* consider removing the first column in data */
-class Workflow implements persistRDDs, Serializable {
+class Workflow implements Serializable {
 
     JavaRDD<String> csvFile;
     JavaPairRDD<String, String[]> NULLRDD, RemovedNULL, FilteredRDD, CleanedRDD, convertedRDD, Demographics, Patient_Details;
@@ -105,7 +105,7 @@ class Workflow implements persistRDDs, Serializable {
     {
         SparkConf sparkConf = new SparkConf().setAppName("NACRSAnalysis").setMaster("yarn-client");
         JavaSparkContext ctx = new JavaSparkContext(sparkConf);
-        FTDriver ftDriver = new FTDriver(this,"/home/aparna/spark-1.1.1/logs/SparkOut.log","NACRSWorkflow.java");
+      //  FTDriver ftDriver = new FTDriver(this,"/home/aparna/spark-1.1.1/logs/SparkOut.log","NACRSWorkflow.java");
          csvFile = ctx.textFile("/user/aparna/input/ParsedFullNACRS.csv");
 
          NULLRDD = csvFile.mapToPair(new ParseLine());
@@ -330,7 +330,7 @@ class Workflow implements persistRDDs, Serializable {
 
 
         clusterJoinedRDD = CleanedRDD.join(clusterKey);
-
+        System.out.println(clusterJoinedRDD.toDebugString());
         clusterJoinedRDD.collect();
         cluster0 = clusterJoinedRDD. filter(new Function<Tuple2<String, Tuple2<String[], Integer>>,Boolean  >(){
             public Boolean call (Tuple2<String, Tuple2<String[], Integer>> t2)
@@ -368,8 +368,8 @@ class Workflow implements persistRDDs, Serializable {
         // convert array to STring + "," + string format!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
       //  System.out.println("Formatted Cluster "+FormattedCluster0.toDebugString());
 
-        ftDriver.constructTree(FormattedCluster0.toDebugString())
-        ;
+      //  ftDriver.constructTree(FormattedCluster0.toDebugString());
+        System.out.println(FormattedCluster0.toDebugString());
         FormattedCluster0.saveAsTextFile("NACRS/output/cluster0");
 
          cluster1 = clusterJoinedRDD. filter(new Function<Tuple2<String, Tuple2<String[], Integer>>,Boolean  >(){

@@ -1,6 +1,4 @@
-(2) MapPartitionsRDD[61] at mapToPair at NACRSWorkflow.java:352 []
- |  MapPartitionsRDD[60] at filter at NACRSWorkflow.java:335 []
- |  MapPartitionsRDD[59] at join at NACRSWorkflow.java:332 []
+(2) MapPartitionsRDD[59] at join at NACRSWorkflow.java:332 []
  |  MapPartitionsRDD[58] at join at NACRSWorkflow.java:332 []
  |  CoGroupedRDD[57] at join at NACRSWorkflow.java:332 []
  +-(2) MapPartitionsRDD[5] at filter at NACRSWorkflow.java:145 []

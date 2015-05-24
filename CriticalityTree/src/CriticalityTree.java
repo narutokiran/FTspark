@@ -24,6 +24,7 @@ class CTree
     List<lines> Lines=new ArrayList();
     Node root=null;
     HashMap<Integer, List<lines>> dependencies = new HashMap<Integer, List<lines>>();
+    HashMap<Integer, Node> TreeHash = new HashMap<Integer, Node>();
 
     /* Populate HashMap for creating tree */
     void populateHashMap()

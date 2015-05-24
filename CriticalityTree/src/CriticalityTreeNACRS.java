@@ -13,26 +13,29 @@ class CTreeNACRS
     HashMap<Integer, String> hm = new HashMap<Integer, String>();
     int no_lines;
     List<lines> Lines=new ArrayList();
-    Node root=null;
+    Node root;
     HashMap<Integer, List<lines>> dependencies = new HashMap<Integer, List<lines>>();
     HashMap<String, Node> GroupDependencies = new HashMap<String, Node>();
+    HashMap<Integer, Node> TreeHash = new HashMap<Integer, Node>();
+    ArrayList<Tree> roots= new ArrayList<Tree>();
 
     /* Populate HashMap for creating tree */
     void populateHashMap()
     {
-      hm.put(331, "FormattedCluster0");
-      hm.put(314, "Cluster0");
-      hm.put(311, "ClusterJoinRDD");
-      hm.put(124, "CleanedRDD");
-      hm.put(108, "FilteredRDD");
-      hm.put(92,"RemovedNULL");
-      hm.put(90,"NULLRDD");
-      hm.put(88, "csvFile");
-      hm.put(299, "ClusterKey");
-      hm.put(281, "ParsedDataWithKey");
-      hm.put(247, "PatientDetails");
-      hm.put(195, "ConvertedRDD");
-      hm.put(169, "ConvertedRDD");
+      hm.put(352, "FormattedCluster0");
+      hm.put(335, "Cluster0");
+      hm.put(332, "ClusterJoinRDD");
+      hm.put(145, "CleanedRDD");
+      hm.put(129, "FilteredRDD");
+      hm.put(113,"RemovedNULL");
+      hm.put(111,"NULLRDD");
+      hm.put(109, "csvFile");
+      hm.put(320, "ClusterKey");
+      hm.put(302, "ParsedDataWithKey");
+      hm.put(268, "PatientDetails");
+      hm.put(216, "ConvertedRDD");
+      hm.put(190, "ConvertedRDD");
+      hm.put(360, "Dummy");
     }
 
 
@@ -110,6 +113,7 @@ class CTreeNACRS
     void processLines()
     {
         int i;
+        boolean isNewTree = true;
         for(i=0;i<no_lines;i++)
         {
             /* counting Space */
@@ -176,7 +180,77 @@ class CTreeNACRS
 
             temp_line.name=name;
 
+            // check if TreeHash already contains the rdd
+
+            if(TreeHash.containsKey(rdd_no))
+            {
+               // check if it is present in same tree!!!
+                boolean sameTree = true;
+                if(root!=null)
+                 sameTree = check(root, name, rdd_no);
+                boolean differentTree = false;
+                Tree tree=null;
+                Node currentRoot=null;
+                int index=-1;
+
+                if(!sameTree || root==null)
+                {
+                    for(int j=0;j< roots.size(); j++)
+                    {
+                       tree = roots.get(j);
+
+                        for(int k=0;k<tree.roots.size();k++)
+                        {
+                            currentRoot = tree.roots.get(k);
+
+                            differentTree = check(currentRoot, name, rdd_no);
+
+                            if(differentTree)
+                            {
+                                index = k;
+                                break;
+                            }
+                        }
+                        if(differentTree)
+                        {
+                            break;
+                        }
+                    }
+
+                    if(differentTree && root == null) // This is the first node and is already present
+                    {
+                        System.out.println("Already presenet and first node... Exiting from tree!!! rdd no is "+rdd_no);
+                        return;
+                    }
+                    if(differentTree && root!=null)
+                    {
+                       lines parent = Lines.get(i-1);
+                        Node parentNode = getParent(root, parent.name);
+                        Node currentNode = getParent(currentRoot, name);
+
+                        // Added to tree, now should update roots
+
+                        currentNode.parent = parentNode;
+                        parentNode.addChild(currentNode);
+
+                        if(currentNode!=currentRoot)
+                        {
+                            tree.roots.add(root);
+                        }
+                        else
+                        {
+                            tree.roots.remove(index);
+                            tree.roots.add(root);
+                        }
+
+                    }
+                    return;
+                }
+            }
+
             Node n=new Node(l,name, count_spaces, rdd_no);
+
+
             for(int j=0; j< length ; j++)
             {
                 System.out.println(j+" "+temp[j]);
@@ -191,6 +265,7 @@ class CTreeNACRS
 
             /* setting the root node of the tree */
             if(root==null) {
+                TreeHash.put(rdd_no,n);
                 root = n;
                 continue;
             }
@@ -300,16 +375,25 @@ class CTreeNACRS
                 System.out.println("parent "+parentNode.name);
                 parentNode.addChild(n);
                 n.setParent(parentNode);
+                TreeHash.put(rdd_no, n);
             }
-
         }
 
-
+        Tree newTree = new Tree();
+        newTree.roots.add(root);
+        roots.add(newTree);
+    return ;
     }
 
-    public ArrayList<Node> getPreOrderTraversal() {
+    public ArrayList<Node> getPreOrderTraversal(Tree tree) {
+
         ArrayList<Node> preOrder = new ArrayList<Node>();
-        buildPreOrder(root, preOrder);
+
+        System.out.println("The number of roots in the tree is "+ tree.roots.size());
+        for(int i = 0 ;i< tree.roots.size();i++) {
+
+            buildPreOrder(tree.roots.get(i), preOrder);
+        }
         return preOrder;
     }
 
@@ -395,17 +479,27 @@ public class CriticalityTreeNACRS {
     {
         CTreeNACRS ctree = new CTreeNACRS();
         ctree.populateHashMap();
-        ctree.parseLines("/home/aparna/FTspark/CriticalityTree/src/input7");
-        ctree.processLines();
-        ctree.calculateCriticality();
-        System.out.println("******** GetPreOrder **********");
-        ArrayList<Node> preOrder;
-        int i;
-        preOrder=ctree.getPreOrderTraversal();
+        ctree.parseLines("/home/aparna/FTspark/CriticalityTree/src/inputNACRS");
+        ctree.root = null;
+        ctree.processLines();    ctree.Lines.clear();
+     //   ctree.calculateCriticality();
+        ctree.parseLines("/home/aparna/FTspark/CriticalityTree/src/InputNACRS1");
 
-        for(i=0;i<preOrder.size();i++)
-        {
-            System.out.println(preOrder.get(i).getName() +" "+preOrder.get(i).getRdd_no());
+        ctree.root = null;
+        ctree.processLines();
+        System.out.println("******** GetPreOrder **********");
+        ArrayList<Node> preOrder = new ArrayList<Node>();
+        int i;
+
+        System.out.println("Number fo trees is " + ctree.roots.size());
+        for( int j =0 ; j < ctree.roots.size(); j++) {
+
+
+            preOrder = ctree.getPreOrderTraversal(ctree.roots.get(j));
+
+            for (i = 0; i < preOrder.size(); i++) {
+                System.out.println(preOrder.get(i).getName() + " " + preOrder.get(i).getRdd_no());
+            }
         }
         //ctree.print();
 
