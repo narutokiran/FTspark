@@ -98,3 +98,13 @@ public class Node {
         rdd_no=no;
     }
 }
+
+class Tree
+{
+    ArrayList<Node> roots;
+
+    Tree()
+    {
+        roots = new ArrayList<Node>();
+    }
+}

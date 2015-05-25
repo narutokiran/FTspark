@@ -27,12 +27,11 @@ import org.apache.spark.mllib.linalg.Vectors;
 import org.apache.spark.mllib.clustering.KMeans;
 import org.apache.spark.mllib.clustering.KMeansModel;
 
-
-//import FTSparkDriver.FTDriver;
-//import FTSparkDriver.persistRDDs;
+import FTSparkDriver.FTDriver;
+import FTSparkDriver.persistRDDs;
 
 /* consider removing the first column in data */
-class Workflow implements Serializable {
+class Workflow implements persistRDDs, Serializable {
 
     JavaRDD<String> csvFile;
     JavaPairRDD<String, String[]> NULLRDD, RemovedNULL, FilteredRDD, CleanedRDD, convertedRDD, Demographics, Patient_Details;
@@ -105,7 +104,7 @@ class Workflow implements Serializable {
     {
         SparkConf sparkConf = new SparkConf().setAppName("NACRSAnalysis").setMaster("yarn-client");
         JavaSparkContext ctx = new JavaSparkContext(sparkConf);
-      //  FTDriver ftDriver = new FTDriver(this,"/home/aparna/spark-1.1.1/logs/SparkOut.log","NACRSWorkflow.java");
+        FTDriver ftDriver = new FTDriver(this,"/home/aparna/spark-1.1.1/logs/SparkOut.log","NACRSWorkflow.java");
          csvFile = ctx.textFile("/user/aparna/input/ParsedFullNACRS.csv");
 
          NULLRDD = csvFile.mapToPair(new ParseLine());
@@ -125,6 +124,8 @@ class Workflow implements Serializable {
         });
 
         /* Filtering the dataset to contain only records of length 27 */
+        ftDriver.constructTree(RemovedNULL.toDebugString());
+        RemovedNULL.collect();
 
          FilteredRDD = RemovedNULL.filter(new Function<Tuple2<String, String[]>, Boolean>(){
 
@@ -140,7 +141,9 @@ class Workflow implements Serializable {
 
         /* Cleaning the dataset
          */
-        RemovedNULL.collect();
+
+        ftDriver.constructTree(FilteredRDD.toDebugString());
+        FilteredRDD.collect();
 
          CleanedRDD = FilteredRDD.filter(new Function<Tuple2<String, String[]>, Boolean>(){
             public Boolean call(Tuple2<String, String[]> t2)
@@ -169,7 +172,9 @@ class Workflow implements Serializable {
                 return true;
             }
         });
-        FilteredRDD.collect();
+
+        ftDriver.constructTree(CleanedRDD.toDebugString());
+
         // broadcast?
         final Map<String, Integer> Mapping = new HashMap<String, Integer>();
         // Acumulator????
@@ -242,6 +247,7 @@ class Workflow implements Serializable {
 
 
         }
+        ftDriver.constructTree(convertedRDD.toDebugString());
         convertedRDD.collect();
 
 
@@ -286,7 +292,10 @@ class Workflow implements Serializable {
 
                                                                                }
         );
+
+        ftDriver.constructTree(Patient_Details.toDebugString());
         Patient_Details.collect();
+
          parsedData = Patient_Details.map(
                 new Function<Tuple2<String, String[]>,Vector>() {
                     public Vector call(Tuple2<String, String[]> t2) {
@@ -309,6 +318,8 @@ class Workflow implements Serializable {
                 return new Tuple2<String, Vector>(t2._1(), Vectors.dense(values));
             }
         });
+
+        ftDriver.constructTree(parsedDataWithKey.toDebugString());
         parsedDataWithKey.collect();
 
 
@@ -330,8 +341,12 @@ class Workflow implements Serializable {
 
 
         clusterJoinedRDD = CleanedRDD.join(clusterKey);
-        System.out.println(clusterJoinedRDD.toDebugString());
+       // System.out.println(clusterJoinedRDD.toDebugString());
+
+
+        ftDriver.constructTree(clusterJoinedRDD.toDebugString());
         clusterJoinedRDD.collect();
+
         cluster0 = clusterJoinedRDD. filter(new Function<Tuple2<String, Tuple2<String[], Integer>>,Boolean  >(){
             public Boolean call (Tuple2<String, Tuple2<String[], Integer>> t2)
             {
@@ -348,7 +363,9 @@ class Workflow implements Serializable {
             }
         });
 
+        ftDriver.constructTree(cluster0.toDebugString());
         cluster0.collect();
+
          FormattedCluster0 = cluster0.mapToPair(new PairFunction<Tuple2<String, Tuple2<String[], Integer>>,String, String >(){
             public Tuple2<String, String> call(Tuple2<String, Tuple2<String[],Integer>> t2){
                 Tuple2<String[],Integer> tempTup = t2._2();
@@ -368,7 +385,7 @@ class Workflow implements Serializable {
         // convert array to STring + "," + string format!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
       //  System.out.println("Formatted Cluster "+FormattedCluster0.toDebugString());
 
-      //  ftDriver.constructTree(FormattedCluster0.toDebugString());
+        ftDriver.constructTree(FormattedCluster0.toDebugString());
         System.out.println(FormattedCluster0.toDebugString());
         FormattedCluster0.saveAsTextFile("NACRS/output/cluster0");
 

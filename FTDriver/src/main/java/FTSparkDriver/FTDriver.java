@@ -50,10 +50,12 @@ public class FTDriver {
     private Map<Integer,String> rddNameNumber = new HashMap<Integer,String> ();
 
     private Map<Integer, rddData> rddDataNumber = new HashMap<Integer, rddData>();
-    private Map<Integer, rddData> rddDataRDDNumber = new HashMap<Integer, rddData>(); // This maps RDD object with RDD NUmber. Only for stages. FOr calcualting the amount of memory necessary
+  Map<Integer, rddData> rddDataRDDNumber = new HashMap<Integer, rddData>(); // This maps RDD object with RDD NUmber. Only for stages. FOr calcualting the amount of memory necessary
 
-    private Map<String , Node> TreeHash = new HashMap<String, Node>();
+  Map<Integer , Node> TreeHash = new HashMap<Integer, Node>();
     private Map<String, rddData> StagesRDD = new HashMap<String, rddData>();
+
+    ArrayList<Tree> roots = new ArrayList<Tree>();
 
     private Map<String,JavaRDD> m1= new HashMap<String, JavaRDD>();
     private Map<String,JavaPairRDD> m2=new HashMap<String, JavaPairRDD>();
@@ -75,9 +77,9 @@ public class FTDriver {
     }
 
 
-    public void putTreeHash(String name, Node TreeNode)
+    public void putTreeHash(Integer number, Node TreeNode)
     {
-        TreeHash.put(name,TreeNode);
+        TreeHash.put(number,TreeNode);
     }
 
     public Node getTreeHash(String name)
@@ -382,7 +384,7 @@ public class FTDriver {
     //This function will be called from the main function for every string which is a job...?
     public void constructTree(String DebugString)
     {
-       ctree = new CTree(this);
+       ctree = new CTree(this, TreeHash, roots);
 
        ctree.parseLines(DebugString);
         ctree.processLines();
@@ -390,11 +392,14 @@ public class FTDriver {
         System.out.println("******** GetPreOrder **********");
         ArrayList<Node> preOrder;
         int i;
-        preOrder=ctree.getPreOrderTraversal();
+        System.out.println("Number fo trees is " + roots.size());
+        for( int j =0 ; j < roots.size(); j++) {
+            preOrder = ctree.getPreOrderTraversal(roots.get(j));
 
-        for(i=0;i<preOrder.size();i++)
-        {
-            System.out.println(preOrder.get(i).getName() +" "+preOrder.get(i).getCriticality()+" "+preOrder.get(i).getCritic_percentage());
+
+            for (i = 0; i < preOrder.size(); i++) {
+                System.out.println(preOrder.get(i).getName() + " " + preOrder.get(i).getCriticality() + " " + preOrder.get(i).getCritic_percentage());
+            }
         }
         System.out.println("**********STAGES!!!!********");
         printMap();
@@ -414,13 +419,17 @@ class CTree
     FTDriver ftDriver;
     int no_lines;
     List<lines> Lines=new ArrayList();
-    Node root=null;
+    Node root;
     HashMap<Integer, List<lines>> dependencies = new HashMap<Integer, List<lines>>();
     HashMap<String, Node> GroupDependencies = new HashMap<String, Node>();
-
-    CTree(FTDriver ftDriver)
+    Map<Integer, Node> TreeHash;
+    ArrayList<Tree> roots;
+    CTree(FTDriver ftDriver, Map<Integer, Node> TreeHash, ArrayList<Tree> roots)
     {
         this.ftDriver=ftDriver;
+        root=null;
+        this.TreeHash = TreeHash;
+        this.roots=roots;
     }
     /* Populate HashMap for creating tree */
 
@@ -429,22 +438,66 @@ class CTree
 
         String temp_strings[]=DebugString.split("\n");
         Thread workers[]=new Thread[temp_strings.length+1];
+        int rdd_no=-1;
+        int no_workers=0;
+
         try {
 
             for (int j = 0; j < temp_strings.length; j++) {
-                lines temp = new lines();
-                temp.line = temp_strings[j];
+
+
+
+                lines temp_l = new lines();
+                temp_l.line = temp_strings[j];
              //   System.out.println("Parsing Line " + temp_strings[j]);
-                workers[j] = new Thread(new processRegisteringRDD(temp_strings[j], ftDriver));
-                workers[j].start();
-                Lines.add(temp);
+                String t = temp_strings[j];
+                t = t.replaceAll("( )+", " ");
+                t = t.trim();
+
+                String temp[] = t.split(" ");
+                String r="";
+                if(temp[0].equals("|") && temp[1].equals("|"))
+                {
+                    if(temp.length==8) {
+                        String rn[] = temp[2].split("\\[");
+                        r = rn[1].substring(0, rn[1].length() - 1);
+                    }
+                    else
+                    {
+                        String rn[] = temp[3].split("\\[");
+                        r = rn[1].substring(0, rn[1].length() - 1);
+                        //System.out.println(r);
+                    }
+                    rdd_no=Integer.parseInt(r);
+                }
+                else
+                {
+                    if(temp.length==7) {
+                        String rn[] = temp[1].split("\\[");
+                        r = rn[1].substring(0, rn[1].length() - 1);
+                        //  System.out.println(r);
+                    }
+                    else
+                    {
+                        String rn[] = temp[2].split("\\[");
+                        r = rn[1].substring(0, rn[1].length() - 1);
+                        // System.out.println(r);
+                    }
+                    rdd_no=Integer.parseInt(r);
+                }
+                if(!ftDriver.rddDataRDDNumber.containsKey(rdd_no)) {
+                    workers[j] = new Thread(new processRegisteringRDD(temp_strings[j], ftDriver));
+                    no_workers++;
+                    workers[j].start();
+                }
+                Lines.add(temp_l);
 
             }
             no_lines = temp_strings.length;
             System.out.println(no_lines);
 
             /* waiting for all the worker threads to join */
-            for (int j = 0; j < temp_strings.length; j++) {
+            for (int j = 0; j <no_workers; j++) {
                 workers[j].join();
                 workers[j] = null;
                 System.out.println("Worker " + j + "joined");
@@ -594,6 +647,88 @@ class CTree
             temp_line.name=name;
 
             //temp_line.l_no=l;
+            if(TreeHash.containsKey(rdd_no))
+            {
+                // check if it is present in same tree!!!
+                boolean sameTree = true;
+                if(root!=null)
+                    sameTree = check(root, name, rdd_no);
+                boolean differentTree = false;
+                Tree tree=null;
+                Node currentRoot=null;
+                int index=-1;
+
+                if(!sameTree || root==null)
+                {
+                    for(int j=0;j< roots.size(); j++)
+                    {
+                        tree = roots.get(j);
+
+                        for(int k=0;k<tree.roots.size();k++)
+                        {
+                            currentRoot = tree.roots.get(k);
+
+                            differentTree = check(currentRoot, name, rdd_no);
+
+                            if(differentTree)
+                            {
+                                index = k;
+                                break;
+                            }
+                        }
+                        if(differentTree)
+                        {
+                            break;
+                        }
+                    }
+
+                    if(differentTree && root == null) // This is the first node and is already present
+                    {
+                        System.out.println("Already presenet and first node... Exiting from tree!!! rdd no is "+rdd_no);
+                        return;
+                    }
+                    if(differentTree && root!=null)
+                    {
+                        lines parent = Lines.get(i-1);
+                        System.out.println("IN DIFFERENT TREE : Parent is "+parent.name);
+
+                        Node parentNode = getParent(root, parent.name);
+                        Node currentNode = getParent(currentRoot, name);
+
+                        // Added to tree, now should update roots
+
+                        currentNode.parent = parentNode;
+                        parentNode.addChild(currentNode);
+
+                        System.out.println("Current Node is "+currentNode.getName() + "Current root is "+currentRoot.getName());
+                        if(currentNode!=currentRoot)
+                        {
+
+
+                            // for handling the special case
+
+                            boolean special = check(root, currentRoot.getName());
+                            System.out.println("Is it a special case???" + special);
+                            if(special)
+                            {
+                                tree.roots.remove(index);
+                                tree.roots.add(root);
+                            }
+                            else
+                                tree.roots.add(root);
+
+                        }
+                        else
+                        {
+
+                            tree.roots.remove(index);
+                            tree.roots.add(root);
+                        }
+
+                    }
+                    return;
+                }
+            }
 
             //temp_line.name=name;
             if(temp[0].contains("("))
@@ -619,7 +754,7 @@ class CTree
             /* setting the root node of the tree */
             if(root==null) {
                 root = n;
-                ftDriver.putTreeHash(name,n);
+                TreeHash.put(rdd_no, n);
                 continue;
             }
 
@@ -729,15 +864,22 @@ class CTree
                 parentNode.addChild(n);
                 n.setParent(parentNode);
             }
-            ftDriver.putTreeHash(name,n);
+            TreeHash.put(rdd_no, n);
         }
 
-
+        Tree newTree = new Tree();
+        newTree.roots.add(root);
+        roots.add(newTree);
     }
 
-    public ArrayList<Node> getPreOrderTraversal() {
+    public ArrayList<Node> getPreOrderTraversal(Tree tree) {
         ArrayList<Node> preOrder = new ArrayList<Node>();
-        buildPreOrder(root, preOrder);
+
+        System.out.println("The number of roots in the tree is "+ tree.roots.size());
+        for(int i = 0 ;i< tree.roots.size();i++) {
+            System.out.println("Root is "+tree.roots.get(i).getName());
+            buildPreOrder(tree.roots.get(i), preOrder);
+        }
         return preOrder;
     }
 
