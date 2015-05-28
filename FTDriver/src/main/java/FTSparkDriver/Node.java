@@ -13,7 +13,7 @@ public class Node {
     private String name;
     private int criticality;
     private List<Node> children;
-   Node parent;
+    private List<Node> parent;
     private int no_spaces;
     private double critic_percentage;
     private boolean isStage;
@@ -35,6 +35,7 @@ public class Node {
         this.line_no=line_no;
         this.name=name;
         this.children=new ArrayList<Node>();
+        this.parent = new ArrayList<Node>();
         this.no_spaces=spaces;
         this.rdd_no=rdd_no;
         this.isStage=isStage;
@@ -43,14 +44,19 @@ public class Node {
 
     public void addChild(Node child)
     {
-        child.setParent(this);
+        child.addParent(this);
         children.add(child);
     }
-
-    public void setParent(Node parent)
+    public List<Node> getParents()
     {
-        this.parent = parent;
+        return this.parent;
     }
+    public void addParent(Node p)
+    {
+        parent.add(p);
+    }
+
+
     public List<Node> getChildren()
     {
 

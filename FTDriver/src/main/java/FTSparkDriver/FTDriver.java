@@ -17,6 +17,7 @@ class lines
     String line;
     String name;
     String operation;
+    int rdd_no;
     int l_no;
 }
 /**
@@ -388,7 +389,7 @@ public class FTDriver {
 
        ctree.parseLines(DebugString);
         ctree.processLines();
-        ctree.calculateCriticality();
+       ctree.calculateCriticality();
         System.out.println("******** GetPreOrder **********");
         ArrayList<Node> preOrder;
         int i;
@@ -402,7 +403,7 @@ public class FTDriver {
             }
         }
         System.out.println("**********STAGES!!!!********");
-        printMap();
+   //     printMap();
       /*  for(String name: Stages)
         {
             System.out.println("Processing Stage "+name);
@@ -490,6 +491,7 @@ class CTree
                     no_workers++;
                     workers[j].start();
                 }
+                temp_l.rdd_no=rdd_no;
                 Lines.add(temp_l);
 
             }
@@ -527,6 +529,20 @@ class CTree
         }
         return found;
     }
+    Node getParent(Node root, int rdd_no)
+    {
+        Node found=null;
+        if(root.getRdd_no()==rdd_no)
+            return root;
+
+        for( Node n: root.getChildren())
+        {
+            Node temp=getParent(n, rdd_no);
+            if(temp!=null)
+                found=temp;
+        }
+        return found;
+    }
 
     /* check if the node is already present */
     boolean check(Node root, String name)
@@ -544,7 +560,7 @@ class CTree
         return found;
     }
 
-    boolean checkParent(Node root, String name, String parent)
+ /*   boolean checkParent(Node root, String name, String parent)
     {
         boolean found = false;
 
@@ -557,7 +573,7 @@ class CTree
             found|= temp;
         }
         return found;
-    }
+    }*/
     /* check if the node is already present */
     boolean check(Node root, String name , int rdd_no)
     {
@@ -573,11 +589,26 @@ class CTree
         }
         return found;
     }
+    boolean check(Node root, int rdd_no)
+    {
+        boolean found=false;
+
+        if( root.getRdd_no()==rdd_no)
+            return true;
+
+        for(Node n: root.getChildren())
+        {
+            boolean temp= check(n, rdd_no);
+            found |= temp;
+        }
+        return found;
+    }
 
 
     void processLines()
     {
         int i;
+       boolean flag_root_changed=false;
         for(i=0;i<no_lines;i++)
         {
             boolean isStage=false;
@@ -603,7 +634,10 @@ class CTree
             //System.out.println("count Spaces "+count_spaces);
             int length=temp.length;
 
+            int flagInside=0;
+
             String t1[] = temp[length-2].split(":");
+
             int l=Integer.parseInt(t1[1]);
 
             int rdd_no=-1;
@@ -640,19 +674,34 @@ class CTree
             }
 
             rddData rdd = ftDriver.getRddDataRDDNumber(rdd_no);
+
+            System.out.println("THE CURRENT " +
+                    "rdd number is "+rdd_no);
             String name = rdd.getName();
             System.out.println("Line_no "+l+"Name "+name);
             temp_line.operation=rdd.getOperation();
-            temp_line.l_no=rdd.getLineNo();
+            System.out.println("operation "+rdd.getOperation());
+            //temp_line.l_no=rdd.getLineNo();
             temp_line.name=name;
 
+
+            System.out.println("***************Name********************** "+temp_line.name);
+            System.out.println("Operation "+temp_line.operation);
+
             //temp_line.l_no=l;
+
+            Node currentNode=null;
             if(TreeHash.containsKey(rdd_no))
             {
                 // check if it is present in same tree!!!
                 boolean sameTree = true;
                 if(root!=null)
-                    sameTree = check(root, name, rdd_no);
+                    sameTree = check(root, rdd_no);
+                System.out.println("SameTREE???? "+sameTree);
+                if(sameTree) {
+                    currentNode=getParent(root, rdd_no);
+                    flagInside = 1;
+                }
                 boolean differentTree = false;
                 Tree tree=null;
                 Node currentRoot=null;
@@ -678,6 +727,7 @@ class CTree
                         }
                         if(differentTree)
                         {
+                            flagInside=1;
                             break;
                         }
                     }
@@ -689,47 +739,51 @@ class CTree
                     }
                     if(differentTree && root!=null)
                     {
+
                         lines parent = Lines.get(i-1);
                         System.out.println("IN DIFFERENT TREE : Parent is "+parent.name);
 
                         Node parentNode = getParent(root, parent.name);
-                        Node currentNode = getParent(currentRoot, name);
+                        currentNode = getParent(currentRoot, name);
 
                         // Added to tree, now should update roots
 
-                        currentNode.parent = parentNode;
+                        //currentNode.addParent(parentNode);
                         parentNode.addChild(currentNode);
 
-                        System.out.println("Current Node is "+currentNode.getName() + "Current root is "+currentRoot.getName());
+                        System.out.println("Current Node is "+currentNode.getName() + " Current root is "+currentRoot.getName());
                         if(currentNode!=currentRoot)
                         {
 
 
                             // for handling the special case
 
-                            boolean special = check(root, currentRoot.getName());
-                            System.out.println("Is it a special case???" + special);
-                            if(special)
-                            {
-                                tree.roots.remove(index);
-                                tree.roots.add(root);
-                            }
-                            else
                                 tree.roots.add(root);
 
                         }
                         else
                         {
 
+                            System.out.println("In Else");
                             tree.roots.remove(index);
+
+                            boolean alreadyPresent=false;
+
+                            for(int k=0;k<tree.roots.size();k++)
+                            {
+                                if(tree.roots.get(k)==root)
+                                    alreadyPresent=true;
+                            }
+                            if(!alreadyPresent)
                             tree.roots.add(root);
                         }
+                        flag_root_changed=true;
 
                     }
-                    return;
+
                 }
             }
-
+            System.out.println("Flag Inside is "+flagInside);
             //temp_line.name=name;
             if(temp[0].contains("("))
             {
@@ -741,42 +795,23 @@ class CTree
 
             }
 
-            Node n=new Node(l,name, count_spaces, isStage, rdd_no);
-           /* for(int j=0; j< length ; j++)
-            {
-                System.out.println(j+" "+temp[j]);
-            }*/
-
-            // Finding stages
 
 
+            Node n=null;
 
-            /* setting the root node of the tree */
-            if(root==null) {
-                root = n;
-                TreeHash.put(rdd_no, n);
-                continue;
-            }
+            if(flagInside==0)
+            n=new Node(l,name, count_spaces, isStage, rdd_no);
+            else
+            n=currentNode;
 
-              /* checking if the name is already presnt -> This is useful in the case where we have input 1 */
-
-
-
-            System.out.println("***************Name********************** "+temp_line.name);
-            System.out.println("Operation "+temp_line.operation);
-                /* Inserting into the tree */
-             /* iF No Root , Make it root and continue to next line */
 
             // System.out.println(root.name);
             lines parent=null;
             int flag=1; // Used to check if parent name is the previous line
 
              /* if operation is Union, add it to the list*/
-            if(temp_line.operation.equals("union"))
-            {
-                List<lines> ListLines = new ArrayList<lines>();
-                ListLines.add(temp_line);
-                dependencies.put(count_spaces,ListLines);
+           //////////* if(temp_line.operation.equals("union"))
+          /*dependencies.put(count_spaces,ListLines);
                 System.out.println("Adding "+temp_line.name+" to the hashmap");
             }
 
@@ -803,37 +838,55 @@ class CTree
 
                 }
 
-            }
+            }*/
 
-            if(temp_line.operation.equals("join"))
+            if(rdd.getOperation().equals("join")  ) // Only first time, not at other times
             {
                 GroupDependencies.clear();
                 GroupDependencies.put("Parent", n);
 
+                System.out.println("Inside Join");
+
             }
-            if(temp[0].contains("(") && GroupDependencies.size()==1)
+            else if(temp[0].contains("(") && GroupDependencies.size()==1)
             {
+
                 GroupDependencies.put("Child1",n);
+
+                System.out.println("Inisde child1");
             }
             else if(temp[0].contains("(") && GroupDependencies.size()==2)
             {
                 Node parentNode = GroupDependencies.get("Parent");
 
-                System.out.println("Parent is "+parentNode.getName());
-                parentNode.getChildren().add(n);
+                System.out.println("Inisde child 2, Parent is "+parentNode.getName());
+                if(flagInside==0) {
+                    parentNode.addChild(n);
+                    TreeHash.put(rdd_no, n);
+                }
                 GroupDependencies.clear();
                 continue;
             }
                 /* this is general case */
+             /* setting the root node of the tree */
+            if(root==null) {
+                root = n;
+                TreeHash.put(rdd_no, n);
+                continue;
+            }
             if(flag==1)
                 parent = Lines.get(i-1);
-            if(check(root,name, rdd_no))
+            System.out.println("Parent is (below flag ) "+ parent.name);
+
+            if(check(root,name, rdd_no) )
             {
 
 
-                Node n1=getParent(root, name);
-                System.out.println("Parent in check is "+n1.parent.getName() );
-                if(n1.parent.getName()== parent.name)
+                Node n1=getParent(root, rdd_no);
+                System.out.println("Node in found is "+n1.getRdd_no());
+
+              //  System.out.println("Parent in check is "+n1.parent.getName() );
+               /* if(n1.parent.getName()== parent.name)
                 {
                     System.out.println("Found "+name+" Hence Skipping insertion");
                     continue;
@@ -842,13 +895,29 @@ class CTree
                 {
                     System.out.println("Found "+name+" Hence Skipping insertion case 2");
                     continue;
+                }*/
+                boolean found=false;
+                System.out.println("Parent size is "+n1.getParents().size() );
+                for(int k=0;k<n1.getParents().size();k++)
+                {
+                    System.out.println("Parents inside found is "+n1.getParents().get(k).getName());
+                    if(n1.getParents().get(k).getName().equals(parent.name)) {
+
+                        found = true;
+                    }
+                }
+                if(found)
+                {
+                    System.out.println("Found "+name+" Hence Skipping insertion");
+                    continue;
                 }
                 else
                 {
 
                     Node parentNode = getParent(root, parent.name);
                     System.out.println("Parent is " + parentNode.getName());
-                    parentNode.getChildren().add(n1);
+                   // parentNode.getChildren().add(n1);
+                    parentNode.addChild(n1);
                     continue;
 
                 }
@@ -858,18 +927,25 @@ class CTree
             if(parent.name!=null)
                 parentNode=getParent(root, parent.name);
 
-            if(parentNode!=null)
+            if(parentNode!=null && flagInside==0)
             {
                 System.out.println("parent "+parentNode.getName());
                 parentNode.addChild(n);
-                n.setParent(parentNode);
+               // n.addParent(parentNode);
             }
+            if(flagInside==0);
             TreeHash.put(rdd_no, n);
-        }
 
-        Tree newTree = new Tree();
-        newTree.roots.add(root);
-        roots.add(newTree);
+            System.out.println("Parnets are ");
+
+            for(int k=0; k<n.getParents().size();k++)
+                System.out.println(n.getParents().get(k).getName());
+        }
+        if(!flag_root_changed) {
+            Tree newTree = new Tree();
+            newTree.roots.add(root);
+            roots.add(newTree);
+        }
     }
 
     public ArrayList<Node> getPreOrderTraversal(Tree tree) {
@@ -886,6 +962,7 @@ class CTree
     private void buildPreOrder(Node node, ArrayList<Node> preOrder) {
         preOrder.add(node);
         for (Node child : node.getChildren()) {
+
             buildPreOrder(child, preOrder);
         }
     }

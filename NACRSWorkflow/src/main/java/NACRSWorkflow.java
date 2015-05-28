@@ -124,6 +124,7 @@ class Workflow implements persistRDDs, Serializable {
         });
 
         /* Filtering the dataset to contain only records of length 27 */
+        System.out.println(RemovedNULL.toDebugString());
         ftDriver.constructTree(RemovedNULL.toDebugString());
         RemovedNULL.collect();
 
@@ -141,7 +142,7 @@ class Workflow implements persistRDDs, Serializable {
 
         /* Cleaning the dataset
          */
-
+        System.out.println(FilteredRDD.toDebugString());
         ftDriver.constructTree(FilteredRDD.toDebugString());
         FilteredRDD.collect();
 
@@ -172,7 +173,7 @@ class Workflow implements persistRDDs, Serializable {
                 return true;
             }
         });
-
+        System.out.println(CleanedRDD.toDebugString());
         ftDriver.constructTree(CleanedRDD.toDebugString());
 
         // broadcast?
@@ -247,6 +248,7 @@ class Workflow implements persistRDDs, Serializable {
 
 
         }
+        System.out.println(convertedRDD.toDebugString());
         ftDriver.constructTree(convertedRDD.toDebugString());
         convertedRDD.collect();
 
@@ -292,7 +294,7 @@ class Workflow implements persistRDDs, Serializable {
 
                                                                                }
         );
-
+        System.out.println(Patient_Details.toDebugString());
         ftDriver.constructTree(Patient_Details.toDebugString());
         Patient_Details.collect();
 
@@ -319,12 +321,13 @@ class Workflow implements persistRDDs, Serializable {
             }
         });
 
+        System.out.println(parsedDataWithKey.toDebugString());
         ftDriver.constructTree(parsedDataWithKey.toDebugString());
         parsedDataWithKey.collect();
 
 
         int numClusters = 3;
-        int numIterations = 100;
+        int numIterations = 10;
         final KMeansModel clusters = KMeans.train(parsedData.rdd(), numClusters, numIterations);
 
 
@@ -362,7 +365,7 @@ class Workflow implements persistRDDs, Serializable {
 
             }
         });
-
+        System.out.println(cluster0.toDebugString());
         ftDriver.constructTree(cluster0.toDebugString());
         cluster0.collect();
 
@@ -385,8 +388,9 @@ class Workflow implements persistRDDs, Serializable {
         // convert array to STring + "," + string format!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
       //  System.out.println("Formatted Cluster "+FormattedCluster0.toDebugString());
 
-        ftDriver.constructTree(FormattedCluster0.toDebugString());
         System.out.println(FormattedCluster0.toDebugString());
+        ftDriver.constructTree(FormattedCluster0.toDebugString());
+
         FormattedCluster0.saveAsTextFile("NACRS/output/cluster0");
 
          cluster1 = clusterJoinedRDD. filter(new Function<Tuple2<String, Tuple2<String[], Integer>>,Boolean  >(){

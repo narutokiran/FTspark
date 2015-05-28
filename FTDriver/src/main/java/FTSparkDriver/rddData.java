@@ -43,6 +43,7 @@ try {
     int l = Integer.parseInt(t1[1]);
     this.line_no = l;
     String r;
+    this.operation = temp[temp.length - 4];
     if(temp[0].equals("|") && temp[1].equals("|"))
     {
         if(temp.length==8) {
@@ -73,7 +74,7 @@ try {
         rdd_no=Integer.parseInt(r);
     }
 
-    this.operation = temp[temp.length - 4];
+
     //print();
     FindName();
 
