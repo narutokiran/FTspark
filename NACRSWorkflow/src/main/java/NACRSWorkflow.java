@@ -408,9 +408,9 @@ class Workflow implements persistRDDs, Serializable {
 
             }
         });
-
+        ftDriver.constructTree(cluster1.toDebugString());
         cluster1.collect();
-
+        ftDriver.constructTree(FormattedCluster1.toDebugString());
          FormattedCluster1 = cluster1.mapToPair(new PairFunction<Tuple2<String, Tuple2<String[], Integer>>,String, String >(){
             public Tuple2<String, String> call(Tuple2<String, Tuple2<String[],Integer>> t2){
                 Tuple2<String[],Integer> tempTup = t2._2();
@@ -430,6 +430,7 @@ class Workflow implements persistRDDs, Serializable {
         System.out.println("Formatted Cluster "+FormattedCluster1.toDebugString());
         FormattedCluster1.saveAsTextFile("NACRS/output/cluster1");
 
+
          cluster2 = clusterJoinedRDD. filter(new Function<Tuple2<String, Tuple2<String[], Integer>>,Boolean  >(){
             public Boolean call (Tuple2<String, Tuple2<String[], Integer>> t2)
             {
@@ -445,7 +446,9 @@ class Workflow implements persistRDDs, Serializable {
 
             }
         });
+        ftDriver.constructTree(cluster2.toDebugString());
         cluster2.collect();
+
          FormattedCluster2 = cluster2.mapToPair(new PairFunction<Tuple2<String, Tuple2<String[], Integer>>,String, String >(){
             public Tuple2<String, String> call(Tuple2<String, Tuple2<String[],Integer>> t2){
                 Tuple2<String[],Integer> tempTup = t2._2();
@@ -463,7 +466,7 @@ class Workflow implements persistRDDs, Serializable {
 
         });
 
-
+        ftDriver.constructTree(FormattedCluster2.toDebugString());
         System.out.println("Formatted Cluster "+FormattedCluster2.toDebugString());
         FormattedCluster2.saveAsTextFile("NACRS/output/cluster2");
 
