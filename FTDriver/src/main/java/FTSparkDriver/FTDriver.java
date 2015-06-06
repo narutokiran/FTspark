@@ -404,11 +404,11 @@ public class FTDriver {
         }
         System.out.println("**********STAGES!!!!********");
    //     printMap();
-      /*  for(String name: Stages)
+        for(String name: Stages)
         {
             System.out.println("Processing Stage "+name);
-            WorkFlow.cache(name);
-        }*/
+        //    WorkFlow.cache(name);
+        }
 
     }
 
@@ -647,13 +647,13 @@ class CTree
                 if(temp.length==8) {
                     String rn[] = temp[2].split("\\[");
                     r = rn[1].substring(0, rn[1].length() - 1);
-                    System.out.println(r);
+                 //   System.out.println(r);
                 }
                 else
                 {
                     String rn[] = temp[3].split("\\[");
                     r = rn[1].substring(0, rn[1].length() - 1);
-                    System.out.println(r);
+                //    System.out.println(r);
                 }
                 rdd_no=Integer.parseInt(r);
             }
@@ -662,25 +662,25 @@ class CTree
                 if(temp.length==7) {
                     String rn[] = temp[1].split("\\[");
                     r = rn[1].substring(0, rn[1].length() - 1);
-                    System.out.println(r);
+                //    System.out.println(r);
                 }
                 else
                 {
                     String rn[] = temp[2].split("\\[");
                     r = rn[1].substring(0, rn[1].length() - 1);
-                    System.out.println(r);
+                  //  System.out.println(r);
                 }
                 rdd_no=Integer.parseInt(r);
             }
 
             rddData rdd = ftDriver.getRddDataRDDNumber(rdd_no);
 
-            System.out.println("THE CURRENT " +
-                    "rdd number is "+rdd_no);
+         //   System.out.println("THE CURRENT " +
+         //           "rdd number is "+rdd_no);
             String name = rdd.getName();
-            System.out.println("Line_no "+l+"Name "+name);
+          //  System.out.println("Line_no "+l+"Name "+name);
             temp_line.operation=rdd.getOperation();
-            System.out.println("operation "+rdd.getOperation());
+      //      System.out.println("operation "+rdd.getOperation());
             //temp_line.l_no=rdd.getLineNo();
             temp_line.name=name;
 
@@ -697,7 +697,7 @@ class CTree
                 boolean sameTree = true;
                 if(root!=null)
                     sameTree = check(root, rdd_no);
-                System.out.println("SameTREE???? "+sameTree);
+            //    System.out.println("SameTREE???? "+sameTree);
                 if(sameTree) {
                     currentNode=getParent(root, rdd_no);
                     flagInside = 1;
@@ -734,14 +734,14 @@ class CTree
 
                     if(differentTree && root == null) // This is the first node and is already present
                     {
-                        System.out.println("Already presenet and first node... Exiting from tree!!! rdd no is "+rdd_no);
+                  //      System.out.println("Already presenet and first node... Exiting from tree!!! rdd no is "+rdd_no);
                         return;
                     }
                     if(differentTree && root!=null)
                     {
 
                         lines parent = Lines.get(i-1);
-                        System.out.println("IN DIFFERENT TREE : Parent is "+parent.name);
+                 //       System.out.println("IN DIFFERENT TREE : Parent is "+parent.name);
 
                         Node parentNode = getParent(root, parent.name);
                         currentNode = getParent(currentRoot, name);
@@ -751,7 +751,7 @@ class CTree
                         //currentNode.addParent(parentNode);
                         parentNode.addChild(currentNode);
 
-                        System.out.println("Current Node is "+currentNode.getName() + " Current root is "+currentRoot.getName());
+                    //    System.out.println("Current Node is "+currentNode.getName() + " Current root is "+currentRoot.getName());
                         if(currentNode!=currentRoot)
                         {
 
@@ -764,7 +764,7 @@ class CTree
                         else
                         {
 
-                            System.out.println("In Else");
+                    //        System.out.println("In Else");
                             tree.roots.remove(index);
 
                             boolean alreadyPresent=false;
@@ -783,7 +783,7 @@ class CTree
 
                 }
             }
-            System.out.println("Flag Inside is "+flagInside);
+         //   System.out.println("Flag Inside is "+flagInside);
             //temp_line.name=name;
             if(temp[0].contains("("))
             {

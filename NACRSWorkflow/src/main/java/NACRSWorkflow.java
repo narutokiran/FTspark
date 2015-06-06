@@ -410,7 +410,7 @@ class Workflow implements persistRDDs, Serializable {
         });
         ftDriver.constructTree(cluster1.toDebugString());
         cluster1.collect();
-        ftDriver.constructTree(FormattedCluster1.toDebugString());
+
          FormattedCluster1 = cluster1.mapToPair(new PairFunction<Tuple2<String, Tuple2<String[], Integer>>,String, String >(){
             public Tuple2<String, String> call(Tuple2<String, Tuple2<String[],Integer>> t2){
                 Tuple2<String[],Integer> tempTup = t2._2();
@@ -427,6 +427,8 @@ class Workflow implements persistRDDs, Serializable {
             }
 
         });
+        ftDriver.constructTree(FormattedCluster1.toDebugString());
+
         System.out.println("Formatted Cluster "+FormattedCluster1.toDebugString());
         FormattedCluster1.saveAsTextFile("NACRS/output/cluster1");
 
