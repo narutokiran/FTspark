@@ -68,7 +68,7 @@ public class FTDriver {
     public FTDriver(persistRDDs WorkFlow, String logFile, String sourceFile)
     {
         System.out.println("Initializing Fault Tolerant Driver");
-    //   InitializeTailer(logFile);
+       InitializeTailer(logFile);
         this.WorkFlow=WorkFlow;
         no_lines=0;
         processSourceFile(sourceFile, WorkFlow);
@@ -104,6 +104,8 @@ public class FTDriver {
     public rddData getRddDataNumber(int line_no)
     {
         return (rddData) rddDataNumber.get(new Integer(line_no));
+    }
+    public boolean containsKeyRddDataRDDNumber(int no) { return rddDataRDDNumber.containsKey(no);
     }
 
     public rddData getRddDataRDDNumber(int rdd_no)
@@ -203,7 +205,7 @@ public class FTDriver {
 
     public void printMap()
     {
-        Iterator<Map.Entry<Integer, String>> entries =  rddNameNumber.entrySet().iterator();
+     /*   Iterator<Map.Entry<Integer, String>> entries =  rddNameNumber.entrySet().iterator();
         while(entries.hasNext())
         {
             Map.Entry<Integer, String> entry=entries.next();
@@ -214,7 +216,7 @@ public class FTDriver {
         {
             Map.Entry<Integer,rddData> entryRdd = entriesRdd.next();
             System.out.println("Hashmap RDD entry "+entryRdd.getKey()+" "+entryRdd.getValue().getName());
-        }
+        }*/
         Iterator<Map.Entry<Integer, rddData>> entries1 =  rddDataRDDNumber.entrySet().iterator();
         while(entries1.hasNext())
         {
@@ -386,7 +388,7 @@ public class FTDriver {
     public void constructTree(String DebugString)
     {
        ctree = new CTree(this, TreeHash, roots);
-
+        Stages.clear();
        ctree.parseLines(DebugString);
         ctree.processLines();
        ctree.calculateCriticality();
@@ -407,7 +409,7 @@ public class FTDriver {
         for(String name: Stages)
         {
             System.out.println("Processing Stage "+name);
-        //    WorkFlow.cache(name);
+            WorkFlow.cache(name);
         }
 
     }
@@ -441,6 +443,7 @@ class CTree
         Thread workers[]=new Thread[temp_strings.length+1];
         int rdd_no=-1;
         int no_workers=0;
+        no_lines=0;
 
         try {
 
@@ -454,10 +457,15 @@ class CTree
                 String t = temp_strings[j];
                 t = t.replaceAll("( )+", " ");
                 t = t.trim();
-
+                System.out.println("In ParseLines "+t);
                 String temp[] = t.split(" ");
                 String r="";
-                if(temp[0].equals("|") && temp[1].equals("|"))
+
+                if(temp[1].contains("CachedPartitions") || temp[2].contains("CachedPartitions"))
+                {
+                    continue;
+                }
+                    if(temp[0].equals("|") && temp[1].equals("|"))
                 {
                     if(temp.length==8) {
                         String rn[] = temp[2].split("\\[");
@@ -493,9 +501,10 @@ class CTree
                 }
                 temp_l.rdd_no=rdd_no;
                 Lines.add(temp_l);
+                no_lines++;
 
             }
-            no_lines = temp_strings.length;
+
             System.out.println(no_lines);
 
             /* waiting for all the worker threads to join */
@@ -785,20 +794,23 @@ class CTree
             }
          //   System.out.println("Flag Inside is "+flagInside);
             //temp_line.name=name;
-            if(temp[0].contains("("))
-            {
-                ftDriver.Stages.add(name);
-                isStage=true;
-                // Push the corresponding details into the map;
 
-                ftDriver.putStagesRDD(name, rdd);
-
-            }
 
 
 
             Node n=null;
 
+            if(temp[0].contains("("))
+            {
+               // System.out.println("Adding "+name+" to Stages");
+                if(currentNode==null || currentNode.isSetTime()==false) {
+                    ftDriver.Stages.add(name);
+                    isStage = true;
+                    // Push the corresponding details into the map;
+
+                    ftDriver.putStagesRDD(name, rdd);
+                }
+            }
             if(flagInside==0)
             n=new Node(l,name, count_spaces, isStage, rdd_no);
             else
@@ -844,8 +856,7 @@ class CTree
             {
                 GroupDependencies.clear();
                 GroupDependencies.put("Parent", n);
-
-                System.out.println("Inside Join");
+                //System.out.println("Inside Join");
 
             }
             else if(temp[0].contains("(") && GroupDependencies.size()==1)
@@ -853,13 +864,13 @@ class CTree
 
                 GroupDependencies.put("Child1",n);
 
-                System.out.println("Inisde child1");
+               // System.out.println("Inisde child1");
             }
             else if(temp[0].contains("(") && GroupDependencies.size()==2)
             {
                 Node parentNode = GroupDependencies.get("Parent");
 
-                System.out.println("Inisde child 2, Parent is "+parentNode.getName());
+              //  System.out.println("Inisde child 2, Parent is "+parentNode.getName());
                 if(flagInside==0) {
                     parentNode.addChild(n);
                     TreeHash.put(rdd_no, n);
@@ -876,14 +887,14 @@ class CTree
             }
             if(flag==1)
                 parent = Lines.get(i-1);
-            System.out.println("Parent is (below flag ) "+ parent.name);
+           // System.out.println("Parent is (below flag ) "+ parent.name);
 
             if(check(root,name, rdd_no) )
             {
 
 
                 Node n1=getParent(root, rdd_no);
-                System.out.println("Node in found is "+n1.getRdd_no());
+              //  System.out.println("Node in found is "+n1.getRdd_no());
 
               //  System.out.println("Parent in check is "+n1.parent.getName() );
                /* if(n1.parent.getName()== parent.name)
@@ -897,10 +908,10 @@ class CTree
                     continue;
                 }*/
                 boolean found=false;
-                System.out.println("Parent size is "+n1.getParents().size() );
+             //   System.out.println("Parent size is "+n1.getParents().size() );
                 for(int k=0;k<n1.getParents().size();k++)
                 {
-                    System.out.println("Parents inside found is "+n1.getParents().get(k).getName());
+             //       System.out.println("Parents inside found is "+n1.getParents().get(k).getName());
                     if(n1.getParents().get(k).getName().equals(parent.name)) {
 
                         found = true;
@@ -908,7 +919,7 @@ class CTree
                 }
                 if(found)
                 {
-                    System.out.println("Found "+name+" Hence Skipping insertion");
+          //          System.out.println("Found "+name+" Hence Skipping insertion");
                     continue;
                 }
                 else
@@ -929,14 +940,14 @@ class CTree
 
             if(parentNode!=null && flagInside==0)
             {
-                System.out.println("parent "+parentNode.getName());
+     //           System.out.println("parent "+parentNode.getName());
                 parentNode.addChild(n);
                // n.addParent(parentNode);
             }
             if(flagInside==0);
             TreeHash.put(rdd_no, n);
 
-            System.out.println("Parnets are ");
+    //        System.out.println("Parnets are ");
 
             for(int k=0; k<n.getParents().size();k++)
                 System.out.println(n.getParents().get(k).getName());
@@ -951,9 +962,9 @@ class CTree
     public ArrayList<Node> getPreOrderTraversal(Tree tree) {
         ArrayList<Node> preOrder = new ArrayList<Node>();
 
-        System.out.println("The number of roots in the tree is "+ tree.roots.size());
+      //  System.out.println("The number of roots in the tree is "+ tree.roots.size());
         for(int i = 0 ;i< tree.roots.size();i++) {
-            System.out.println("Root is "+tree.roots.get(i).getName());
+     //       System.out.println("Root is "+tree.roots.get(i).getName());
             buildPreOrder(tree.roots.get(i), preOrder);
         }
         return preOrder;
@@ -970,7 +981,7 @@ class CTree
     {
         calculateCriticalityNumber(root,0);
         int number=totalNodes(root);
-        System.out.println("The total number of nodes is "+number);
+     //   System.out.println("The total number of nodes is "+number);
         calculateCriticalityPercentage(root, number);
     }
     void calculateCriticalityPercentage(Node root, int number)

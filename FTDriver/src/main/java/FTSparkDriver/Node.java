@@ -18,6 +18,7 @@ public class Node {
     private double critic_percentage;
     private boolean isStage;
     int rdd_no;
+    private boolean setTime;
 
     Node(int line_no, String name, int spaces, boolean isStage)
     {
@@ -27,6 +28,7 @@ public class Node {
         this.children=new ArrayList<Node>();
         this.no_spaces=spaces;
         this.isStage=isStage;
+        this.setTime= false;
     }
 
     Node(int line_no, String name, int spaces, boolean isStage, int rdd_no)
@@ -39,6 +41,7 @@ public class Node {
         this.no_spaces=spaces;
         this.rdd_no=rdd_no;
         this.isStage=isStage;
+        this.setTime=false;
     }
 
 
@@ -103,6 +106,9 @@ public class Node {
     public void setRdd_no(int no) {
         rdd_no=no;
     }
+    public boolean isSetTime()
+    { return setTime; }
+    public void setSetTime(boolean set) { setTime=set; }
 }
 
 class Tree

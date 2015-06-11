@@ -15,6 +15,7 @@ public class Node {
         int no_spaces;
         double critic_percentage;
         int rdd_no;
+        boolean set_time;
 
         Node(int line_no, String name, int spaces)
         {
@@ -23,6 +24,7 @@ public class Node {
             this.name=name;
             this.children=new ArrayList<Node>();
             this.no_spaces=spaces;
+            this.set_time=false;
         }
     Node(int line_no, String name, int spaces, int rdd_no)
     {
@@ -32,6 +34,7 @@ public class Node {
         this.children=new ArrayList<Node>();
         this.no_spaces=spaces;
         this.rdd_no=rdd_no;
+        this.set_time=false;
     }
 
         public void addChild(Node child)
@@ -81,6 +84,8 @@ public class Node {
     public void setRdd_no(int no) {
         rdd_no=no;
     }
+    public void setSet_time(boolean set){ set_time=set; }
+    public boolean getSet_time() { return set_time;}
 }
 
 //Roots of a single tree

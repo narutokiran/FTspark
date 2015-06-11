@@ -1,6 +1,7 @@
 package FTSparkDriver;
 
 /**
+ * 15/06/11 15:34:39 INFO BlockManagerInfo: Added rdd_25_0 in memory on aparna-VirtualBox:38745 (size: 1616.0 B, free: 534.0 MB)
  * Created by aparna on 10/04/15.
  */
 public class processAddedRDD implements Runnable {
@@ -20,7 +21,12 @@ public class processAddedRDD implements Runnable {
         processLine();
         //Once line is processed, get the correpsonding rdd object from the map and then update the contents of the object
 
+
+        if(!ftDriver.containsKeyRddDataRDDNumber(rdd_no))
+            return;
         rddData rdd=ftDriver.getRddDataRDDNumber(rdd_no);
+
+
 
        synchronized (rdd)
        {
@@ -29,6 +35,10 @@ public class processAddedRDD implements Runnable {
            {
                //System.out.println("Unit KBS");
                mem+=(memory/1000);
+           }
+           else if(unit.equals("B,"))
+           {
+               mem+=(memory/(1000*1000));
            }
            else
            mem+=(memory);

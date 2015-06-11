@@ -41,9 +41,21 @@ class Workflow implements persistRDDs, Serializable {
     JavaPairRDD<String, Tuple2<String[], Integer> > clusterJoinedRDD,cluster0, cluster1, cluster2;
     JavaPairRDD<String, String> FormattedCluster0, FormattedCluster1, FormattedCluster2;
 
+    HashMap< String, JavaPairRDD<?,?>> hm = new HashMap<String, JavaPairRDD<?, ?>>();
+    HashMap<String, JavaRDD<?>> hm1 = new HashMap<String, JavaRDD<?>>();
+
     public void cache(String name)
     {
+        if(hm.containsKey(name))
+        {
+            System.out.println("CACHING "+name);
+            JavaPairRDD<?,?> temp = (JavaPairRDD<?,?>) hm.get(name);
+            temp.cache();
+        }
+    }
 
+    public Workflow()
+    {
     }
 
     public static class ParseLine implements PairFunction<String, String, String[]> {
@@ -104,11 +116,11 @@ class Workflow implements persistRDDs, Serializable {
     {
         SparkConf sparkConf = new SparkConf().setAppName("NACRSAnalysis").setMaster("yarn-client");
         JavaSparkContext ctx = new JavaSparkContext(sparkConf);
-        FTDriver ftDriver = new FTDriver(this,"/home/aparna/spark-1.1.1/logs/SparkOut.log","NACRSWorkflow.java");
+        FTDriver ftDriver = new FTDriver(this,"/home/aparna/spark-1.3.1/logs/SparkOut.log","NACRSWorkflow.java");
          csvFile = ctx.textFile("/user/aparna/input/ParsedFullNACRS.csv");
-
+        hm1.put("csvFile", csvFile);
          NULLRDD = csvFile.mapToPair(new ParseLine());
-
+        hm.put("NULLRDD", NULLRDD);
        RemovedNULL = NULLRDD.filter( new Function<Tuple2<String, String[]>,Boolean>(){
 
             public Boolean call (Tuple2<String, String[]> t2)
@@ -125,6 +137,7 @@ class Workflow implements persistRDDs, Serializable {
 
         /* Filtering the dataset to contain only records of length 27 */
         System.out.println(RemovedNULL.toDebugString());
+        hm.put("RemovedNULL", RemovedNULL);
         ftDriver.constructTree(RemovedNULL.toDebugString());
         RemovedNULL.collect();
 
@@ -142,6 +155,7 @@ class Workflow implements persistRDDs, Serializable {
 
         /* Cleaning the dataset
          */
+        hm.put("FilteredRDD", FilteredRDD);
         System.out.println(FilteredRDD.toDebugString());
         ftDriver.constructTree(FilteredRDD.toDebugString());
         FilteredRDD.collect();
@@ -173,6 +187,7 @@ class Workflow implements persistRDDs, Serializable {
                 return true;
             }
         });
+        hm.put("CleanedRDD", CleanedRDD);
         System.out.println(CleanedRDD.toDebugString());
         ftDriver.constructTree(CleanedRDD.toDebugString());
 
@@ -248,6 +263,7 @@ class Workflow implements persistRDDs, Serializable {
 
 
         }
+        hm.put("convertedRDD", convertedRDD);
         System.out.println(convertedRDD.toDebugString());
         ftDriver.constructTree(convertedRDD.toDebugString());
         convertedRDD.collect();
@@ -272,7 +288,7 @@ class Workflow implements persistRDDs, Serializable {
             }
 
         });
-
+        hm.put("Demographics", Demographics);
          Patient_Details = convertedRDD.mapToPair(new PairFunction<Tuple2<String, String[]>, String, String[]>() {
                                                                                    public Tuple2<String, String[]> call(Tuple2<String, String[]> t2) {
                                                                                        String[] temp = (String[]) t2._2();
@@ -294,6 +310,7 @@ class Workflow implements persistRDDs, Serializable {
 
                                                                                }
         );
+        hm.put("Patient_Detials", Patient_Details);
         System.out.println(Patient_Details.toDebugString());
         ftDriver.constructTree(Patient_Details.toDebugString());
         Patient_Details.collect();
@@ -310,6 +327,8 @@ class Workflow implements persistRDDs, Serializable {
                 }
         );
 
+        hm1.put("parsedData", parsedData);
+
         parsedDataWithKey = Patient_Details.mapToPair(new PairFunction<Tuple2<String, String[]>, String, Vector>(){
             public Tuple2<String, Vector> call(Tuple2<String, String[]> t2) {
                 String[] sarray = (String[]) t2._2();
@@ -320,7 +339,7 @@ class Workflow implements persistRDDs, Serializable {
                 return new Tuple2<String, Vector>(t2._1(), Vectors.dense(values));
             }
         });
-
+        hm.put("parsedDataWithKey", parsedDataWithKey);
         System.out.println(parsedDataWithKey.toDebugString());
         ftDriver.constructTree(parsedDataWithKey.toDebugString());
         parsedDataWithKey.collect();
@@ -342,11 +361,11 @@ class Workflow implements persistRDDs, Serializable {
 
 
 
-
+        hm.put("clusterKey", clusterKey);
         clusterJoinedRDD = CleanedRDD.join(clusterKey);
        // System.out.println(clusterJoinedRDD.toDebugString());
 
-
+        hm.put("clusterJoinedRDD", clusterJoinedRDD);
         ftDriver.constructTree(clusterJoinedRDD.toDebugString());
         clusterJoinedRDD.collect();
 
@@ -366,6 +385,7 @@ class Workflow implements persistRDDs, Serializable {
             }
         });
         System.out.println(cluster0.toDebugString());
+        hm.put("cluster0", cluster0);
         ftDriver.constructTree(cluster0.toDebugString());
         cluster0.collect();
 
@@ -387,7 +407,7 @@ class Workflow implements persistRDDs, Serializable {
         });
         // convert array to STring + "," + string format!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
       //  System.out.println("Formatted Cluster "+FormattedCluster0.toDebugString());
-
+        hm.put("FormattedCluster0", FormattedCluster0);
         System.out.println(FormattedCluster0.toDebugString());
         ftDriver.constructTree(FormattedCluster0.toDebugString());
 
@@ -408,7 +428,9 @@ class Workflow implements persistRDDs, Serializable {
 
             }
         });
+        hm.put("cluster1", cluster1);
         ftDriver.constructTree(cluster1.toDebugString());
+
         cluster1.collect();
 
          FormattedCluster1 = cluster1.mapToPair(new PairFunction<Tuple2<String, Tuple2<String[], Integer>>,String, String >(){
@@ -428,7 +450,7 @@ class Workflow implements persistRDDs, Serializable {
 
         });
         ftDriver.constructTree(FormattedCluster1.toDebugString());
-
+        hm.put("FormattedCluster1", FormattedCluster1);
         System.out.println("Formatted Cluster "+FormattedCluster1.toDebugString());
         FormattedCluster1.saveAsTextFile("NACRS/output/cluster1");
 
@@ -448,6 +470,7 @@ class Workflow implements persistRDDs, Serializable {
 
             }
         });
+        hm.put("cluster2", cluster2);
         ftDriver.constructTree(cluster2.toDebugString());
         cluster2.collect();
 
@@ -467,7 +490,7 @@ class Workflow implements persistRDDs, Serializable {
             }
 
         });
-
+        hm.put("FormattedCluster2", FormattedCluster2);
         ftDriver.constructTree(FormattedCluster2.toDebugString());
         System.out.println("Formatted Cluster "+FormattedCluster2.toDebugString());
         FormattedCluster2.saveAsTextFile("NACRS/output/cluster2");
