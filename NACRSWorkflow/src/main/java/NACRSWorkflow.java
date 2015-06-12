@@ -310,7 +310,7 @@ class Workflow implements persistRDDs, Serializable {
 
                                                                                }
         );
-        hm.put("Patient_Detials", Patient_Details);
+        hm.put("Patient_Details", Patient_Details);
         System.out.println(Patient_Details.toDebugString());
         ftDriver.constructTree(Patient_Details.toDebugString());
         Patient_Details.collect();
@@ -449,8 +449,9 @@ class Workflow implements persistRDDs, Serializable {
             }
 
         });
-        ftDriver.constructTree(FormattedCluster1.toDebugString());
         hm.put("FormattedCluster1", FormattedCluster1);
+        ftDriver.constructTree(FormattedCluster1.toDebugString());
+
         System.out.println("Formatted Cluster "+FormattedCluster1.toDebugString());
         FormattedCluster1.saveAsTextFile("NACRS/output/cluster1");
 

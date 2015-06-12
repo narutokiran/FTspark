@@ -18,6 +18,9 @@ public class rddData {
     public rddData(processRegisteringRDD rddthread)
     {
         this.rddthread=rddthread;
+        time_to_check_point=0;
+        time_to_compute=0;
+        time_to_restore=0;
     }
 
     void processLine(String line)

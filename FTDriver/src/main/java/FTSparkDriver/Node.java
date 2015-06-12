@@ -19,6 +19,7 @@ public class Node {
     private boolean isStage;
     int rdd_no;
     private boolean setTime;
+    boolean MultiplePaths;
 
     Node(int line_no, String name, int spaces, boolean isStage)
     {
@@ -29,6 +30,7 @@ public class Node {
         this.no_spaces=spaces;
         this.isStage=isStage;
         this.setTime= false;
+        this.MultiplePaths=false;
     }
 
     Node(int line_no, String name, int spaces, boolean isStage, int rdd_no)
@@ -42,6 +44,7 @@ public class Node {
         this.rdd_no=rdd_no;
         this.isStage=isStage;
         this.setTime=false;
+        this.MultiplePaths=false;
     }
 
 

@@ -107,6 +107,7 @@ public class FTDriver {
     }
     public boolean containsKeyRddDataRDDNumber(int no) { return rddDataRDDNumber.containsKey(no);
     }
+    public boolean containsKeyStagesRDD(String name) { return StagesRDD.containsKey(name);}
 
     public rddData getRddDataRDDNumber(int rdd_no)
     {
@@ -391,7 +392,9 @@ public class FTDriver {
         Stages.clear();
        ctree.parseLines(DebugString);
         ctree.processLines();
-       ctree.calculateCriticality();
+
+       ctree.calculateCriticality(roots);
+
         System.out.println("******** GetPreOrder **********");
         ArrayList<Node> preOrder;
         int i;
@@ -925,10 +928,11 @@ class CTree
                 else
                 {
 
-                    Node parentNode = getParent(root, parent.name);
+                    Node parentNode = getParent(root, parent.rdd_no);
                     System.out.println("Parent is " + parentNode.getName());
                    // parentNode.getChildren().add(n1);
                     parentNode.addChild(n1);
+                    n1.MultiplePaths=true;
                     continue;
 
                 }
@@ -936,7 +940,7 @@ class CTree
             }
             Node parentNode=null;
             if(parent.name!=null)
-                parentNode=getParent(root, parent.name);
+                parentNode=getParent(root, parent.rdd_no);
 
             if(parentNode!=null && flagInside==0)
             {
@@ -977,12 +981,43 @@ class CTree
             buildPreOrder(child, preOrder);
         }
     }
-    void calculateCriticality()
+    void calculateCriticality(ArrayList<Tree> trees)
     {
-        calculateCriticalityNumber(root,0);
+        for(int i=0;i<trees.size();i++)
+        {
+            for(int j=0;j<trees.get(i).roots.size();j++)
+            {
+                clearCriticality(trees.get(i).roots.get(j)); // The jth root in the ith tree
+            }
+        }
+
+        for(int i=0;i<trees.size();i++)
+        {
+            for(int j=0;j<trees.get(i).roots.size();j++)
+            {
+                calculateCriticalityNumber(trees.get(i).roots.get(j)); // The jth root in the ith tree
+            }
+        }
+
         int number=totalNodes(root);
      //   System.out.println("The total number of nodes is "+number);
         calculateCriticalityPercentage(root, number);
+    }
+
+    void clearCriticality(Node root)
+    {
+        root.setCriticality(0);
+        if(root.getChildren().size()==0)
+        {
+            return;
+        }
+
+        for(Node n: root.getChildren())
+        {
+            clearCriticality(n);
+        }
+        return;
+
     }
     void calculateCriticalityPercentage(Node root, int number)
     {
@@ -1014,20 +1049,37 @@ class CTree
          }
          root.criticality=sum+root.getChildren().size();
      }*/
-    void calculateCriticalityNumber(Node root, int critic)
+    void calculateCriticalityNumber(Node root)
     {
 
-        root.setCriticality(critic);
-        if(root.getChildren().size()==0)
-        {
-            return;
-        }
 
-        for(Node n: root.getChildren())
+
+        int t=0;
+
+
+
+           if(root.MultiplePaths)
+           {
+               t=Math.max(root.getParents().get(0).getCriticality(), root.getParents().get(1).getCriticality());
+               System.out.println("Multiple Paths "+root.getParents().get(0).getCriticality()+" "+root.getParents().get(1).getCriticality());
+
+           }
+        else {
+               for (int i = 0; i < root.getParents().size(); i++) {
+                   t += root.getParents().get(i).getCriticality();
+               }
+           }
+        t+=root.getParents().size();
+            root.setCriticality(t);
+
+        if(root.getChildren().size()==0)
+            return;
+
+        for(Node n:root.getChildren())
         {
-            calculateCriticalityNumber(n, critic+1);
+            System.out.println("Going into "+n.getName()+" "+n.getRdd_no()+" from "+root.getName()+" "+root.getRdd_no());
+            calculateCriticalityNumber(n);
         }
-        return;
     }
     int totalNodes(Node root)
     {
