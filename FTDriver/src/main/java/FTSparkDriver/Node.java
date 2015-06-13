@@ -20,7 +20,7 @@ public class Node {
     int rdd_no;
     private boolean setTime;
     boolean MultiplePaths;
-
+    boolean count;
     Node(int line_no, String name, int spaces, boolean isStage)
     {
         System.out.println("Constructing Node with "+line_no+" "+name+" "+spaces);
@@ -31,6 +31,7 @@ public class Node {
         this.isStage=isStage;
         this.setTime= false;
         this.MultiplePaths=false;
+        this.count=false;
     }
 
     Node(int line_no, String name, int spaces, boolean isStage, int rdd_no)
@@ -45,6 +46,7 @@ public class Node {
         this.isStage=isStage;
         this.setTime=false;
         this.MultiplePaths=false;
+        this.count=false;
     }
 
 

@@ -30,7 +30,7 @@ public class MyTailerListener extends TailerListenerAdapter{
         }
         else if(Line.matches(".*Added rdd.*"))
         {
-            System.out.println("ADDING RDDDD "+Line);
+        //    System.out.println("ADDING RDDDD "+Line);
             Thread t=new Thread(new processAddedRDD(Line,ftDriver));
             t.start();
         }

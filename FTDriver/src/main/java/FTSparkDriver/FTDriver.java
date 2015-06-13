@@ -755,7 +755,7 @@ class CTree
                         lines parent = Lines.get(i-1);
                  //       System.out.println("IN DIFFERENT TREE : Parent is "+parent.name);
 
-                        Node parentNode = getParent(root, parent.name);
+                        Node parentNode = getParent(root, parent.rdd_no);
                         currentNode = getParent(currentRoot, name);
 
                         // Added to tree, now should update roots
@@ -922,17 +922,17 @@ class CTree
                 }
                 if(found)
                 {
-          //          System.out.println("Found "+name+" Hence Skipping insertion");
+                //   System.out.println("Found "+name+" Hence Skipping insertion");
                     continue;
                 }
                 else
                 {
-
+                   // System.out.println("Parent RDD is "+parent.rdd_no);
                     Node parentNode = getParent(root, parent.rdd_no);
-                    System.out.println("Parent is " + parentNode.getName());
+                    //System.out.println("Parent is " + parentNode.getName());
                    // parentNode.getChildren().add(n1);
                     parentNode.addChild(n1);
-                    n1.MultiplePaths=true;
+
                     continue;
 
                 }
@@ -998,10 +998,31 @@ class CTree
                 calculateCriticalityNumber(trees.get(i).roots.get(j)); // The jth root in the ith tree
             }
         }
-
-        int number=totalNodes(root);
+        for(int i=0;i<trees.size();i++)
+        {
+            for(int j=0;j<trees.get(i).roots.size();j++)
+            {
+                clearCount(trees.get(i).roots.get(j)); // The jth root in the ith tree
+            }
+        }
+        int number = 0;
+        for(int i=0;i<trees.size();i++)
+        {
+            for(int j=0;j<trees.get(i).roots.size();j++)
+            {
+                number+=totalNodes(trees.get(i).roots.get(j)); // The jth root in the ith tree
+            }
+        }
+        System.out.println("Number of nodes is "+number);
+        //totalNodes(root);
      //   System.out.println("The total number of nodes is "+number);
-        calculateCriticalityPercentage(root, number);
+        for(int i=0;i<trees.size();i++)
+        {
+            for(int j=0;j<trees.get(i).roots.size();j++)
+            {
+                calculateCriticalityPercentage(trees.get(i).roots.get(j), number); // The jth root in the ith tree
+            }
+        }
     }
 
     void clearCriticality(Node root)
@@ -1018,6 +1039,19 @@ class CTree
         }
         return;
 
+    }
+
+    void clearCount(Node root)
+    {
+        root.count=false;
+
+        if(root.getChildren().size()==0)
+            return;
+
+        for(Node n:root.getChildren())
+        {
+            clearCount(n);
+        }
     }
     void calculateCriticalityPercentage(Node root, int number)
     {
@@ -1058,10 +1092,10 @@ class CTree
 
 
 
-           if(root.MultiplePaths)
+           if(root.getParents().size()==2)
            {
                t=Math.max(root.getParents().get(0).getCriticality(), root.getParents().get(1).getCriticality());
-               System.out.println("Multiple Paths "+root.getParents().get(0).getCriticality()+" "+root.getParents().get(1).getCriticality());
+               //System.out.println("Multiple Paths "+root.getParents().get(0).getCriticality()+" "+root.getParents().get(1).getCriticality());
 
            }
         else {
@@ -1077,13 +1111,18 @@ class CTree
 
         for(Node n:root.getChildren())
         {
-            System.out.println("Going into "+n.getName()+" "+n.getRdd_no()+" from "+root.getName()+" "+root.getRdd_no());
+          //  System.out.println("Going into "+n.getName()+" "+n.getRdd_no()+" from "+root.getName()+" "+root.getRdd_no());
             calculateCriticalityNumber(n);
         }
     }
     int totalNodes(Node root)
     {
         if(root.getChildren().size()==0)
+        {
+            root.count=true;
+            return 0;
+        }
+        if(root.count)
         {
             return 0;
         }
@@ -1093,6 +1132,7 @@ class CTree
             sum+=totalNodes(n);
         }
         sum+=root.getChildren().size();
+        root.count=true;
         return sum;
     }
 
