@@ -1,0 +1,6 @@
+sudo apt-get install openjdk-7-jdk
+Setup passwordless communication  
+wget http://download.nextag.com/apache/hadoop/common/hadoop-2.5.2/hadoop-2.5.2.tar.gz
+tar xvf hadoop-2.5.2.tar.gz
+
+

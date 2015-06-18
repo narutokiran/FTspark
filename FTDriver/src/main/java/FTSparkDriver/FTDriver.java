@@ -269,7 +269,20 @@ public class FTDriver {
     }
     public void runAlgorithm()
     {
-        computeAlgorithm(ctree.root);
+        for(int i=0;i<roots.size();i++)
+        {
+            for(int j=0;j<roots.get(i).roots.size();j++)
+            {
+                ctree.clearCount(roots.get(i).roots.get(j)); // The jth root in the ith tree
+            }
+        }
+        for(int i=0;i<roots.size();i++)
+        {
+            for(int j=0;j<roots.get(i).roots.size();j++)
+            {
+                computeAlgorithm(roots.get(i).roots.get(j)); // The jth root in the ith tree
+            }
+        }
     }
     Times computeAlgorithm(Node root)
     {
@@ -286,7 +299,7 @@ public class FTDriver {
             time_to_recompute += t.time_to_recompute;
             time_to_restore += t.time_to_restore;
         }
-        if(root.getIsStage())
+        if(root.getIsStage() && !root.count)
         {
             String name=root.getName();
 
@@ -297,7 +310,7 @@ public class FTDriver {
             time_to_recompute+=rdd.getTime_to_compute();
             double critic_percent=root.getCritic_percentage();
 
-           time_to_checkpoint = rdd.getMemory_occupied() * 0.15625;
+           time_to_checkpoint = rdd.getMemory_occupied() * 0.15625 *3;
 
             System.out.println("time to recompute "+time_to_recompute);
             System.out.println("time to checkpoint "+time_to_checkpoint);
@@ -308,7 +321,7 @@ public class FTDriver {
             }
 
 
-            System.out.println(gain);
+            System.out.println("Gain is "+gain);
             gain = gain * 100;
 
             if (gain < -100 || critic_percent == 0) {
@@ -324,12 +337,13 @@ public class FTDriver {
 
                 System.out.println("******After checkpointing***********");
                 System.out.println("Memory Occupied "+rdd.getMemory_occupied());
-                System.out.println("time to recompute "+time_to_recompute);
+                System.out.println("time to recompute "+t1.time_to_recompute);
                 System.out.println("time to checkpoint "+time_to_checkpoint);
                 System.out.println("time to restore "+t1.time_to_restore);
 
 
-            } else {
+            }
+            else {
                 System.out.println("FILL IN WITH ALGORITHM ON MONDAY :) :) :) :) ");
                 t1.time_to_recompute = rdd.getTime_to_compute();
                 t1.time_to_restore= rdd.getMemory_occupied() *    0.1;
@@ -337,12 +351,22 @@ public class FTDriver {
 
 
         }
+        else if(root.count)
+        {
+            t1.time_to_recompute=root.time_to_recompute;
+            t1.time_to_restore=root.time_to_restore;
+        }
         else
         {
           t1=t;
         }
+        if(!root.count)
+        {
+            root.time_to_recompute=t1.time_to_recompute;
+            root.time_to_restore=t1.time_to_restore;
+            root.count=true;
+        }
         return t1;
-
     }
     public void processRdds()
     {
@@ -809,6 +833,7 @@ class CTree
                 if(currentNode==null || currentNode.isSetTime()==false) {
                     ftDriver.Stages.add(name);
                     isStage = true;
+
                     // Push the corresponding details into the map;
 
                     ftDriver.putStagesRDD(name, rdd);
@@ -819,6 +844,10 @@ class CTree
             else
             n=currentNode;
 
+            if(isStage)
+            {
+                n.setIsStage(true);
+            }
 
             // System.out.println(root.name);
             lines parent=null;

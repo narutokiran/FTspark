@@ -41,15 +41,16 @@ public class MyTailerListener extends TailerListenerAdapter{
         }
         else if(Line.matches(".*Remoting shut down.*"))
         {
-         /*   if(flag!=1) {
-                 ftDriver.printStagesInfo();
+            if(flag!=1) {
+
                   ftDriver.runAlgorithm();
+             //   ftDriver.printStagesInfo();
             }
 
             flag=1;
-            System.out.println("SHUT DOWN!!!!!!!!!!!!!!!!!");*/
+            System.out.println("SHUT DOWN!!!!!!!!!!!!!!!!!");
         //th.interrupt();
-            ftDriver.printMap();
+         //   ftDriver.printMap();
         }
         else if(Line.matches(".*Job.*finished.*"))
         {

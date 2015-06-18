@@ -20,6 +20,8 @@ public class Node {
     int rdd_no;
     private boolean setTime;
     boolean MultiplePaths;
+    double time_to_recompute;
+    double time_to_restore;
     boolean count;
     Node(int line_no, String name, int spaces, boolean isStage)
     {
