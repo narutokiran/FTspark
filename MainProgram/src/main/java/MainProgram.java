@@ -20,7 +20,7 @@ class IPs
 }
 class IPProcessing
 {
-  ArrayList<IPs> ips;
+  final ArrayList<IPs> ips;
     final HashMap<String, Integer> hm = new HashMap<String,Integer>();
 
     IPProcessing()
@@ -39,7 +39,7 @@ class IPProcessing
 
             String line;
 
-            String cmd="ssh ubuntu@";
+           // String cmd="ssh ubuntu@";
 
             while((line=br.readLine())!=null)
             {
@@ -47,12 +47,12 @@ class IPProcessing
 
                 temp.HostName= line;
 
-
+                ips.add(temp);
 
 
              /*   try {
                     // Execute command
-                    String command = "ssh ubuntu@ec2-52-11-76-83.us-west-2.compute.amazonaws.com  ";
+                    String command = "ssh ubuntu@ec2-52-11-76-83.us-west-2.compute.amazonaws.com";
                     Process child = Runtime.getRuntime().exec(command);
 
                     // Get output stream to write from it
@@ -66,6 +66,7 @@ class IPProcessing
                 }*/
 
             }
+
         }
         catch(Exception e)
         {
@@ -82,22 +83,33 @@ class IPProcessing
             public void run() {
                 int count = hm.get("count");
                 System.out.println("count is "+count);
-                String command = "sh /home/aparna/shell/script" + count + ".sh";
                 count = count + 1;
 
                 hm.put("count", count);
-                if (count == 3)
+                if (count == ips.size()+1)
+                {
                     timer.cancel();
+                }
+                count=count-1;
+                String command = "ssh ubuntu@";
+                String line=ips.get(count).HostName;
+                command+=line;
+
                 try {
                     System.out.println("creating process");
                     Process child = Runtime.getRuntime().exec(command);
-                    BufferedReader in = new BufferedReader(new InputStreamReader(child.getErrorStream()));
+                    OutputStream out = child.getOutputStream();
+                    out.write("sudo shutdown -h now".getBytes());
+                    out.flush();
+
+                    out.close();
+                /*   BufferedReader in = new BufferedReader(new InputStreamReader(child.getErrorStream()));
                     String s;
 
                     while((s=in.readLine())!=null)
                     {
                         System.out.println(s);
-                    }
+                    }*/
 
 
 
@@ -105,7 +117,7 @@ class IPProcessing
                     e.printStackTrace();
                 }
             }
-        }, 0, 6 * 1000);
+        }, 80 *1000, 1 * 1000);
     }
 
 
@@ -114,7 +126,7 @@ public class MainProgram {
 
     public static void main(String args[])
     {
-       // Stopwatch stopwatch =Stopwatch.createStarted();
+      //  Stopwatch stopwatch =Stopwatch.createStarted();
 
         IPProcessing ipProcessing = new IPProcessing();
 

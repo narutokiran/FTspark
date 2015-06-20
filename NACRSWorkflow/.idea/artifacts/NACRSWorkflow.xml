@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="NACRSWorkflow">
-    <output-path>$PROJECT_DIR$/out/artifacts/NACRSWorkflow</output-path>
+    <output-path>$PROJECT_DIR$/out/artifacts/NACRSWorkflow/Without</output-path>
     <root id="archive" name="NACRSWorkflow.jar">
       <element id="module-output" name="NACRSWorkflow" />
       <element id="file-copy" path="$PROJECT_DIR$/src/main/java/NACRSWorkflow.java" />
