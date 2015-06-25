@@ -8,11 +8,11 @@ public static void main(String args[]) throws Exception
 String line;
 int count=0;
 
-FileReader fr=new FileReader("NACRS_removed_Null_field.txt");
+FileReader fr=new FileReader("FinalPredictionNACRS.csv");
 
 BufferedReader br = new BufferedReader(fr);
 
-FileWriter fw = new FileWriter("SampledNACRS.txt");
+FileWriter fw = new FileWriter("SampledFinalPrediction.csv");
 
 BufferedWriter bw = new BufferedWriter(fw);
 
@@ -20,7 +20,7 @@ BufferedWriter bw = new BufferedWriter(fw);
 while((line=br.readLine())!=null)
 {
 count++;
-if(count%10000==0)
+if(count%10==0)
 {
 bw.write(line+"\n");
 bw.flush();

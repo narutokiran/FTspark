@@ -414,7 +414,7 @@ public class FTDriver {
     {
        ctree = new CTree(this, TreeHash, roots);
         Stages.clear();
-       ctree.parseLines(DebugString);
+       ctree.parseLines(DebugString, FileName);
         ctree.processLines();
 
        ctree.calculateCriticality(roots);
@@ -463,7 +463,7 @@ class CTree
     }
     /* Populate HashMap for creating tree */
 
-    void parseLines(String DebugString)
+    void parseLines(String DebugString, String File)
     {
 
         String temp_strings[]=DebugString.split("\n");
@@ -487,11 +487,19 @@ class CTree
                 System.out.println("In ParseLines "+t);
                 String temp[] = t.split(" ");
                 String r="";
+                String fName=temp[temp.length-2];
+                String[] f = fName.split(":");
+                String FileName = f[0];
 
                 if(temp[1].contains("CachedPartitions") || temp[2].contains("CachedPartitions"))
                 {
                     continue;
                 }
+                if(!FileName.equals(File))
+                {
+                    continue;
+                }
+
                     if(temp[0].equals("|") && temp[1].equals("|"))
                 {
                     if(temp.length==8) {
