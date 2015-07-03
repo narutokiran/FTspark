@@ -43,7 +43,7 @@ public class MyTailerListener extends TailerListenerAdapter{
         {
             if(flag!=1) {
 
-                  ftDriver.runAlgorithm();
+                //  ftDriver.runAlgorithm();
              //   ftDriver.printStagesInfo();
             }
 

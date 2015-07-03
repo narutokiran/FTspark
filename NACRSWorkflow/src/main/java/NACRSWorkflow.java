@@ -54,12 +54,27 @@ class Workflow implements persistRDDs, Serializable {
         if(hm.containsKey(name))
         {
             System.out.println("CACHING "+name);
-            JavaPairRDD<?,?> temp = (JavaPairRDD<?,?>) hm.get(name);
+            JavaPairRDD<?,?> temp =  hm.get(name);
             temp.cache();
         }
         else if(hm1.containsKey(name)){
             System.out.println("CACHING "+name);
-            JavaRDD<?> temp = (JavaRDD<?>) hm1.get(name);
+            JavaRDD<?> temp = hm1.get(name);
+            temp.cache();
+        }
+    }
+
+    public void persist(String name)
+    {
+        if(hm.containsKey(name))
+        {
+            System.out.println("CACHING "+name);
+            JavaPairRDD<?,?> temp =  hm.get(name);
+            temp.cache();
+        }
+        else if(hm1.containsKey(name)){
+            System.out.println("CACHING "+name);
+            JavaRDD<?> temp = hm1.get(name);
             temp.cache();
         }
     }
@@ -125,6 +140,7 @@ class Workflow implements persistRDDs, Serializable {
     void Workflow_start()
     {
          Stopwatch stopwatch =Stopwatch.createStarted();
+        Stopwatch clusteringWatch = Stopwatch.createStarted();
         SparkConf sparkConf = new SparkConf().setAppName("NACRSAnalysis").setMaster("yarn-client");
         JavaSparkContext ctx = new JavaSparkContext(sparkConf);
         FTDriver ftDriver = new FTDriver(this,"/home/aparna/spark-1.3.1/logs/SparkOut.log","NACRSWorkflow.java");
@@ -150,8 +166,8 @@ class Workflow implements persistRDDs, Serializable {
         System.out.println(RemovedNULL.toDebugString());
         hm.put("RemovedNULL", RemovedNULL);
         ftDriver.constructTree(RemovedNULL.toDebugString());
-        RemovedNULL.collect();
-
+        RemovedNULL.count();
+        ftDriver.CheckForPersistance();
          FilteredRDD = RemovedNULL.filter(new Function<Tuple2<String, String[]>, Boolean>(){
 
             public Boolean call(Tuple2<String, String[]> t2)
@@ -169,8 +185,8 @@ class Workflow implements persistRDDs, Serializable {
         hm.put("FilteredRDD", FilteredRDD);
         System.out.println(FilteredRDD.toDebugString());
         ftDriver.constructTree(FilteredRDD.toDebugString());
-        FilteredRDD.collect();
-
+        FilteredRDD.count();
+        ftDriver.CheckForPersistance();
          CleanedRDD = FilteredRDD.filter(new Function<Tuple2<String, String[]>, Boolean>(){
             public Boolean call(Tuple2<String, String[]> t2)
             {
@@ -277,8 +293,8 @@ class Workflow implements persistRDDs, Serializable {
         hm.put("convertedRDD", convertedRDD);
         System.out.println(convertedRDD.toDebugString());
         ftDriver.constructTree(convertedRDD.toDebugString());
-        convertedRDD.collect();
-
+        convertedRDD.count();
+        ftDriver.CheckForPersistance();
 
          Demographics = convertedRDD.mapToPair(new PairFunction<Tuple2<String, String[]>, String, String[]>() {
             public Tuple2<String, String[]> call(Tuple2<String, String[]> t2) {
@@ -324,8 +340,8 @@ class Workflow implements persistRDDs, Serializable {
         hm.put("Patient_Details", Patient_Details);
         System.out.println(Patient_Details.toDebugString());
         ftDriver.constructTree(Patient_Details.toDebugString());
-        Patient_Details.collect();
-
+        Patient_Details.count();
+        ftDriver.CheckForPersistance();
          parsedData = Patient_Details.map(
                 new Function<Tuple2<String, String[]>,Vector>() {
                     public Vector call(Tuple2<String, String[]> t2) {
@@ -353,13 +369,14 @@ class Workflow implements persistRDDs, Serializable {
         hm.put("parsedDataWithKey", parsedDataWithKey);
         System.out.println(parsedDataWithKey.toDebugString());
         ftDriver.constructTree(parsedDataWithKey.toDebugString());
-        parsedDataWithKey.collect();
-
+        parsedDataWithKey.count();
+        ftDriver.CheckForPersistance();
 
         int numClusters = 3;
-        int numIterations = 10;
+        int numIterations = 100;
         final KMeansModel clusters = KMeans.train(parsedData.rdd(), numClusters, numIterations);
-
+        System.out.println("FINISHED IN ");
+        System.out.println(clusteringWatch.stop());
 
         clusterKey = parsedDataWithKey.mapToPair(new PairFunction<Tuple2<String, Vector>, String, Integer>(){
             public Tuple2<String, Integer> call (Tuple2<String, Vector> t2)
@@ -377,9 +394,9 @@ class Workflow implements persistRDDs, Serializable {
        // System.out.println(clusterJoinedRDD.toDebugString());
 
         hm.put("clusterJoinedRDD", clusterJoinedRDD);
-        ftDriver.constructTree(clusterJoinedRDD.toDebugString());
-        clusterJoinedRDD.collect();
-
+       ftDriver.constructTree(clusterJoinedRDD.toDebugString());
+        clusterJoinedRDD.count();
+        ftDriver.CheckForPersistance();
         cluster0 = clusterJoinedRDD. filter(new Function<Tuple2<String, Tuple2<String[], Integer>>,Boolean  >(){
             public Boolean call (Tuple2<String, Tuple2<String[], Integer>> t2)
             {
@@ -398,8 +415,8 @@ class Workflow implements persistRDDs, Serializable {
         System.out.println(cluster0.toDebugString());
         hm.put("cluster0", cluster0);
         ftDriver.constructTree(cluster0.toDebugString());
-        cluster0.collect();
-
+        cluster0.count();
+        ftDriver.CheckForPersistance();
          FormattedCluster0 = cluster0.mapToPair(new PairFunction<Tuple2<String, Tuple2<String[], Integer>>,String, String >(){
             public Tuple2<String, String> call(Tuple2<String, Tuple2<String[],Integer>> t2){
                 Tuple2<String[],Integer> tempTup = t2._2();
@@ -420,10 +437,10 @@ class Workflow implements persistRDDs, Serializable {
       //  System.out.println("Formatted Cluster "+FormattedCluster0.toDebugString());
         hm.put("FormattedCluster0", FormattedCluster0);
         System.out.println(FormattedCluster0.toDebugString());
-        ftDriver.constructTree(FormattedCluster0.toDebugString());
+       ftDriver.constructTree(FormattedCluster0.toDebugString());
 
         FormattedCluster0.saveAsTextFile("NACRS/output/cluster0");
-
+        ftDriver.CheckForPersistance();
          cluster1 = clusterJoinedRDD. filter(new Function<Tuple2<String, Tuple2<String[], Integer>>,Boolean  >(){
             public Boolean call (Tuple2<String, Tuple2<String[], Integer>> t2)
             {
@@ -442,8 +459,8 @@ class Workflow implements persistRDDs, Serializable {
         hm.put("cluster1", cluster1);
         ftDriver.constructTree(cluster1.toDebugString());
 
-        cluster1.collect();
-
+        cluster1.count();
+        ftDriver.CheckForPersistance();
          FormattedCluster1 = cluster1.mapToPair(new PairFunction<Tuple2<String, Tuple2<String[], Integer>>,String, String >(){
             public Tuple2<String, String> call(Tuple2<String, Tuple2<String[],Integer>> t2){
                 Tuple2<String[],Integer> tempTup = t2._2();
@@ -461,11 +478,11 @@ class Workflow implements persistRDDs, Serializable {
 
         });
         hm.put("FormattedCluster1", FormattedCluster1);
-        ftDriver.constructTree(FormattedCluster1.toDebugString());
+       ftDriver.constructTree(FormattedCluster1.toDebugString());
 
         System.out.println("Formatted Cluster "+FormattedCluster1.toDebugString());
         FormattedCluster1.saveAsTextFile("NACRS/output/cluster1");
-
+        ftDriver.CheckForPersistance();
 
          cluster2 = clusterJoinedRDD. filter(new Function<Tuple2<String, Tuple2<String[], Integer>>,Boolean  >(){
             public Boolean call (Tuple2<String, Tuple2<String[], Integer>> t2)
@@ -484,8 +501,8 @@ class Workflow implements persistRDDs, Serializable {
         });
         hm.put("cluster2", cluster2);
         ftDriver.constructTree(cluster2.toDebugString());
-        cluster2.collect();
-
+        cluster2.count();
+        ftDriver.CheckForPersistance();
          FormattedCluster2 = cluster2.mapToPair(new PairFunction<Tuple2<String, Tuple2<String[], Integer>>,String, String >(){
             public Tuple2<String, String> call(Tuple2<String, Tuple2<String[],Integer>> t2){
                 Tuple2<String[],Integer> tempTup = t2._2();
@@ -506,9 +523,9 @@ class Workflow implements persistRDDs, Serializable {
         ftDriver.constructTree(FormattedCluster2.toDebugString());
         System.out.println("Formatted Cluster "+FormattedCluster2.toDebugString());
         FormattedCluster2.saveAsTextFile("NACRS/output/cluster2");
+        ftDriver.CheckForPersistance();
 
-
-        String datapath = "/user/aparna/input/Converted.data";
+        String datapath = "/user/ubuntu/input/FinalConverted.data";
 
         JavaRDD<LabeledPoint> data = MLUtils.loadLibSVMFile(ctx.sc(), datapath).toJavaRDD();
 
@@ -520,7 +537,7 @@ class Workflow implements persistRDDs, Serializable {
         JavaRDD<LabeledPoint> testData = splits[1];
 
         HashMap<Integer, Integer> categoricalFeaturesInfo = new HashMap<Integer, Integer>();
-        Integer numTrees = 3; // Use more in practice.
+        Integer numTrees = 100; // Use more in practice.
         String featureSubsetStrategy = "auto"; // Let the algorithm choose.
         String impurity = "variance";
         Integer maxDepth = 4;
@@ -541,7 +558,7 @@ class Workflow implements persistRDDs, Serializable {
                 });
         hm.put("predictionAndLabel", predictionAndLabel);
         System.out.println("TestData "+predictionAndLabel.toDebugString());
-        ftDriver.constructTree(predictionAndLabel.toDebugString());
+       // ftDriver.constructTree(predictionAndLabel.toDebugString());
         predictionAndLabel.collect();
         Double testMSE =
                 predictionAndLabel.map(new Function<Tuple2<Double, Double>, Double>() {

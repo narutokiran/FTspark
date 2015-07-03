@@ -63,6 +63,7 @@ public class FTDriver {
     HashMap<String, Node> GroupDependencies = new HashMap<String, Node>();
 
      List<String> Stages=new ArrayList<String> ();
+    List<String> RDDsToPersist=new ArrayList<String>();
 
     /*Constructor */
     public FTDriver(persistRDDs WorkFlow, String logFile, String sourceFile)
@@ -187,6 +188,8 @@ public class FTDriver {
         tr=new Thread(new TailerThread(LogFile, this));
         tr.start();
     }
+
+
 
    /* helper function - used to check if the content of the file is stored correctly*/
     void print()
@@ -334,6 +337,7 @@ public class FTDriver {
                 System.out.println("Gain is more than 100%. CHECKPOINT!!!!");
                 t1.time_to_recompute = 0;
                 t1.time_to_restore= rdd.getMemory_occupied() * 0.1;
+                RDDsToPersist.add(name);
 
                 System.out.println("******After checkpointing***********");
                 System.out.println("Memory Occupied "+rdd.getMemory_occupied());
@@ -441,8 +445,16 @@ public class FTDriver {
 
     }
 
-
-
+    public void CheckForPersistance()
+    {
+        runAlgorithm();
+        for(String name:RDDsToPersist)
+        {
+            System.out.println("Persisting RDD "+name);
+            WorkFlow.persist(name);
+        }
+        RDDsToPersist.clear();
+    }
 }
 class CTree
 {
