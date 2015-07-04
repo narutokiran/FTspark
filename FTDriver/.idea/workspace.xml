@@ -10,13 +10,12 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/FTSparkDriver/CTree.class" afterPath="$PROJECT_DIR$/target/classes/FTSparkDriver/CTree.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/FTSparkDriver/FTDriver.class" afterPath="$PROJECT_DIR$/target/classes/FTSparkDriver/FTDriver.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/FTDriver.jar" afterPath="$PROJECT_DIR$/target/FTDriver.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/FTSparkDriver/MyTailerListener.class" afterPath="$PROJECT_DIR$/target/classes/FTSparkDriver/MyTailerListener.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/NACRSWorkflow.class" afterPath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/NACRSWorkflow.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../NACRSWorkflow/out/artifacts/NACRSWorkflow/Without/NACRSWorkflow.jar" afterPath="$PROJECT_DIR$/../NACRSWorkflow/out/artifacts/NACRSWorkflow/Without/NACRSWorkflow.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/FTSparkDriver/Node.class" afterPath="$PROJECT_DIR$/target/classes/FTSparkDriver/Node.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/FTSparkDriver/TailerThread.class" afterPath="$PROJECT_DIR$/target/classes/FTSparkDriver/TailerThread.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/FTSparkDriver/Times.class" afterPath="$PROJECT_DIR$/target/classes/FTSparkDriver/Times.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../WordCountWorkFlow/target/classes/WordCount.class" afterPath="$PROJECT_DIR$/../WordCountWorkFlow/target/classes/WordCount.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../WordCountWorkFlow/target/artifacts/WordCountWorkFlow.jar" afterPath="$PROJECT_DIR$/../WordCountWorkFlow/target/artifacts/WordCountWorkFlow.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/FTSparkDriver/Tree.class" afterPath="$PROJECT_DIR$/target/classes/FTSparkDriver/Tree.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/Workflow$1.class" afterPath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/Workflow$1.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/Workflow$10.class" afterPath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/Workflow$10.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/Workflow$11.class" afterPath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/Workflow$11.class" />
@@ -36,13 +35,12 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/Workflow$7.class" afterPath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/Workflow$7.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/Workflow$8.class" afterPath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/Workflow$8.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/Workflow$9.class" afterPath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/Workflow$9.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/Workflow$ParseLine.class" afterPath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/Workflow$ParseLine.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/Workflow.class" afterPath="$PROJECT_DIR$/../NACRSWorkflow/target/classes/Workflow.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/FTSparkDriver/persistRDDs.class" afterPath="$PROJECT_DIR$/target/classes/FTSparkDriver/persistRDDs.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/FTSparkDriver/FTDriver.java" afterPath="$PROJECT_DIR$/src/main/java/FTSparkDriver/FTDriver.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/FTSparkDriver/MyTailerListener.java" afterPath="$PROJECT_DIR$/src/main/java/FTSparkDriver/MyTailerListener.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../NACRSWorkflow/src/main/java/NACRSWorkflow.java" afterPath="$PROJECT_DIR$/../NACRSWorkflow/src/main/java/NACRSWorkflow.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../WordCountWorkFlow/src/main/java/WordCountWorkFlow.java" afterPath="$PROJECT_DIR$/../WordCountWorkFlow/src/main/java/WordCountWorkFlow.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/FTSparkDriver/persistRDDs.java" afterPath="$PROJECT_DIR$/src/main/java/FTSparkDriver/persistRDDs.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/FTSparkDriver/Node.java" afterPath="$PROJECT_DIR$/src/main/java/FTSparkDriver/Node.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/FTSparkDriver/ProcessFinishedJob.java" afterPath="$PROJECT_DIR$/src/main/java/FTSparkDriver/ProcessFinishedJob.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../NACRSWorkflow/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../NACRSWorkflow/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../WordCountWorkFlow/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../WordCountWorkFlow/.idea/workspace.xml" />
@@ -84,19 +82,49 @@
       <file leaf-file-name="FTDriver.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/FTDriver.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="5379" max-vertical-offset="17745">
-              <caret line="447" column="20" selection-start-line="447" selection-start-column="16" selection-end-line="447" selection-end-column="35" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="persistRDDs.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/persistRDDs.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.19784173" vertical-offset="0" max-vertical-offset="834">
-              <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="-36.272728" vertical-offset="6198" max-vertical-offset="19260">
+              <caret line="493" column="4" selection-start-line="493" selection-start-column="4" selection-end-line="493" selection-end-column="4" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1008#1024#0" expanded="true" />
+                <element signature="e#1091#1109#0" expanded="true" />
+                <element signature="e#1167#1185#0" expanded="true" />
+                <element signature="e#1339#1354#0" expanded="true" />
+                <element signature="e#1414#1431#0" expanded="true" />
+                <element signature="e#1477#1483#0" expanded="true" />
+                <element signature="e#1539#1556#0" expanded="true" />
+                <element signature="e#1616#1633#0" expanded="true" />
+                <element signature="e#1685#1702#0" expanded="true" />
+                <element signature="e#1756#1777#0" expanded="true" />
+                <element signature="e#1838#1852#0" expanded="true" />
+                <element signature="e#1895#1903#0" expanded="true" />
+                <element signature="e#1952#1960#0" expanded="true" />
+                <element signature="e#2419#2420#0" expanded="true" />
+                <element signature="e#2464#2465#0" expanded="true" />
+                <element signature="e#2512#2513#0" expanded="true" />
+                <element signature="e#2560#2561#0" expanded="true" />
+                <element signature="e#2625#2626#0" expanded="true" />
+                <element signature="e#2689#2690#0" expanded="true" />
+                <element signature="e#2744#2745#0" expanded="true" />
+                <element signature="e#2819#2820#0" expanded="true" />
+                <element signature="e#2886#2887#0" expanded="true" />
+                <element signature="e#2947#2948#0" expanded="true" />
+                <element signature="e#3002#3003#0" expanded="true" />
+                <element signature="e#3074#3075#0" expanded="true" />
+                <element signature="e#3328#3329#0" expanded="true" />
+                <element signature="e#3389#3390#0" expanded="true" />
+                <element signature="e#3455#3456#0" expanded="true" />
+                <element signature="e#3505#3506#0" expanded="true" />
+                <element signature="e#3569#3570#0" expanded="true" />
+                <element signature="e#3609#3610#0" expanded="true" />
+                <element signature="e#3660#3661#0" expanded="true" />
+                <element signature="e#3712#3713#0" expanded="true" />
+                <element signature="e#3740#3741#0" expanded="true" />
+                <element signature="e#3812#3813#0" expanded="true" />
+                <element signature="e#17502#17524#0" expanded="true" />
+                <element signature="e#17585#17599#0" expanded="true" />
+                <element signature="e#35349#35355#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -104,32 +132,9 @@
       <file leaf-file-name="rddData.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/rddData.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="855" max-vertical-offset="2190">
-              <caret line="12" column="39" selection-start-line="12" selection-start-column="39" selection-end-line="12" selection-end-column="39" />
-              <folding>
-                <element signature="e#2825#2826#0" expanded="false" />
-                <element signature="e#2855#2856#0" expanded="false" />
-                <element signature="e#2882#2883#0" expanded="false" />
-                <element signature="e#2909#2910#0" expanded="false" />
-                <element signature="e#2982#2983#0" expanded="false" />
-                <element signature="e#3014#3015#0" expanded="false" />
-                <element signature="e#3053#3054#0" expanded="false" />
-                <element signature="e#3091#3092#0" expanded="false" />
-                <element signature="e#3130#3131#0" expanded="false" />
-                <element signature="e#3168#3169#0" expanded="false" />
-                <element signature="e#3210#3211#0" expanded="false" />
-                <element signature="e#3252#3253#0" expanded="false" />
-                <element signature="e#3290#3291#0" expanded="false" />
-                <element signature="e#3328#3329#0" expanded="false" />
-                <element signature="e#3375#3376#0" expanded="false" />
-                <element signature="e#3408#3409#0" expanded="false" />
-                <element signature="e#3459#3460#0" expanded="false" />
-                <element signature="e#3499#3500#0" expanded="false" />
-                <element signature="e#3546#3547#0" expanded="false" />
-                <element signature="e#3582#3583#0" expanded="false" />
-                <element signature="e#3631#3632#0" expanded="false" />
-                <element signature="e#3669#3670#0" expanded="false" />
-              </folding>
+            <state vertical-scroll-proportion="27.464285" vertical-offset="1384" max-vertical-offset="2190">
+              <caret line="41" column="12" selection-start-line="41" selection-start-column="6" selection-end-line="41" selection-end-column="12" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -137,8 +142,28 @@
       <file leaf-file-name="ProcessFinishedJob.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/ProcessFinishedJob.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="690" max-vertical-offset="1140">
-              <caret line="46" column="13" selection-start-line="46" selection-start-column="13" selection-end-line="46" selection-end-column="13" />
+            <state vertical-scroll-proportion="-22.892857" vertical-offset="334" max-vertical-offset="1140">
+              <caret line="65" column="2" selection-start-line="65" selection-start-column="2" selection-end-line="65" selection-end-column="2" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="processFinishedStage.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/processFinishedStage.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="645">
+              <caret line="15" column="5" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="processRegisteringRDD.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/processRegisteringRDD.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="660">
+              <caret line="33" column="54" selection-start-line="33" selection-start-column="54" selection-end-line="33" selection-end-column="54" />
               <folding />
             </state>
           </provider>
@@ -147,51 +172,19 @@
       <file leaf-file-name="Node.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/Node.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="606" max-vertical-offset="1440">
-              <caret line="23" column="27" selection-start-line="23" selection-start-column="27" selection-end-line="23" selection-end-column="27" />
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#1589#1590#0" expanded="false" />
-                <element signature="e#1623#1624#0" expanded="false" />
-                <element signature="e#1663#1664#0" expanded="false" />
-                <element signature="e#1692#1693#0" expanded="false" />
-                <element signature="e#1819#1820#0" expanded="false" />
-                <element signature="e#1855#1856#0" expanded="false" />
-                <element signature="e#1889#1890#0" expanded="false" />
-                <element signature="e#1919#1920#0" expanded="false" />
-                <element signature="e#1955#1956#0" expanded="false" />
-                <element signature="e#1987#1988#0" expanded="false" />
-                <element signature="e#2021#2022#0" expanded="false" />
-                <element signature="e#2048#2049#0" expanded="false" />
-                <element signature="e#2086#2087#0" expanded="false" />
-                <element signature="e#2120#2121#0" expanded="false" />
-                <element signature="e#2167#2168#0" expanded="false" />
-                <element signature="e#2207#2208#0" expanded="false" />
-                <element signature="e#2257#2258#0" expanded="false" />
-                <element signature="e#2291#2292#0" expanded="false" />
-                <element signature="e#2349#2350#0" expanded="false" />
-                <element signature="e#2389#2390#0" expanded="false" />
-                <element signature="e#2419#2420#0" expanded="false" />
-                <element signature="e#2449#2450#0" expanded="false" />
-                <element signature="e#2478#2479#0" expanded="false" />
-                <element signature="e#2507#2508#0" expanded="false" />
-                <element signature="e#2543#2544#0" expanded="false" />
-                <element signature="e#2568#2569#0" expanded="false" />
-                <element signature="e#2741#2742#0" expanded="false" />
-                <element signature="e#2786#2787#0" expanded="false" />
-              </folding>
+            <state vertical-scroll-proportion="9.25" vertical-offset="664" max-vertical-offset="1470">
+              <caret line="28" column="6" selection-start-line="28" selection-start-column="6" selection-end-line="28" selection-end-column="6" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TailerCall.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="TailerCall.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/TailerCall.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="495">
+            <state vertical-scroll-proportion="0.39568347" vertical-offset="0" max-vertical-offset="834">
               <caret line="24" column="5" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -199,11 +192,9 @@
       <file leaf-file-name="MyTailerListener.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/MyTailerListener.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="79" max-vertical-offset="1140">
-              <caret line="45" column="18" selection-start-line="45" selection-start-column="18" selection-end-line="45" selection-end-column="18" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
+            <state vertical-scroll-proportion="-24.5" vertical-offset="19" max-vertical-offset="1140">
+              <caret line="50" column="9" selection-start-line="50" selection-start-column="9" selection-end-line="50" selection-end-column="9" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -232,12 +223,12 @@
         <option value="$PROJECT_DIR$/src/main/java/FTSparkDriver/processFinishedStage.java" />
         <option value="$PROJECT_DIR$/src/main/java/FTSparkDriver/processRegisteringRDD.java" />
         <option value="$PROJECT_DIR$/src/main/java/FTSparkDriver/processAddedRDD.java" />
-        <option value="$PROJECT_DIR$/src/main/java/FTSparkDriver/ProcessFinishedJob.java" />
         <option value="$PROJECT_DIR$/src/main/java/FTSparkDriver/rddData.java" />
-        <option value="$PROJECT_DIR$/src/main/java/FTSparkDriver/Node.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/FTSparkDriver/persistRDDs.java" />
+        <option value="$PROJECT_DIR$/src/main/java/FTSparkDriver/Node.java" />
         <option value="$PROJECT_DIR$/src/main/java/FTSparkDriver/MyTailerListener.java" />
+        <option value="$PROJECT_DIR$/src/main/java/FTSparkDriver/ProcessFinishedJob.java" />
         <option value="$PROJECT_DIR$/src/main/java/FTSparkDriver/FTDriver.java" />
       </list>
     </option>
@@ -773,7 +764,47 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="17565">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1008#1024#0" expanded="true" />
+            <element signature="e#1091#1109#0" expanded="true" />
+            <element signature="e#1167#1185#0" expanded="true" />
+            <element signature="e#1339#1354#0" expanded="true" />
+            <element signature="e#1414#1431#0" expanded="true" />
+            <element signature="e#1477#1483#0" expanded="true" />
+            <element signature="e#1539#1556#0" expanded="true" />
+            <element signature="e#1616#1633#0" expanded="true" />
+            <element signature="e#1685#1702#0" expanded="true" />
+            <element signature="e#1756#1777#0" expanded="true" />
+            <element signature="e#1838#1852#0" expanded="true" />
+            <element signature="e#1895#1903#0" expanded="true" />
+            <element signature="e#1952#1960#0" expanded="true" />
+            <element signature="e#2419#2420#0" expanded="true" />
+            <element signature="e#2464#2465#0" expanded="true" />
+            <element signature="e#2512#2513#0" expanded="true" />
+            <element signature="e#2560#2561#0" expanded="true" />
+            <element signature="e#2625#2626#0" expanded="true" />
+            <element signature="e#2689#2690#0" expanded="true" />
+            <element signature="e#2744#2745#0" expanded="true" />
+            <element signature="e#2819#2820#0" expanded="true" />
+            <element signature="e#2886#2887#0" expanded="true" />
+            <element signature="e#2947#2948#0" expanded="true" />
+            <element signature="e#3002#3003#0" expanded="true" />
+            <element signature="e#3074#3075#0" expanded="true" />
+            <element signature="e#3328#3329#0" expanded="true" />
+            <element signature="e#3389#3390#0" expanded="true" />
+            <element signature="e#3455#3456#0" expanded="true" />
+            <element signature="e#3505#3506#0" expanded="true" />
+            <element signature="e#3569#3570#0" expanded="true" />
+            <element signature="e#3609#3610#0" expanded="true" />
+            <element signature="e#3660#3661#0" expanded="true" />
+            <element signature="e#3712#3713#0" expanded="true" />
+            <element signature="e#3740#3741#0" expanded="true" />
+            <element signature="e#3812#3813#0" expanded="true" />
+            <element signature="e#17502#17524#0" expanded="true" />
+            <element signature="e#17585#17599#0" expanded="true" />
+            <element signature="e#35349#35355#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -781,30 +812,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="855" max-vertical-offset="2190">
           <caret line="12" column="39" selection-start-line="12" selection-start-column="39" selection-end-line="12" selection-end-column="39" />
-          <folding>
-            <element signature="e#2825#2826#0" expanded="false" />
-            <element signature="e#2855#2856#0" expanded="false" />
-            <element signature="e#2882#2883#0" expanded="false" />
-            <element signature="e#2909#2910#0" expanded="false" />
-            <element signature="e#2982#2983#0" expanded="false" />
-            <element signature="e#3014#3015#0" expanded="false" />
-            <element signature="e#3053#3054#0" expanded="false" />
-            <element signature="e#3091#3092#0" expanded="false" />
-            <element signature="e#3130#3131#0" expanded="false" />
-            <element signature="e#3168#3169#0" expanded="false" />
-            <element signature="e#3210#3211#0" expanded="false" />
-            <element signature="e#3252#3253#0" expanded="false" />
-            <element signature="e#3290#3291#0" expanded="false" />
-            <element signature="e#3328#3329#0" expanded="false" />
-            <element signature="e#3375#3376#0" expanded="false" />
-            <element signature="e#3408#3409#0" expanded="false" />
-            <element signature="e#3459#3460#0" expanded="false" />
-            <element signature="e#3499#3500#0" expanded="false" />
-            <element signature="e#3546#3547#0" expanded="false" />
-            <element signature="e#3582#3583#0" expanded="false" />
-            <element signature="e#3631#3632#0" expanded="false" />
-            <element signature="e#3669#3670#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -820,37 +828,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="606" max-vertical-offset="1440">
           <caret line="23" column="27" selection-start-line="23" selection-start-column="27" selection-end-line="23" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1589#1590#0" expanded="false" />
-            <element signature="e#1623#1624#0" expanded="false" />
-            <element signature="e#1663#1664#0" expanded="false" />
-            <element signature="e#1692#1693#0" expanded="false" />
-            <element signature="e#1819#1820#0" expanded="false" />
-            <element signature="e#1855#1856#0" expanded="false" />
-            <element signature="e#1889#1890#0" expanded="false" />
-            <element signature="e#1919#1920#0" expanded="false" />
-            <element signature="e#1955#1956#0" expanded="false" />
-            <element signature="e#1987#1988#0" expanded="false" />
-            <element signature="e#2021#2022#0" expanded="false" />
-            <element signature="e#2048#2049#0" expanded="false" />
-            <element signature="e#2086#2087#0" expanded="false" />
-            <element signature="e#2120#2121#0" expanded="false" />
-            <element signature="e#2167#2168#0" expanded="false" />
-            <element signature="e#2207#2208#0" expanded="false" />
-            <element signature="e#2257#2258#0" expanded="false" />
-            <element signature="e#2291#2292#0" expanded="false" />
-            <element signature="e#2349#2350#0" expanded="false" />
-            <element signature="e#2389#2390#0" expanded="false" />
-            <element signature="e#2419#2420#0" expanded="false" />
-            <element signature="e#2449#2450#0" expanded="false" />
-            <element signature="e#2478#2479#0" expanded="false" />
-            <element signature="e#2507#2508#0" expanded="false" />
-            <element signature="e#2543#2544#0" expanded="false" />
-            <element signature="e#2568#2569#0" expanded="false" />
-            <element signature="e#2741#2742#0" expanded="false" />
-            <element signature="e#2786#2787#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -858,9 +836,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="495">
           <caret line="24" column="5" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -868,9 +844,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="1140">
           <caret line="51" column="25" selection-start-line="51" selection-start-column="25" selection-end-line="51" selection-end-column="25" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -886,37 +860,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="301" max-vertical-offset="1155">
           <caret line="31" column="46" selection-start-line="31" selection-start-column="46" selection-end-line="31" selection-end-column="46" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1589#1590#0" expanded="false" />
-            <element signature="e#1623#1624#0" expanded="false" />
-            <element signature="e#1663#1664#0" expanded="false" />
-            <element signature="e#1692#1693#0" expanded="false" />
-            <element signature="e#1819#1820#0" expanded="false" />
-            <element signature="e#1855#1856#0" expanded="false" />
-            <element signature="e#1889#1890#0" expanded="false" />
-            <element signature="e#1919#1920#0" expanded="false" />
-            <element signature="e#1955#1956#0" expanded="false" />
-            <element signature="e#1987#1988#0" expanded="false" />
-            <element signature="e#2021#2022#0" expanded="false" />
-            <element signature="e#2048#2049#0" expanded="false" />
-            <element signature="e#2086#2087#0" expanded="false" />
-            <element signature="e#2120#2121#0" expanded="false" />
-            <element signature="e#2167#2168#0" expanded="false" />
-            <element signature="e#2207#2208#0" expanded="false" />
-            <element signature="e#2257#2258#0" expanded="false" />
-            <element signature="e#2291#2292#0" expanded="false" />
-            <element signature="e#2349#2350#0" expanded="false" />
-            <element signature="e#2389#2390#0" expanded="false" />
-            <element signature="e#2419#2420#0" expanded="false" />
-            <element signature="e#2449#2450#0" expanded="false" />
-            <element signature="e#2478#2479#0" expanded="false" />
-            <element signature="e#2507#2508#0" expanded="false" />
-            <element signature="e#2543#2544#0" expanded="false" />
-            <element signature="e#2568#2569#0" expanded="false" />
-            <element signature="e#2741#2742#0" expanded="false" />
-            <element signature="e#2786#2787#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -924,9 +868,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="495">
           <caret line="24" column="5" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -934,9 +876,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="390" max-vertical-offset="1335">
           <caret line="47" column="49" selection-start-line="47" selection-start-column="49" selection-end-line="47" selection-end-column="49" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1141,17 +1081,123 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="495">
+          <caret line="11" column="47" selection-start-line="11" selection-start-column="47" selection-end-line="11" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/ConstructingMap.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3180212" vertical-offset="0" max-vertical-offset="566">
+        <state vertical-scroll-proportion="0.21582733" vertical-offset="0" max-vertical-offset="834">
           <caret line="15" column="31" selection-start-line="15" selection-start-column="31" selection-end-line="15" selection-end-column="31" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/FTSparkAlgorithm.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0795053" vertical-offset="0" max-vertical-offset="566">
+        <state vertical-scroll-proportion="0.053956833" vertical-offset="0" max-vertical-offset="834">
           <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/MyTailerListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-24.5" vertical-offset="19" max-vertical-offset="1140">
+          <caret line="50" column="9" selection-start-line="50" selection-start-column="9" selection-end-line="50" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/Node.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="9.25" vertical-offset="664" max-vertical-offset="1470">
+          <caret line="28" column="6" selection-start-line="28" selection-start-column="6" selection-end-line="28" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/persistRDDs.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.08992806" vertical-offset="0" max-vertical-offset="834">
+          <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/processAddedRDD.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.10071942" vertical-offset="306" max-vertical-offset="1140">
+          <caret line="26" column="16" selection-start-line="26" selection-start-column="8" selection-end-line="27" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/FTDriver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-36.272728" vertical-offset="6198" max-vertical-offset="19260">
+          <caret line="493" column="4" selection-start-line="493" selection-start-column="4" selection-end-line="493" selection-end-column="4" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1008#1024#0" expanded="true" />
+            <element signature="e#1091#1109#0" expanded="true" />
+            <element signature="e#1167#1185#0" expanded="true" />
+            <element signature="e#1339#1354#0" expanded="true" />
+            <element signature="e#1414#1431#0" expanded="true" />
+            <element signature="e#1477#1483#0" expanded="true" />
+            <element signature="e#1539#1556#0" expanded="true" />
+            <element signature="e#1616#1633#0" expanded="true" />
+            <element signature="e#1685#1702#0" expanded="true" />
+            <element signature="e#1756#1777#0" expanded="true" />
+            <element signature="e#1838#1852#0" expanded="true" />
+            <element signature="e#1895#1903#0" expanded="true" />
+            <element signature="e#1952#1960#0" expanded="true" />
+            <element signature="e#2419#2420#0" expanded="true" />
+            <element signature="e#2464#2465#0" expanded="true" />
+            <element signature="e#2512#2513#0" expanded="true" />
+            <element signature="e#2560#2561#0" expanded="true" />
+            <element signature="e#2625#2626#0" expanded="true" />
+            <element signature="e#2689#2690#0" expanded="true" />
+            <element signature="e#2744#2745#0" expanded="true" />
+            <element signature="e#2819#2820#0" expanded="true" />
+            <element signature="e#2886#2887#0" expanded="true" />
+            <element signature="e#2947#2948#0" expanded="true" />
+            <element signature="e#3002#3003#0" expanded="true" />
+            <element signature="e#3074#3075#0" expanded="true" />
+            <element signature="e#3328#3329#0" expanded="true" />
+            <element signature="e#3389#3390#0" expanded="true" />
+            <element signature="e#3455#3456#0" expanded="true" />
+            <element signature="e#3505#3506#0" expanded="true" />
+            <element signature="e#3569#3570#0" expanded="true" />
+            <element signature="e#3609#3610#0" expanded="true" />
+            <element signature="e#3660#3661#0" expanded="true" />
+            <element signature="e#3712#3713#0" expanded="true" />
+            <element signature="e#3740#3741#0" expanded="true" />
+            <element signature="e#3812#3813#0" expanded="true" />
+            <element signature="e#17502#17524#0" expanded="true" />
+            <element signature="e#17585#17599#0" expanded="true" />
+            <element signature="e#35349#35355#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/ProcessFinishedJob.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-22.892857" vertical-offset="334" max-vertical-offset="1140">
+          <caret line="65" column="2" selection-start-line="65" selection-start-column="2" selection-end-line="65" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/processFinishedStage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="645">
+          <caret line="15" column="5" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1163,139 +1209,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/processAddedRDD.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.35971224" vertical-offset="90" max-vertical-offset="1140">
-          <caret line="26" column="16" selection-start-line="26" selection-start-column="8" selection-end-line="27" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/processFinishedStage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.27041742" vertical-offset="76" max-vertical-offset="645">
-          <caret line="15" column="5" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="495">
-          <caret line="11" column="47" selection-start-line="11" selection-start-column="47" selection-end-line="11" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/ProcessFinishedJob.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1140">
-          <caret line="46" column="13" selection-start-line="46" selection-start-column="13" selection-end-line="46" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/Node.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="126" max-vertical-offset="1440">
-          <caret line="23" column="27" selection-start-line="23" selection-start-column="27" selection-end-line="23" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1589#1590#0" expanded="false" />
-            <element signature="e#1623#1624#0" expanded="false" />
-            <element signature="e#1663#1664#0" expanded="false" />
-            <element signature="e#1692#1693#0" expanded="false" />
-            <element signature="e#1819#1820#0" expanded="false" />
-            <element signature="e#1855#1856#0" expanded="false" />
-            <element signature="e#1889#1890#0" expanded="false" />
-            <element signature="e#1919#1920#0" expanded="false" />
-            <element signature="e#1955#1956#0" expanded="false" />
-            <element signature="e#1987#1988#0" expanded="false" />
-            <element signature="e#2021#2022#0" expanded="false" />
-            <element signature="e#2048#2049#0" expanded="false" />
-            <element signature="e#2086#2087#0" expanded="false" />
-            <element signature="e#2120#2121#0" expanded="false" />
-            <element signature="e#2167#2168#0" expanded="false" />
-            <element signature="e#2207#2208#0" expanded="false" />
-            <element signature="e#2257#2258#0" expanded="false" />
-            <element signature="e#2291#2292#0" expanded="false" />
-            <element signature="e#2349#2350#0" expanded="false" />
-            <element signature="e#2389#2390#0" expanded="false" />
-            <element signature="e#2419#2420#0" expanded="false" />
-            <element signature="e#2449#2450#0" expanded="false" />
-            <element signature="e#2478#2479#0" expanded="false" />
-            <element signature="e#2507#2508#0" expanded="false" />
-            <element signature="e#2543#2544#0" expanded="false" />
-            <element signature="e#2568#2569#0" expanded="false" />
-            <element signature="e#2741#2742#0" expanded="false" />
-            <element signature="e#2786#2787#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/rddData.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2190">
-          <caret line="12" column="39" selection-start-line="12" selection-start-column="39" selection-end-line="12" selection-end-column="39" />
-          <folding>
-            <element signature="e#2825#2826#0" expanded="false" />
-            <element signature="e#2855#2856#0" expanded="false" />
-            <element signature="e#2882#2883#0" expanded="false" />
-            <element signature="e#2909#2910#0" expanded="false" />
-            <element signature="e#2982#2983#0" expanded="false" />
-            <element signature="e#3014#3015#0" expanded="false" />
-            <element signature="e#3053#3054#0" expanded="false" />
-            <element signature="e#3091#3092#0" expanded="false" />
-            <element signature="e#3130#3131#0" expanded="false" />
-            <element signature="e#3168#3169#0" expanded="false" />
-            <element signature="e#3210#3211#0" expanded="false" />
-            <element signature="e#3252#3253#0" expanded="false" />
-            <element signature="e#3290#3291#0" expanded="false" />
-            <element signature="e#3328#3329#0" expanded="false" />
-            <element signature="e#3375#3376#0" expanded="false" />
-            <element signature="e#3408#3409#0" expanded="false" />
-            <element signature="e#3459#3460#0" expanded="false" />
-            <element signature="e#3499#3500#0" expanded="false" />
-            <element signature="e#3546#3547#0" expanded="false" />
-            <element signature="e#3582#3583#0" expanded="false" />
-            <element signature="e#3631#3632#0" expanded="false" />
-            <element signature="e#3669#3670#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/MyTailerListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="79" max-vertical-offset="1140">
-          <caret line="45" column="18" selection-start-line="45" selection-start-column="18" selection-end-line="45" selection-end-column="18" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+        <state vertical-scroll-proportion="27.464285" vertical-offset="1384" max-vertical-offset="2190">
+          <caret line="41" column="12" selection-start-line="41" selection-start-column="6" selection-end-line="41" selection-end-column="12" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/TailerCall.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="495">
+        <state vertical-scroll-proportion="0.39568347" vertical-offset="0" max-vertical-offset="834">
           <caret line="24" column="5" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/FTDriver.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="5379" max-vertical-offset="17745">
-          <caret line="447" column="20" selection-start-line="447" selection-start-column="16" selection-end-line="447" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/FTSparkDriver/persistRDDs.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.19784173" vertical-offset="0" max-vertical-offset="834">
-          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
           <folding />
         </state>
       </provider>

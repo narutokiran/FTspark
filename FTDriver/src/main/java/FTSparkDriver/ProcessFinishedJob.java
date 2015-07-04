@@ -59,11 +59,11 @@ public class ProcessFinishedJob implements Runnable {
                 String temp1[] = FileLine.split("[.]");
                 name = temp1[0];
             }
-            System.out.println("Job is " + name);
+           // System.out.println("Job is " + name);
 
         } else
             System.out.println("job is outside");
-
+//
         time=Double.parseDouble(temp[temp.length-2]);
     }
 

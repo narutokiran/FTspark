@@ -13,6 +13,7 @@ import org.apache.spark.mllib.regression.LabeledPoint;
 import org.apache.spark.mllib.tree.RandomForest;
 import org.apache.spark.mllib.tree.model.RandomForestModel;
 import org.apache.spark.mllib.util.MLUtils;
+import org.apache.spark.storage.StorageLevel;
 import scala.Tuple2;
 
 
@@ -68,14 +69,18 @@ class Workflow implements persistRDDs, Serializable {
     {
         if(hm.containsKey(name))
         {
-            System.out.println("CACHING "+name);
+            StorageLevel st=StorageLevel.DISK_ONLY();
+            System.out.println("PERSISTING "+name);
             JavaPairRDD<?,?> temp =  hm.get(name);
-            temp.cache();
+            temp.unpersist();
+            temp.persist(st);
         }
         else if(hm1.containsKey(name)){
-            System.out.println("CACHING "+name);
+            StorageLevel st=StorageLevel.DISK_ONLY();
+            System.out.println("PERSISTING "+name);
             JavaRDD<?> temp = hm1.get(name);
-            temp.cache();
+            temp.unpersist();
+            temp.persist(st);
         }
     }
 

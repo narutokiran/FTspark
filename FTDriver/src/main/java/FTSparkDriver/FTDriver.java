@@ -57,7 +57,8 @@ public class FTDriver {
     private Map<String, rddData> StagesRDD = new HashMap<String, rddData>();
 
     ArrayList<Tree> roots = new ArrayList<Tree>();
-
+    Map<String, Boolean> AlreadyCached = new HashMap<String, Boolean>() ;
+    Map<String, Boolean> AlreadyPersisted = new HashMap<String, Boolean>() ;
     private Map<String,JavaRDD> m1= new HashMap<String, JavaRDD>();
     private Map<String,JavaPairRDD> m2=new HashMap<String, JavaPairRDD>();
     HashMap<String, Node> GroupDependencies = new HashMap<String, Node>();
@@ -272,13 +273,7 @@ public class FTDriver {
     }
     public void runAlgorithm()
     {
-        for(int i=0;i<roots.size();i++)
-        {
-            for(int j=0;j<roots.get(i).roots.size();j++)
-            {
-                ctree.clearCount(roots.get(i).roots.get(j)); // The jth root in the ith tree
-            }
-        }
+
         for(int i=0;i<roots.size();i++)
         {
             for(int j=0;j<roots.get(i).roots.size();j++)
@@ -295,14 +290,15 @@ public class FTDriver {
         double time_to_restore=0;
         double time_to_checkpoint=0;
         double gain=0;
-
+        int flag_to_checkpoint=0;
+        double critic_percent=0;
         for(Node n: root.getChildren())
         {
             t=computeAlgorithm(n);
             time_to_recompute += t.time_to_recompute;
             time_to_restore += t.time_to_restore;
         }
-        if(root.getIsStage() && !root.count)
+        if(root.getIsStage() && !root.checked)
         {
             String name=root.getName();
 
@@ -311,7 +307,7 @@ public class FTDriver {
             rddData rdd= getStagesRDD(name);
 
             time_to_recompute+=rdd.getTime_to_compute();
-            double critic_percent=root.getCritic_percentage();
+             critic_percent=root.getCritic_percentage();
 
            time_to_checkpoint = rdd.getMemory_occupied() * 0.15625 *3;
 
@@ -327,7 +323,7 @@ public class FTDriver {
             System.out.println("Gain is "+gain);
             gain = gain * 100;
 
-            if (gain < -100 || critic_percent == 0) {
+            if (gain < -100) {
 
                 System.out.println("Gain is less than -100%. DO NOT PERSIST");
                 t1.time_to_recompute=time_to_recompute;
@@ -338,7 +334,7 @@ public class FTDriver {
                 t1.time_to_recompute = 0;
                 t1.time_to_restore= rdd.getMemory_occupied() * 0.1;
                 RDDsToPersist.add(name);
-
+                flag_to_checkpoint=1;
                 System.out.println("******After checkpointing***********");
                 System.out.println("Memory Occupied "+rdd.getMemory_occupied());
                 System.out.println("time to recompute "+t1.time_to_recompute);
@@ -347,15 +343,64 @@ public class FTDriver {
 
 
             }
-            else {
-                System.out.println("FILL IN WITH ALGORITHM ON MONDAY :) :) :) :) ");
-                t1.time_to_recompute = rdd.getTime_to_compute();
-                t1.time_to_restore= rdd.getMemory_occupied() *    0.1;
+            else if(rdd.getTime_to_compute()!=0) {
+                System.out.println("INSIDE ALGORITHM :) :) :) :) ");
+               // t1.time_to_recompute = rdd.getTime_to_compute();
+                //t1.time_to_restore= rdd.getMemory_occupied() *    0.1;
+
+                //if -25% <=loss/gain <= 25% && criticality >75%:
+                //persist
+
+                if(gain >=-25 && gain <=25 && critic_percent>75 )
+                {
+                    System.out.println("Gain is between -25 and 25 and criticality is more than 75%!!!!");
+                    t1.time_to_recompute = 0;
+                    t1.time_to_restore= rdd.getMemory_occupied() * 0.1;
+                    RDDsToPersist.add(name);
+                    flag_to_checkpoint=1;
+                    System.out.println("******After checkpointing***********");
+                    System.out.println("Memory Occupied "+rdd.getMemory_occupied());
+                    System.out.println("time to recompute "+t1.time_to_recompute);
+                    System.out.println("time to checkpoint "+time_to_checkpoint);
+                    System.out.println("time to restore "+t1.time_to_restore);
+                }
+                else if(gain >=25 && gain >=75 && critic_percent>50)
+                {
+                    System.out.println("Gain is between 25 and 75 and criticality is more than 50%!!!!");
+                    t1.time_to_recompute = 0;
+                    t1.time_to_restore= rdd.getMemory_occupied() * 0.1;
+                    RDDsToPersist.add(name);
+                    flag_to_checkpoint=1;
+                    System.out.println("******After checkpointing***********");
+                    System.out.println("Memory Occupied "+rdd.getMemory_occupied());
+                    System.out.println("time to recompute "+t1.time_to_recompute);
+                    System.out.println("time to checkpoint "+time_to_checkpoint);
+                    System.out.println("time to restore "+t1.time_to_restore);
+                }
+                else if(gain >= 75 && gain<=100 && critic_percent>25)
+                {
+                    System.out.println("Gain is between 25 and 75 and criticality is more than 50%!!!!");
+                    t1.time_to_recompute = 0;
+                    t1.time_to_restore= rdd.getMemory_occupied() * 0.1;
+                    RDDsToPersist.add(name);
+                    flag_to_checkpoint=1;
+                    System.out.println("******After checkpointing***********");
+                    System.out.println("Memory Occupied "+rdd.getMemory_occupied());
+                    System.out.println("time to recompute "+t1.time_to_recompute);
+                    System.out.println("time to checkpoint "+time_to_checkpoint);
+                    System.out.println("time to restore "+t1.time_to_restore);
+                }
+                else {
+                    System.out.println("Conditions Not Satisfied");
+                    t1.time_to_recompute=time_to_recompute;
+                    t1.time_to_restore=time_to_restore;
+                }
+
             }
 
 
         }
-        else if(root.count)
+        else if(root.checked)
         {
             t1.time_to_recompute=root.time_to_recompute;
             t1.time_to_restore=root.time_to_restore;
@@ -364,11 +409,14 @@ public class FTDriver {
         {
           t1=t;
         }
-        if(!root.count)
+        if(!root.checked)
         {
+
             root.time_to_recompute=t1.time_to_recompute;
             root.time_to_restore=t1.time_to_restore;
-            root.count=true;
+
+            if(time_to_recompute!=0 || flag_to_checkpoint!=0)
+            root.checked=true;
         }
         return t1;
     }
@@ -423,33 +471,43 @@ public class FTDriver {
 
        ctree.calculateCriticality(roots);
 
-        System.out.println("******** GetPreOrder **********");
+    //    System.out.println("******** GetPreOrder **********");
         ArrayList<Node> preOrder;
         int i;
-        System.out.println("Number fo trees is " + roots.size());
-        for( int j =0 ; j < roots.size(); j++) {
+    //    System.out.println("Number fo trees is " + roots.size());
+      /*  for( int j =0 ; j < roots.size(); j++) {
             preOrder = ctree.getPreOrderTraversal(roots.get(j));
 
 
             for (i = 0; i < preOrder.size(); i++) {
                 System.out.println(preOrder.get(i).getName() + " " + preOrder.get(i).getCriticality() + " " + preOrder.get(i).getCritic_percentage());
             }
-        }
-        System.out.println("**********STAGES!!!!********");
+        }*/
+     //   System.out.println("**********STAGES!!!!********");
    //     printMap();
         for(String name: Stages)
         {
-            System.out.println("Processing Stage "+name);
+            if(AlreadyCached.containsKey(name))
+            {
+                continue;
+            }
+  //          System.out.println("Processing Stage "+name);
             WorkFlow.cache(name);
+            AlreadyCached.put(name, true);
         }
 
     }
 
     public void CheckForPersistance()
     {
+     //   printStagesInfo();
         runAlgorithm();
         for(String name:RDDsToPersist)
         {
+            if(AlreadyPersisted.containsKey(name))
+            {
+                continue;
+            }
             System.out.println("Persisting RDD "+name);
             WorkFlow.persist(name);
         }
@@ -540,6 +598,7 @@ class CTree
                         // System.out.println(r);
                     }
                     rdd_no=Integer.parseInt(r);
+                  //  System.out.println("rdd number is "+rdd_no);
                 }
                 if(!ftDriver.rddDataRDDNumber.containsKey(rdd_no)) {
                     workers[j] = new Thread(new processRegisteringRDD(temp_strings[j], ftDriver));
@@ -552,13 +611,13 @@ class CTree
 
             }
 
-            System.out.println(no_lines);
+          //  System.out.println(no_lines);
 
             /* waiting for all the worker threads to join */
             for (int j = 0; j <no_workers; j++) {
                 workers[j].join();
                 workers[j] = null;
-                System.out.println("Worker " + j + "joined");
+         //       System.out.println("Worker " + j + "joined");
             }
          // ftDriver.printMap();
 
@@ -676,7 +735,7 @@ class CTree
             String t=temp_line.line;
             t=t.replaceAll("( )+"," ");
             t=t.trim();
-            System.out.println(t);
+       //     System.out.println(t);
 
             String temp[]=t.split(" ");
 
@@ -1002,8 +1061,8 @@ class CTree
 
     //        System.out.println("Parnets are ");
 
-            for(int k=0; k<n.getParents().size();k++)
-                System.out.println(n.getParents().get(k).getName());
+        //    for(int k=0; k<n.getParents().size();k++)
+         //       System.out.println(n.getParents().get(k).getName());
         }
         if(!flag_root_changed) {
             Tree newTree = new Tree();

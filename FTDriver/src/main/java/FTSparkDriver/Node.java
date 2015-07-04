@@ -23,6 +23,7 @@ public class Node {
     double time_to_recompute;
     double time_to_restore;
     boolean count;
+    boolean checked; // for persistance
     Node(int line_no, String name, int spaces, boolean isStage)
     {
         System.out.println("Constructing Node with "+line_no+" "+name+" "+spaces);
@@ -34,6 +35,7 @@ public class Node {
         this.setTime= false;
         this.MultiplePaths=false;
         this.count=false;
+        this.checked=false;
     }
 
     Node(int line_no, String name, int spaces, boolean isStage, int rdd_no)
@@ -48,7 +50,7 @@ public class Node {
         this.isStage=isStage;
         this.setTime=false;
         this.MultiplePaths=false;
-        this.count=false;
+        this.count=false;this.checked=false;
     }
 
 
